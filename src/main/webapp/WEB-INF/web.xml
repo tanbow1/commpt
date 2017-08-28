@@ -74,28 +74,6 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-
-    <servlet>
-        <servlet-name>spring-ws</servlet-name>
-        <servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring-ws/spring-ws-servlet.xml</param-value>
-        </init-param>
-        <init-param>
-            <param-name>transformWsdlLocations</param-name>
-            <param-value>true</param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>spring-ws</servlet-name>
-        <url-pattern>/ws/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>spring-ws</servlet-name>
-        <url-pattern>*.wsdl</url-pattern>
-    </servlet-mapping>
-
     <!--此处默认首页只添加静态页,无法进入controller，使用mvc替代-->
     <!--<welcome-file-list>-->
     <!--<welcome-file></welcome-file>-->

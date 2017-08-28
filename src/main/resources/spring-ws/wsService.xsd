@@ -1,6 +1,8 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://com.tb.commpt/webService"
-           targetNamespace="http://com.tb.commpt/webService" elementFormDefault="qualified" version="1.0.0">
-    <xs:element name="wsServiceRequest">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           targetNamespace="http://com.tb.commpt/ws/commService"
+           version="1.0.0">
+    <xs:element name="webserviceRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="jsonRequest" type="xs:string"/>
@@ -8,7 +10,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="wsServiceResponse">
+    <xs:element name="webserviceResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="jsonResponse" type="xs:string"/>

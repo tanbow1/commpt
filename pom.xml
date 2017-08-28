@@ -30,6 +30,7 @@
         <mysql.mysql-connector-java.version>6.0.6</mysql.mysql-connector-java.version>
         <org.apache.activemq.version>5.15.0</org.apache.activemq.version>
         <org.apache.activemq.core.version>5.7.0</org.apache.activemq.core.version>
+        <org.springframework.ws.version>2.4.0.RELEASE</org.springframework.ws.version>
     </properties>
 
     <dependencies>
@@ -72,12 +73,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${org.springframework.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.ws</groupId>
-            <artifactId>spring-ws-core</artifactId>
-            <version>2.4.0.RELEASE</version>
         </dependency>
 
 

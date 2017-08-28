@@ -43,10 +43,6 @@ public class CommHanlerInterceptor extends HandlerInterceptorAdapter {
             }
         }
 
-        if (!flag) {
-
-        }
-
         return true;
     }
 
