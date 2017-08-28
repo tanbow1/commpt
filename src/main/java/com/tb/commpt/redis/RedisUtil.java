@@ -41,6 +41,12 @@ public class RedisUtil implements Cache {
         return this.redisTemplate;
     }
 
+    /**
+     * 从缓存中获取key
+     *
+     * @param key
+     * @return
+     */
     @Override
     public ValueWrapper get(Object key) {
         System.out.println("get key");
@@ -70,6 +76,10 @@ public class RedisUtil implements Cache {
         return null;
     }
 
+    /**
+     * 将一个新的key保存到缓存中
+     * 先拿到需要缓存key名称和对象，然后将其转成ByteArray
+     */
     @Override
     public void put(Object key, Object value) {
         System.out.println("put key");
@@ -95,6 +105,9 @@ public class RedisUtil implements Cache {
         return null;
     }
 
+    /**
+     * 删除key
+     */
     @Override
     public void evict(Object key) {
         System.out.println("del key");
@@ -107,6 +120,9 @@ public class RedisUtil implements Cache {
         });
     }
 
+    /**
+     * 清空key
+     */
     @Override
     public void clear() {
         System.out.println("clear key");
