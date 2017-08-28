@@ -7,6 +7,7 @@
     <description>配置文件导入</description>
     <import resource="classpath:spring-config/springApplicationContext.xml" />
     <import resource="classpath:mybatis-config/mybatisApplicationContext.xml" />
+    <import resource="classpath:ws-config/application-cxf.xml"/>
 
     <!--spring 定时任务 -->
     <import resource="classpath:spring-config/schedulingContext-quartz.xml"/>

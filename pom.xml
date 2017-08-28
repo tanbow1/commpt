@@ -30,7 +30,7 @@
         <mysql.mysql-connector-java.version>6.0.6</mysql.mysql-connector-java.version>
         <org.apache.activemq.version>5.15.0</org.apache.activemq.version>
         <org.apache.activemq.core.version>5.7.0</org.apache.activemq.core.version>
-        <org.springframework.ws.version>2.4.0.RELEASE</org.springframework.ws.version>
+        <org.apache.cxf.version>3.1.12</org.apache.cxf.version>
     </properties>
 
     <dependencies>
@@ -196,6 +196,13 @@
             <artifactId>jedis</artifactId>
             <version>${redis.clients.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>apache-cxf</artifactId>
+            <version>${org.apache.cxf.version}</version>
+        </dependency>
+
 
         <!--mybatis generator-->
         <!-- https://mvnrepository.com/artifact/org.mybatis.generator/mybatis-generator-core -->
