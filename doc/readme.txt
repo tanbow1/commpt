@@ -17,6 +17,7 @@ java:
     redis
     utils
     webservice
+    global
 
 resources:
     cache
