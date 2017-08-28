@@ -1,0 +1,18 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://com.tb.commpt/webService"
+           targetNamespace="http://com.tb.commpt/webService" elementFormDefault="qualified" version="1.0.0">
+    <xs:element name="wsServiceRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="jsonRequest" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="wsServiceResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="jsonResponse" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
