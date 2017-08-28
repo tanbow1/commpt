@@ -20,7 +20,6 @@ java:
     global
 
 resources:
-    cache
     config
         config.properties //系统配置
         datasource.properties
@@ -29,6 +28,5 @@ resources:
     logger
     mybatis-config
     mybatis-generator
-    spring
     spring-config
     spring-mvc
