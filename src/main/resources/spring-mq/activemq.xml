@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:amq="http://activemq.apache.org/schema/core"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq.xsd">
+
+    <context:property-placeholder location="classpath:config/mq.properties"
+                                  ignore-unresolvable="true"/>
+
+    <context:component-scan base-package="com.tb.commpt.activemq"/>
+
+    <amq:connectionFactory id="amqConnectionFactory"
+                           brokerURL="${mq.brokerurl}"
+                           userName="${mq.username}"
+                           password="${mq.password}"/>
+
+    <!-- 配置JMS连接工长 -->
+    <bean id="connectionFactory"
+          class="org.springframework.jms.connection.CachingConnectionFactory">
+        <constructor-arg ref="amqConnectionFactory"/>
+        <property name="sessionCacheSize" value="${mq.sessionCachesize}"/>
+    </bean>
+
+    <!-- 定义消息队列（Queue） -->
+    <bean id="demoQueueDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <!-- 设置消息队列的名字 -->
+        <constructor-arg>
+            <value>${mq.queuename}</value>
+        </constructor-arg>
+    </bean>
+
+    <!-- 配置JMS模板（Queue），Spring提供的JMS工具类，它发送、接收消息。 -->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="demoQueueDestination"/>
+        <property name="receiveTimeout" value="${mq.receiveTimeout}"/>
+        <!-- true是topic，false是queue，默认是false，此处显示写出false -->
+        <property name="pubSubDomain" value="false"/>
+    </bean>
+
+</beans>
