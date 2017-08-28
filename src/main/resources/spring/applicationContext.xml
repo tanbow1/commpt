@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <description>配置文件导入</description>
+    <import resource="classpath:spring-config/springApplicationContext.xml" />
+    <import resource="classpath:mybatis-config/mybatisApplicationContext.xml" />
+
+    <!--spring 定时任务 -->
+    <import resource="classpath:spring-config/schedulingContext-quartz.xml"/>
+
+
+</beans>

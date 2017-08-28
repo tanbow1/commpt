@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tb.commpt.mapper.DmAccountMapper">
+  <resultMap id="BaseResultMap" type="com.tb.commpt.model.DmAccount">
+    <id column="ACCOUNT_TYPE" jdbcType="CHAR" property="accountType" />
+    <result column="ACCOUNT_DES" jdbcType="VARCHAR" property="accountDes" />
+    <result column="YXBJ" jdbcType="CHAR" property="yxbj" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ACCOUNT_TYPE, ACCOUNT_DES, YXBJ
+  </sql>
+  <insert id="insertSelective" parameterType="com.tb.commpt.model.DmAccount">
+    insert into T_DM_ACCOUNT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accountType != null">
+        ACCOUNT_TYPE,
+      </if>
+      <if test="accountDes != null">
+        ACCOUNT_DES,
+      </if>
+      <if test="yxbj != null">
+        YXBJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="accountType != null">
+        #{accountType,jdbcType=CHAR},
+      </if>
+      <if test="accountDes != null">
+        #{accountDes,jdbcType=VARCHAR},
+      </if>
+      <if test="yxbj != null">
+        #{yxbj,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tb.commpt.model.DmAccount">
+    update T_DM_ACCOUNT
+    <set>
+      <if test="accountDes != null">
+        ACCOUNT_DES = #{accountDes,jdbcType=VARCHAR},
+      </if>
+      <if test="yxbj != null">
+        YXBJ = #{yxbj,jdbcType=CHAR},
+      </if>
+    </set>
+    where ACCOUNT_TYPE = #{accountType,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xds
+                http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:property-placeholder location="classpath:config/datasource.properties"
+                                  ignore-unresolvable="true"/>
+
+    <context:component-scan base-package="com.tb.commpt">
+        <!--制定扫包规则，不扫描@Controller注解的JAVA类，其他的要扫描 -->
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 启动AOP支持 -->
+    <!--<aop:aspectj-autoproxy/>-->
+
+
+    <!--<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">-->
+    <!--<property name="jndiName"><value>ctpds</value></property>-->
+    <!--</bean>-->
+
+    <!-- 默认数据源配置,连接池 -->
+    <!--
+    将BasicDataSource这个类中的destroy方法设置为关闭，即不销毁:当数据库连接不使用的时候,就把该连接重新放到数据池中,方便下次使用调用.
+    -->
+    <bean id="dataSourceDefault" destroy-method="close"
+          class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="${oracle.driver}"/>
+        <property name="url" value="${oracle.url}"/>
+        <property name="username" value="${oracle.username}"/>
+        <property name="password" value="${oracle.password}"/>
+        <property name="defaultAutoCommit" value="${default.jdbc.defaultAutoCommit}"/>
+        <property name="initialSize" value="${default.jdbc.initialSize}"/>
+        <property name="maxTotal" value="${default.jdbc.maxActive}"/>
+        <property name="maxWaitMillis" value="${default.jdbc.maxWaitMillis}"/>
+        <property name="maxIdle" value="${default.jdbc.maxIdle}"/>
+        <property name="minIdle" value="${default.jdbc.minIdle}"/>
+        <property name="logAbandoned" value="${default.jdbc.logAbandoned}"/>
+        <property name="testOnBorrow" value="${default.jdbc.testOnBorrow}"/>
+        <property name="testOnReturn" value="${default.jdbc.testOnReturn}"/>
+        <property name="testWhileIdle" value="${default.jdbc.testWhileIdle}"/>
+        <property name="validationQuery" value="${default.jdbc.validationQuery}"/>
+        <property name="validationQueryTimeout" value="${default.jdbc.validationQueryTimeout}"/>
+        <property name="numTestsPerEvictionRun" value="${default.jdbc.numTestsPerEvictionRun}"/>
+        <property name="timeBetweenEvictionRunsMillis" value="${default.jdbc.timeBetweenEvictionRunsMillis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${default.jdbc.minEvictableIdleTimeMillis}"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSourceDefault"/>
+        <!-- 当mybatis的xml文件和mapper接口不在相同包下时，需要用mapperLocations属性指定xml文件的路径。
+         *是个通配符，代表所有的文件，**代表所有目录下 -->
+        <property name="mapperLocations" value="classpath:com/tb/commpt/mapper/**/*.xml" />
+    </bean>
+
+    <!-- 扫描以@MyBatisRepository标识的接口 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.tb.commpt.mapper"/>
+        <property name="annotationClass" value="com.tb.commpt.mybatis.MyBatisRepository"/>
+    </bean>
+
+    <!-- 托管 Spring 进行事务管理 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceDefault"/>
+    </bean>
+    <!--注入 事务管理器 -->
+    <tx:annotation-driven transaction-manager="transactionManager"
+                          proxy-target-class="true"/>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSourceDefault"></property>
+    </bean>
+
+
+</beans>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tb.commpt.mapper.DmGjdqMapper">
+  <resultMap id="BaseResultMap" type="com.tb.commpt.model.DmGjdq">
+    <result column="GJDQ_MC_Z" jdbcType="VARCHAR" property="gjdqMcZ" />
+    <result column="GJDQ_MC_E" jdbcType="VARCHAR" property="gjdqMcE" />
+    <result column="GJDQ_MCDM" jdbcType="VARCHAR" property="gjdqMcdm" />
+    <result column="GJDQ_DHDM" jdbcType="VARCHAR" property="gjdqDhdm" />
+    <result column="YXBJ" jdbcType="CHAR" property="yxbj" />
+    <result column="GJDQ_ID" jdbcType="VARCHAR" property="gjdqId" />
+  </resultMap>
+  <insert id="insertSelective" parameterType="com.tb.commpt.model.DmGjdq">
+    insert into T_DM_GJDQ
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gjdqMcZ != null">
+        GJDQ_MC_Z,
+      </if>
+      <if test="gjdqMcE != null">
+        GJDQ_MC_E,
+      </if>
+      <if test="gjdqMcdm != null">
+        GJDQ_MCDM,
+      </if>
+      <if test="gjdqDhdm != null">
+        GJDQ_DHDM,
+      </if>
+      <if test="yxbj != null">
+        YXBJ,
+      </if>
+      <if test="gjdqId != null">
+        GJDQ_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gjdqMcZ != null">
+        #{gjdqMcZ,jdbcType=VARCHAR},
+      </if>
+      <if test="gjdqMcE != null">
+        #{gjdqMcE,jdbcType=VARCHAR},
+      </if>
+      <if test="gjdqMcdm != null">
+        #{gjdqMcdm,jdbcType=VARCHAR},
+      </if>
+      <if test="gjdqDhdm != null">
+        #{gjdqDhdm,jdbcType=VARCHAR},
+      </if>
+      <if test="yxbj != null">
+        #{yxbj,jdbcType=CHAR},
+      </if>
+      <if test="gjdqId != null">
+        #{gjdqId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

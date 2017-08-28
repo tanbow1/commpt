@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <context:property-placeholder location="classpath:config/redis.properties"/>
+
+    <!-- redis 相关配置 -->
+    <!--redisTemplate-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}" />
+        <property name="maxWaitMillis" value="${redis.maxWait}" />
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+    </bean>
+
+    <bean id="JedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="${redis.host}" />
+        <property name="port" value="${redis.port}"/>
+        <property name="poolConfig" ref="jedisPoolConfig" />
+        <property name="usePool" value="true"/>
+        <property name="password" value="${redis.pass}"/>
+    </bean>
+
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="JedisConnectionFactory" />
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+        </property>
+    </bean>
+    <!--redisTemplate-->
+
+    <!-- 启用redis缓存注解功能，注解不会生效，另外，该注解一定要声明在spring主配置文件中才会生效 -->
+    <!--<cache:annotation-driven cache-manager="cacheManager" />-->
+
+    <!--spring自己的缓存管理器，这里定义了缓存位置名称 ，即注解中的value-->
+    <!--<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">-->
+        <!--<property name="caches">-->
+            <!--<set>-->
+                <!--<bean class="com.tb.commpt.redis.RedisUtil">-->
+                    <!--<property name="redisTemplate" ref="redisTemplate" />-->
+                    <!--<property name="name" value="common"/>-->
+                    <!--&lt;!&ndash; common名称要在类或方法的注解中使用 &ndash;&gt;-->
+                <!--</bean>-->
+            <!--</set>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+</beans>

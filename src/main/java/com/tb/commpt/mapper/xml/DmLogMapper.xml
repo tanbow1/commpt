@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tb.commpt.mapper.DmLogMapper">
+  <resultMap id="BaseResultMap" type="com.tb.commpt.model.DmLog">
+    <id column="LOG_TYPE" jdbcType="VARCHAR" property="logType" />
+    <result column="LOG_DES" jdbcType="VARCHAR" property="logDes" />
+    <result column="YXBJ" jdbcType="CHAR" property="yxbj" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    LOG_TYPE, LOG_DES, YXBJ
+  </sql>
+  <insert id="insertSelective" parameterType="com.tb.commpt.model.DmLog">
+    insert into T_DM_LOG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="logType != null">
+        LOG_TYPE,
+      </if>
+      <if test="logDes != null">
+        LOG_DES,
+      </if>
+      <if test="yxbj != null">
+        YXBJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="logType != null">
+        #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="logDes != null">
+        #{logDes,jdbcType=VARCHAR},
+      </if>
+      <if test="yxbj != null">
+        #{yxbj,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tb.commpt.model.DmLog">
+    update T_DM_LOG
+    <set>
+      <if test="logDes != null">
+        LOG_DES = #{logDes,jdbcType=VARCHAR},
+      </if>
+      <if test="yxbj != null">
+        YXBJ = #{yxbj,jdbcType=CHAR},
+      </if>
+    </set>
+    where LOG_TYPE = #{logType,jdbcType=VARCHAR}
+  </update>
+</mapper>

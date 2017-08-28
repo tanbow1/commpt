@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <mvc:annotation-driven/>
+
+    <!-- 自动扫描 @Controller标注的类控制器类 -->
+    <context:component-scan base-package="com.tb.commpt,com.tb.test">
+        <context:include-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--不经过mvc的静态资源映射-->
+    <mvc:resources mapping="/static/**" location="/static/"/>
+
+    <!--springMVC+thymeleaf的跳转页面配置,生产时cacheable=true-->
+    <bean id="templateResolver"
+          class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/templates/html/"/>
+        <property name="suffix" value=".html"/>
+        <property name="templateMode" value="HTML"/>
+        <property name="cacheable" value="false"/>
+        <property name="characterEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean id="templateEngine"
+          class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"/>
+        <property name="enableSpringELCompiler" value="true"/>
+    </bean>
+
+    <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="characterEncoding" value="UTF-8"/>
+        <property name="templateEngine" ref="templateEngine"/>
+        <property name="order" value="1"/>
+    </bean>
+    <!-- end of use thymeleaf  -->
+
+    <!--jsp解析器-->
+    <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+        <!--<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>-->
+        <!--<property name="prefix" value="/templates/jsp/"/>-->
+        <!--<property name="suffix" value=".jsp"/>-->
+    <!--</bean>-->
+
+    <!--自定义异常处理-->
+    <bean id="exceptionResolver"
+          class="com.tb.commpt.exception.MySimpleMappingExceptionResolver"></bean>
+
+    <!--<bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding">
+            <value>UTF-8</value>
+        </property>
+        <property name="resolveLazily" value="true" />
+        <property name="maxUploadSize">
+            <value>1048576</value>&lt;!&ndash; 上传文件大小限制为1M &ndash;&gt;
+        </property>
+        <property name="maxInMemorySize">
+            <value>40960</value> &lt;!&ndash; 最大内存大小 &ndash;&gt;
+        </property>
+    </bean>-->
+
+    <!--拦截器： 忽略静态文件和登陆请求 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/test/**"/>
+            <mvc:exclude-mapping path="/static/**"/>
+            <mvc:exclude-mapping path="/login/**"/>
+            <bean class="com.tb.commpt.interceptor.CommHanlerInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!--默认首页配置-->
+    <mvc:view-controller path="/" view-name="index"/>
+
+
+    <!--基于浏览器请求的国际化实现-->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <!-- 国际化信息所在的文件名 -->
+        <property name="basename" value="i18n/messages"/>
+        <!-- 如果在国际化资源文件中找不到对应代码的信息，就用这个代码作为名称  -->
+        <property name="useCodeAsDefaultMessage" value="true"/>
+        <property name="cacheSeconds" value="0"/>
+        <!--中文乱码-->
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <mvc:interceptors>
+        <!-- 国际化操作拦截器 如果采用基于（请求/Session/Cookie）必需配置 -->
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+    </mvc:interceptors>
+
+    <!--基于session国际化-->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
+
+    <!--基于cookie国际化，3个参数可以不写-->
+    <!--<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">-->
+    <!--<property name="cookieName" value="lang"/>-->
+    <!--&lt;!&ndash; 设置最大有效时间，如果是-1，则不存储，浏览器关闭后即失效，默认为Integer.MAX_INT&ndash;&gt;-->
+    <!--<property name="cookieMaxAge" value="100000"/>-->
+    <!--&lt;!&ndash; 设置cookie可见的地址，默认是“/”即对网站所有地址都是可见的，如果设为其它地址，则只有该地址或其后的地址才可见&ndash;&gt;-->
+    <!--<property name="cookiePath" value="/"/>-->
+    <!--</bean>-->
+    
+    
+    
+    <import resource="classpath:spring-redis/spring-redis.xml" />
+
+</beans>
