@@ -11,20 +11,21 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.jws.WebMethod;
 import javax.jws.WebService;
 import java.util.List;
 
 /**
  * Created by Tanbo on 2017/8/27.
  */
-@WebService(endpointInterface = "com.tb.commpt.service.IDmService")
+@WebService
 @Service("dmService")
 public class DmServiceImpl implements IDmService {
 
     @Resource
     private DmAccountMapper dmAccountMapper;
 
-
+    @WebMethod
     @Override
     public List<DmAccount> selectAllDmAccount() {
         return dmAccountMapper.selectAll();

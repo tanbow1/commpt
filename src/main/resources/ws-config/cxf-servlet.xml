@@ -12,10 +12,14 @@
 
 
     <!--  Cxf WebService 服务端示例 -->
-    <jaxws:endpoint implementor="com.tb.commpt.service.impl.DmServiceImpl" address="demoService"/>
+    <jaxws:endpoint implementor="com.tb.commpt.service.impl.DmServiceImpl" address="/demoService">
+        <jaxws:inInterceptors>
+            <bean class="com.tb.commpt.interceptor.CxfHandleInterceptor"/>
+        </jaxws:inInterceptors>
+    </jaxws:endpoint>
 
     <!--  Cxf WebService 客户端示例 -->
     <!--<jaxws:client id="demoClient" serviceClass="com.tb.commpt.service.IDmService"-->
-                  <!--address="http://localhost:8080/ws/demo?wsdl"/>-->
+    <!--address="http://localhost:8080/ws/demo?wsdl"/>-->
 
 </beans>
