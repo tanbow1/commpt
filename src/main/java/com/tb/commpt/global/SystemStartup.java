@@ -14,11 +14,11 @@ public class SystemStartup implements ApplicationListener {
     @Override
     public void onApplicationEvent(ApplicationEvent applicationEvent) {
         //加载业务系统配置
-        try {
-            SystemContext.singleton().init();
-            logger.info("加载业务配置完成!");
-        } catch (Exception e) {
-            logger.error("加载业务配置出错", e);
-        }
+//        try {
+//            SystemContext.singleton().init();
+//            logger.info("加载业务配置完成!");
+//        } catch (Exception e) {
+//            logger.error("加载业务配置出错", e);
+//        }
     }
 }

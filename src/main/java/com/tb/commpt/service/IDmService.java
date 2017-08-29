@@ -2,9 +2,10 @@ package com.tb.commpt.service;
 
 import com.tb.commpt.model.DmAccount;
 
+import javax.jws.WebService;
 import java.util.List;
-import java.util.Map;
 
+@WebService
 public interface IDmService {
 
     List<DmAccount> selectAllDmAccount();
