@@ -3,6 +3,7 @@ package com.tb.test;
 import com.tb.commpt.global.SystemConfig;
 import com.tb.commpt.model.DmAccount;
 import com.tb.commpt.service.IDmService;
+import com.tb.commpt.service.mq.ProducerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class TestController {
     private IDmService dmService;
 
     @Autowired
+    private ProducerService producerService;
+
+    @Autowired
     private SystemConfig config;
 
     @RequestMapping("/hello")
@@ -49,6 +53,7 @@ public class TestController {
         //DmAccount dmAccount = dmService.selectDmAccountByPrimaryKey("001");
         System.out.println(dmAccountList);
         System.out.println(config.INTERCEPTOR_IGNORE_URI);
+        producerService.sendMessage("amq队列测试。。。");
         return "test controller";
     }
 

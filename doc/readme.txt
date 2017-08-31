@@ -16,7 +16,6 @@ java:
     mybatis
     redis
     utils
-    webservice
     global
 
 resources:
@@ -24,9 +23,13 @@ resources:
         config.properties //系统配置
         datasource.properties
         redis.properties
+        mq.properties
     i18n
     logger
     mybatis-config
     mybatis-generator
     spring-config
+    spring-mq
     spring-mvc
+    spring-redis
+    ws-config

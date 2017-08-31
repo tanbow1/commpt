@@ -124,35 +124,11 @@
             <version>${org.apache.tomcat-dbcp.version}</version>
         </dependency>
 
-        <!--activemq-->
+        <!--activemq 与spring集成时无需单独引入amq-->
         <dependency>
             <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-core</artifactId>
-            <version>${org.apache.activemq.core.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-client</artifactId>
+            <artifactId>activemq-spring</artifactId>
             <version>${org.apache.activemq.version}</version>
-            <classifier>sources</classifier>
-            <scope>compile</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-broker</artifactId>
-            <version>${org.apache.activemq.version}</version>
-            <classifier>sources</classifier>
-            <scope>compile</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-pool</artifactId>
-            <version>${org.apache.activemq.version}</version>
-            <classifier>sources</classifier>
-            <scope>compile</scope>
-            <optional>true</optional>
         </dependency>
 
 
@@ -198,9 +174,9 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>org.apache.cxf</groupId>-->
-            <!--<artifactId>apache-cxf</artifactId>-->
-            <!--<version>${org.apache.cxf.version}</version>-->
+        <!--<groupId>org.apache.cxf</groupId>-->
+        <!--<artifactId>apache-cxf</artifactId>-->
+        <!--<version>${org.apache.cxf.version}</version>-->
         <!--</dependency>-->
 
         <dependency>

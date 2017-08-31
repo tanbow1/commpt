@@ -1,4 +1,4 @@
-package com.tb.commpt.global;
+package com.tb.commpt.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,8 +7,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SystemStartup implements ApplicationListener {
-    private static final Logger logger = LoggerFactory.getLogger(SystemStartup.class);
+public class AppListener implements ApplicationListener {
+    private static final Logger logger = LoggerFactory.getLogger(AppListener.class);
 
 
     @Override

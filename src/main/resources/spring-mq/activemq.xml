@@ -2,31 +2,31 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:amq="http://activemq.apache.org/schema/core"
 
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-                           http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq.xsd">
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:property-placeholder location="classpath:config/mq.properties"
                                   ignore-unresolvable="true"/>
 
-    <context:component-scan base-package="com.tb.commpt.activemq"/>
+    <context:component-scan base-package="com.tb.commpt.service.mq"/>
 
-    <amq:connectionFactory id="amqConnectionFactory"
-                           brokerURL="${mq.brokerurl}"
-                           userName="${mq.username}"
-                           password="${mq.password}"/>
+    <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${mq.brokerurl}"/>
+        <property name="userName" value="${mq.username}"/>
+        <property name="password" value="${mq.password}"/>
+    </bean>
+
 
     <!-- 配置JMS连接工长 -->
     <bean id="connectionFactory"
           class="org.springframework.jms.connection.CachingConnectionFactory">
-        <constructor-arg ref="amqConnectionFactory"/>
+        <constructor-arg ref="activeMQConnectionFactory"/>
         <property name="sessionCacheSize" value="${mq.sessionCachesize}"/>
     </bean>
 
     <!-- 定义消息队列（Queue） -->
-    <bean id="demoQueueDestination" class="org.apache.activemq.command.ActiveMQQueue">
+    <bean id="defaultDestination" class="org.apache.activemq.command.ActiveMQQueue">
         <!-- 设置消息队列的名字 -->
         <constructor-arg>
             <value>${mq.queuename}</value>
@@ -36,10 +36,21 @@
     <!-- 配置JMS模板（Queue），Spring提供的JMS工具类，它发送、接收消息。 -->
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="defaultDestination" ref="demoQueueDestination"/>
+        <property name="defaultDestination" ref="defaultDestination"/>
         <property name="receiveTimeout" value="${mq.receiveTimeout}"/>
         <!-- true是topic，false是queue，默认是false，此处显示写出false -->
         <property name="pubSubDomain" value="false"/>
+    </bean>
+
+    <!-- 配置消息队列监听者（Queue） -->
+    <bean id="queueMessageListener" class="com.tb.commpt.listener.QueueMessageListener"/>
+
+    <!-- 显示注入消息监听容器（Queue），配置连接工厂，监听的目标是demoQueueDestination，监听器是上面定义的监听器 -->
+    <bean id="queueListenerContainer"
+          class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="destination" ref="defaultDestination"/>
+        <property name="messageListener" ref="queueMessageListener"/>
     </bean>
 
 </beans>
