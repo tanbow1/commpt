@@ -21,9 +21,8 @@ java:
 resources:
     config
         config.properties //系统配置
-        datasource.properties
-        redis.properties
-        mq.properties
+        datasource.properties //数据源相关
+
     i18n
     logger
     mybatis-config
