@@ -1,10 +1,9 @@
 package com.tb.commpt.mapper;
 
 import com.tb.commpt.model.DmAccount;
-import com.tb.commpt.mybatis.MyBatisRepository;
+import com.tb.commpt.annotation.mybatis.MyBatisRepository;
 import org.apache.ibatis.annotations.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @MyBatisRepository

@@ -1,7 +1,7 @@
 package com.tb.commpt.mapper;
 
 import com.tb.commpt.model.DmMenu;
-import com.tb.commpt.mybatis.MyBatisRepository;
+import com.tb.commpt.annotation.mybatis.MyBatisRepository;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.ResultMap;

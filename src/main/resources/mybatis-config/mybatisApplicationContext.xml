@@ -35,28 +35,28 @@
     <!--
     将BasicDataSource这个类中的destroy方法设置为关闭，即不销毁:当数据库连接不使用的时候,就把该连接重新放到数据池中,方便下次使用调用.
     -->
-    <!--<bean id="dataSourceDefault" destroy-method="close"-->
-          <!--class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource">-->
-        <!--<property name="driverClassName" value="${oracle.driver}"/>-->
-        <!--<property name="url" value="${oracle.url}"/>-->
-        <!--<property name="username" value="${oracle.username}"/>-->
-        <!--<property name="password" value="${oracle.password}"/>-->
-        <!--<property name="defaultAutoCommit" value="${default.jdbc.defaultAutoCommit}"/>-->
-        <!--<property name="initialSize" value="${default.jdbc.initialSize}"/>-->
-        <!--<property name="maxTotal" value="${default.jdbc.maxActive}"/>-->
-        <!--<property name="maxWaitMillis" value="${default.jdbc.maxWaitMillis}"/>-->
-        <!--<property name="maxIdle" value="${default.jdbc.maxIdle}"/>-->
-        <!--<property name="minIdle" value="${default.jdbc.minIdle}"/>-->
-        <!--<property name="logAbandoned" value="${default.jdbc.logAbandoned}"/>-->
-        <!--<property name="testOnBorrow" value="${default.jdbc.testOnBorrow}"/>-->
-        <!--<property name="testOnReturn" value="${default.jdbc.testOnReturn}"/>-->
-        <!--<property name="testWhileIdle" value="${default.jdbc.testWhileIdle}"/>-->
-        <!--<property name="validationQuery" value="${default.jdbc.validationQuery}"/>-->
-        <!--<property name="validationQueryTimeout" value="${default.jdbc.validationQueryTimeout}"/>-->
-        <!--<property name="numTestsPerEvictionRun" value="${default.jdbc.numTestsPerEvictionRun}"/>-->
-        <!--<property name="timeBetweenEvictionRunsMillis" value="${default.jdbc.timeBetweenEvictionRunsMillis}"/>-->
-        <!--<property name="minEvictableIdleTimeMillis" value="${default.jdbc.minEvictableIdleTimeMillis}"/>-->
-    <!--</bean>-->
+    <bean id="dataSourceDefault_kf" destroy-method="close"
+          class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="${oracle.driver}"/>
+        <property name="url" value="${oracle.url}"/>
+        <property name="username" value="${oracle.username}"/>
+        <property name="password" value="${oracle.password}"/>
+        <property name="defaultAutoCommit" value="${default.jdbc.defaultAutoCommit}"/>
+        <property name="initialSize" value="${default.jdbc.initialSize}"/>
+        <property name="maxTotal" value="${default.jdbc.maxActive}"/>
+        <property name="maxWaitMillis" value="${default.jdbc.maxWaitMillis}"/>
+        <property name="maxIdle" value="${default.jdbc.maxIdle}"/>
+        <property name="minIdle" value="${default.jdbc.minIdle}"/>
+        <property name="logAbandoned" value="${default.jdbc.logAbandoned}"/>
+        <property name="testOnBorrow" value="${default.jdbc.testOnBorrow}"/>
+        <property name="testOnReturn" value="${default.jdbc.testOnReturn}"/>
+        <property name="testWhileIdle" value="${default.jdbc.testWhileIdle}"/>
+        <property name="validationQuery" value="${default.jdbc.validationQuery}"/>
+        <property name="validationQueryTimeout" value="${default.jdbc.validationQueryTimeout}"/>
+        <property name="numTestsPerEvictionRun" value="${default.jdbc.numTestsPerEvictionRun}"/>
+        <property name="timeBetweenEvictionRunsMillis" value="${default.jdbc.timeBetweenEvictionRunsMillis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${default.jdbc.minEvictableIdleTimeMillis}"/>
+    </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSourceDefault"/>
@@ -68,7 +68,7 @@
     <!-- 扫描以@MyBatisRepository标识的接口 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.tb.commpt.mapper"/>
-        <property name="annotationClass" value="com.tb.commpt.mybatis.MyBatisRepository"/>
+        <property name="annotationClass" value="com.tb.commpt.annotation.mybatis.MyBatisRepository"/>
     </bean>
 
     <!-- 托管 Spring 进行事务管理 -->
@@ -76,7 +76,7 @@
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSourceDefault"/>
     </bean>
-    <!--注入 事务管理器 -->
+    <!--使用annotation定义事务 -->
     <tx:annotation-driven transaction-manager="transactionManager"
                           proxy-target-class="true"/>
 

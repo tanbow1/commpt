@@ -1,7 +1,7 @@
 package com.tb.commpt.mapper;
 
 import com.tb.commpt.model.DmGjdq;
-import com.tb.commpt.mybatis.MyBatisRepository;
+import com.tb.commpt.annotation.mybatis.MyBatisRepository;
 import org.apache.ibatis.annotations.Insert;
 
 @MyBatisRepository

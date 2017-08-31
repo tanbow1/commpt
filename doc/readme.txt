@@ -2,6 +2,7 @@ springmvc+mybatis
 
 目录结构
 java:
+    annotation
     constant常量
     controller
         service
@@ -13,7 +14,6 @@ java:
     interceptor
     logback
     model
-    mybatis
     redis
     utils
     global
