@@ -25,17 +25,17 @@
     <!--<aop:aspectj-autoproxy/>-->
 
 
-    <bean id="dataSourceDefault" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName">
-            <value>commptds</value>
-        </property>
-    </bean>
+    <!--<bean id="dataSourceDefault_sc" class="org.springframework.jndi.JndiObjectFactoryBean">-->
+        <!--<property name="jndiName">-->
+            <!--<value>commptds</value>-->
+        <!--</property>-->
+    <!--</bean>-->
 
     <!-- 默认数据源配置,连接池 -->
     <!--
     将BasicDataSource这个类中的destroy方法设置为关闭，即不销毁:当数据库连接不使用的时候,就把该连接重新放到数据池中,方便下次使用调用.
     -->
-    <bean id="dataSourceDefault_kf" destroy-method="close"
+    <bean id="dataSourceDefault" destroy-method="close"
           class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource">
         <property name="driverClassName" value="${oracle.driver}"/>
         <property name="url" value="${oracle.url}"/>
