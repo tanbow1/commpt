@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>commpt</title>
+    <title>首页(INDEX)</title>
     <!--定义th:fragment时使用::，  html页面的相对路径，不需要写后缀(.html)::fragment定义的名字
         replace:替换；insert:内部插入;include同insert，不建议使用
         ex:<head th:replace="common/fragment_head::head"/>
@@ -10,7 +10,48 @@
 </head>
 <body>
 
-1111111
+<div class="ui menu">
+    <a class="browse item active">浏览 <i class="dropdown icon"></i> </a>
+</div>
+<div class="ui fluid popup bottom left transition hidden">
+    <div class="ui four column relaxed equal height divided grid">
+        <div class="column">
+            <h4 class="ui header">Fabrics</h4>
+            <div class="ui link list">
+                <a class="item">Cashmere</a>
+                <a class="item">Linen</a>
+                <a class="item">Cotton</a>
+                <a class="item">Viscose</a>
+            </div>
+        </div>
+        <div class="column">
+            <h4 class="ui header">尺寸</h4>
+            <div class="ui link list">
+                <a class="item">Small</a>
+                <a class="item">Medium</a>
+                <a class="item">Large</a>
+                <a class="item">Plus Sizes</a>
+            </div>
+        </div>
+        <div class="column">
+            <h4 class="ui header">彩色的</h4>
+            <div class="ui link list">
+                <a class="item">Neutrals</a>
+                <a class="item">Brights</a>
+                <a class="item">Pastels</a>
+            </div>
+        </div>
+        <div class="column">
+            <h4 class="ui header">Types</h4>
+            <div class="ui link list">
+                <a class="item">Knitwear</a>
+                <a class="item">Outerwear</a>
+                <a class="item">Pants</a>
+                <a class="item">Shoes</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <span th:text="${data2} eq null?'没有数据l':${data2}"></span>222
 <script src="/static/js/index.js"></script>
