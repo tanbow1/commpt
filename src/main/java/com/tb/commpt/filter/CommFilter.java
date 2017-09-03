@@ -30,6 +30,10 @@ public class CommFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
+        String url = httpServletRequest.getRequestURL().toString();
+
+        System.out.println(" filter 当前url : " + url);
+
         String[] IGNORE_URI = SystemContext.singleton().getValueAsString("filter.ignoreuri").split(",");
         logger.info("忽略过滤：" + Arrays.toString(IGNORE_URI));
 

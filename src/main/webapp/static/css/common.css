@@ -1,0 +1,59 @@
+.h__30p {
+    height: 30px;
+}
+
+.h__50p {
+    height: 50px;
+}
+
+.w__30p {
+    width: 30px;
+}
+
+.w__100p {
+    width: 100px;
+}
+
+.w__150p {
+    width: 150px;
+}
+
+.p__0 {
+    padding: 0;
+}
+
+.p__10p {
+    padding: 10px;
+}
+
+.m__l__10p {
+    margin-left: 10px;
+}
+
+.m__l__20p {
+    margin-left: 20px;
+}
+
+.ov__hidden {
+    overflow: hidden;
+}
+
+.ov__x__hidden {
+    overflow-x: hidden;
+}
+
+.ov__y__hidden {
+    overflow-y: hidden;
+}
+
+.dis__inline {
+    display: inline;
+}
+
+.dis__block {
+    display: block;
+}
+
+.dis__inlineblock {
+    display: inline-block;
+}

@@ -30,6 +30,9 @@ public class CommHanlerInterceptor extends HandlerInterceptorAdapter {
 
         boolean flag = false;
         String url = request.getRequestURL().toString();
+
+        System.out.println(" interceptor 当前url : " + url);
+
         String sessionId = request.getParameter("sessionId");
 
         String[] IGNORE_URI = config.INTERCEPTOR_IGNORE_URI.split(",");
