@@ -1,3 +1,32 @@
-html{
+html {
     min-width: 1024px !important;
+}
+
+.login__wrap {
+    max-width: 350px;
+    margin: 200px auto 0;
+    background: rgba(213, 215, 222, 0.9);
+    padding: 20px;
+}
+
+.login__wrap .login__img {
+    color: #34aadc;
+    font-size: 50px;
+    font-weight: 300;
+    text-align: center;
+    margin: 0 10px;
+}
+
+.login__wrap .input-group {
+    padding-bottom: 15px;
+}
+
+.login__wrap button, .login__wrap input {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.login__wrap label {
+    font-size: 12px;
 }
