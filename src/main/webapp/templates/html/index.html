@@ -7,22 +7,65 @@
         ex:<head th:replace="common/fragment_head::head"/>
     -->
     <head th:replace="common/comm_head"/>
+
+    <link rel="stylesheet" type="text/css" href="/static/css/app.css">
+    <script type="text/javascript" src="/static/js/app.js"></script>
 </head>
 <body>
 
 <body class="easyui-layout">
 <div data-options="region:'north',border:false" class="h__50p ov__hidden">
-    <h2 class="dis__inlineblock m__l__10p">公共服务管理系统</h2>
-    <div style="border:1px solid;width: 35%;font-size: 16px;line-height: 25px;" class="dis__inlineblock m__l__20p">消息区消息区消息区消息区...</div>
+    <h4 class="dis__inlineblock m__l__10p col-xs-2 l__h__50p sys__sysinfo"></h4>
+    <div class="dis__inlineblock m__l__50p w_40 col-xs-3 l__h__50p"><a href="#" class="font__16p">消息区消息区消息区消息区...</a>
+    </div>
+    <div class="dis__inlineblock col-xs-4 l__h__50p pull__right">
+        <span class="font__16p">欢迎,</span><a href="#"><span>谈波</span></a>
+        <span class="p__lr__5p">|</span>
+
+
+        <a href="#" class="easyui-linkbutton" data-options="plain:true">个人主页</a>
+        <a href="#" class="easyui-menubutton" data-options="menu:'#mm1',iconCls:'icon-edit'">设置</a>
+        <a href="#" class="easyui-menubutton" data-options="menu:'#mm2',iconCls:'icon-help'">帮助</a>
+        <a href="#" class="easyui-linkbutton" data-options="plain:true">退出</a>
+        <!--button link-->
+        <div id="mm1" style="width:150px;">
+            <div data-options="iconCls:'icon-undo'">Undo</div>
+            <div data-options="iconCls:'icon-redo'">Redo</div>
+            <div class="menu-sep"></div>
+            <div>Cut</div>
+            <div>Copy</div>
+            <div>Paste</div>
+            <div class="menu-sep"></div>
+            <div data-options="iconCls:'icon-more'">
+                <span>更多</span>
+                <div>
+                    <div>Address</div>
+                    <div>Link</div>
+                    <div>Navigation Toolbar</div>
+                    <div>Bookmark Toolbar</div>
+                    <div class="menu-sep"></div>
+                    <div>New Toolbar...</div>
+                </div>
+            </div>
+        </div>
+        <div id="mm2" style="width:100px;">
+            <div>帮助</div>
+            <div>更新</div>
+            <div>关于</div>
+        </div>
+        <!---->
+    </div>
 </div>
-<div data-options="region:'west',split:true,title:'功能'" class="w__150p"></div>
-<div data-options="region:'east',split:true,collapsed:true,title:'更多'" class="w__100p"></div>
-<div data-options="region:'south',border:false" class="h__50p"></div>
-<div data-options="region:'center',title:'首页'"></div>
+<div data-options="region:'west',split:true,collapsed:true,title:'功能'" class="w__150p"></div>
+<div data-options="region:'east',split:true,collapsed:true,title:'我的消息'" class="w__300p"></div>
+<div data-options="region:'south',border:false" class="h__50p text-xs-center l__h__50p">
+    <p class="font__grey h__20p m__0 dis__inline sys__footerinfo"></p>
+</div>
+<div data-options="region:'center',title:''"></div>
 </body>
 
 <!--<span th:text="${data2} eq null?'没有数据l':${data2}"></span>222-->
-<script src="/static/js/index.js"></script>
+<script type="text/javascript" src="/static/js/index.js"></script>
 
 </body>
 </html>

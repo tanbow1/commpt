@@ -15,9 +15,14 @@ import java.util.Map;
  * Created by Tanbo on 2017/8/22.
  */
 @Controller
-@RequestMapping("/commview")
+@RequestMapping("/comm")
 public class CommViewController {
     private static Logger logger = LoggerFactory.getLogger(CommViewController.class);
+
+    @RequestMapping("/login")
+    public ModelAndView login() {
+        return new ModelAndView("login");
+    }
 
     @RequestMapping("/index")
     public ModelAndView index() {

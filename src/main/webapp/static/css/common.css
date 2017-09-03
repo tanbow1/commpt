@@ -1,9 +1,41 @@
+body {
+    font-size: 14px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.pull__right {
+    float: right;
+}
+
+.font__16p {
+    font-size: 16px
+}
+
+.font__grey{
+    color: grey;
+}
+
+.h__20p{
+    height: 20px;
+}
+
 .h__30p {
     height: 30px;
 }
 
 .h__50p {
     height: 50px;
+}
+
+.l__h__50p {
+    line-height: 50px;
+}
+
+.w_40 {
+    width: 40%;
 }
 
 .w__30p {
@@ -18,6 +50,10 @@
     width: 150px;
 }
 
+.w__300p{
+    width: 300px;
+}
+
 .p__0 {
     padding: 0;
 }
@@ -26,12 +62,24 @@
     padding: 10px;
 }
 
+.p__lr__5p {
+    padding: 0 5px;
+}
+
+.m__0{
+    margin: 0;
+}
+
 .m__l__10p {
     margin-left: 10px;
 }
 
 .m__l__20p {
     margin-left: 20px;
+}
+
+.m__l__50p {
+    margin-left: 50px;
 }
 
 .ov__hidden {
