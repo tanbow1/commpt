@@ -12,21 +12,27 @@
 
 <div class="login__wrap">
     <p class="login__img"><i class="fa fa-lock"></i></p>
-    <div class="input-group">
+    <div class="input-group ">
         <span class="input-group-addon"><i class="fa fa-user-o"></i></span>
-        <input type="text" class="form-control" required="required" maxlength="50" placeholder="请输入用户名/手机/邮箱.."
+        <input type="text" class="form-control " id="username" required="required" maxlength="50"
+               placeholder="请输入用户名/手机/邮箱.."
                autofocus>
     </div>
-    <div class="input-group">
+    <div class="input-group ">
         <span class="input-group-addon"><i class="fa fa-key"></i></span>
-        <input type="password" class="form-control" required="required" maxlength="25" placeholder="请输入登录密码..">
+        <input type="password" class="form-control " id="password" required="required" maxlength="25"
+               placeholder="请输入登录密码..">
     </div>
     <label class="checkbox">
-        <span class="pull-right"> <a href="#"> 忘记密码?</a></span>
+        <span class=""> <a href="#"> 忘记密码?</a></span>
+
+        <strong class="text-danger p__lr__5p" id="tipMsg"></strong>
     </label>
     <button class="btn btn-primary btn-block" onclick="loginsys()">登 录</button>
     <button class="btn btn-info btn-block" onclick="registsys()">注 册</button>
 </div>
+
+<script type="text/javascript" src="/static/js/login.js"></script>
 
 </body>
 </html>
