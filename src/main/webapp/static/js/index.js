@@ -1,3 +1,3 @@
 function logout() {
-    window.location.href = '/comm/login';
+    window.location.href = '/comm/tologin';
 }

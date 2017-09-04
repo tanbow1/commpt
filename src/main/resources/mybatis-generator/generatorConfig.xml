@@ -159,7 +159,7 @@
 
             注意，table里面很多参数都是对javaModelGenerator，context等元素的默认属性的一个复写；
          -->
-        <table tableName="T_DM_ACCOUNT" domainObjectName="DmAccount" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        <table tableName="T_XT_JWT" domainObjectName="XtJwt" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
 
             <!-- 参考 javaModelGenerator 的 constructorBased属性-->
             <!--<property name="constructorBased" value="false"/>-->
@@ -282,25 +282,6 @@
             <!--</columnOverride>-->
 
         </table>
-        <table tableName="T_DM_GJDQ" domainObjectName="DmGjdq" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <property name="ignoreQualifiersAtRuntime" value="true"/>
-            <property name="useActualColumnNames" value="false"/>
-        </table>
-        <table tableName="T_DM_LOG" domainObjectName="DmLog" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <property name="ignoreQualifiersAtRuntime" value="true"/>
-            <property name="useActualColumnNames" value="false"/>
-        </table>
-        <table tableName="T_DM_MENU" domainObjectName="DmMenu" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <property name="ignoreQualifiersAtRuntime" value="true"/>
-            <property name="useActualColumnNames" value="false"/>
-        </table>
-        <table tableName="T_DM_ROLE" domainObjectName="DmRole" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <property name="ignoreQualifiersAtRuntime" value="true"/>
-            <property name="useActualColumnNames" value="false"/>
-        </table>
-        <table tableName="T_DM_ZJLX" domainObjectName="DmZjlx" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <property name="ignoreQualifiersAtRuntime" value="true"/>
-            <property name="useActualColumnNames" value="false"/>
-        </table>
+
     </context>
 </generatorConfiguration>

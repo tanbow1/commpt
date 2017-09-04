@@ -32,6 +32,8 @@
         <org.apache.activemq.core.version>5.7.0</org.apache.activemq.core.version>
         <org.apache.cxf.version>3.1.12</org.apache.cxf.version>
         <javax.mail.version>1.4.7</javax.mail.version>
+        <com.auth0.jwt.version>3.2.0</com.auth0.jwt.version>
+        <io.jsonwebtoken.jjwt.version>0.7.0</io.jsonwebtoken.jjwt.version>
     </properties>
 
     <dependencies>
@@ -75,6 +77,21 @@
             <artifactId>spring-test</artifactId>
             <version>${org.springframework.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${com.auth0.jwt.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${io.jsonwebtoken.jjwt.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>javax.mail</groupId>

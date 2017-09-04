@@ -15,4 +15,7 @@ public class SystemConfig {
     @Value("${interceptor.ignoreuri}")
     public String INTERCEPTOR_IGNORE_URI;
 
+    @Value("${jwt.secret}")
+    public String JWT_SECRET;
+
 }

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tb.commpt.mapper.XtJwtMapper">
+    <resultMap id="BaseResultMap" type="com.tb.commpt.model.XtJwt">
+        <id column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <id column="ACCESS_TOKEN" jdbcType="VARCHAR" property="accessToken"/>
+        <result column="REFRESH_TOKEN" jdbcType="VARCHAR" property="refreshToken"/>
+        <result column="JWT_TTL" jdbcType="TIMESTAMP" property="jwtTtl"/>
+        <result column="JWT_REFRESH_TTL" jdbcType="TIMESTAMP" property="jwtRefreshTtl"/>
+        <result column="JWT_REFRESH_INTERVAL" jdbcType="TIMESTAMP" property="jwtRefreshInterval"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    USER_ID, ACCESS_TOKEN, REFRESH_TOKEN, JWT_TTL, JWT_REFRESH_TTL, JWT_REFRESH_INTERVAL
+  </sql>
+    <insert id="insertSelective" parameterType="com.tb.commpt.model.XtJwt">
+        insert into T_XT_JWT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="accessToken != null">
+                ACCESS_TOKEN,
+            </if>
+            <if test="refreshToken != null">
+                REFRESH_TOKEN,
+            </if>
+            <if test="jwtTtl != null">
+                JWT_TTL,
+            </if>
+            <if test="jwtRefreshTtl != null">
+                JWT_REFRESH_TTL,
+            </if>
+            <if test="jwtRefreshInterval != null">
+                JWT_REFRESH_INTERVAL,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="accessToken != null">
+                #{accessToken,jdbcType=VARCHAR},
+            </if>
+            <if test="refreshToken != null">
+                #{refreshToken,jdbcType=VARCHAR},
+            </if>
+            <if test="jwtTtl != null">
+                #{jwtTtl,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jwtRefreshTtl != null">
+                #{jwtRefreshTtl,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jwtRefreshInterval != null">
+                #{jwtRefreshInterval,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tb.commpt.model.XtJwt">
+        update T_XT_JWT
+        <set>
+            <if test="refreshToken != null">
+                REFRESH_TOKEN = #{refreshToken,jdbcType=VARCHAR},
+            </if>
+            <if test="jwtTtl != null">
+                JWT_TTL = #{jwtTtl,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jwtRefreshTtl != null">
+                JWT_REFRESH_TTL = #{jwtRefreshTtl,jdbcType=TIMESTAMP},
+            </if>
+            <if test="jwtRefreshInterval != null">
+                JWT_REFRESH_INTERVAL = #{jwtRefreshInterval,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where USER_ID = #{userId,jdbcType=VARCHAR}
+        and ACCESS_TOKEN = #{accessToken,jdbcType=VARCHAR}
+    </update>
+    <insert id="insert2" parameterType="com.tb.commpt.model.XtJwt">
+        insert into T_XT_JWT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            USER_ID,
+            ACCESS_TOKEN,
+            JWT_TTL,
+            <if test="refreshToken != null">
+                REFRESH_TOKEN,
+                JWT_REFRESH_TTL,
+                JWT_REFRESH_INTERVAL,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{userId,jdbcType=VARCHAR},
+            #{accessToken,jdbcType=VARCHAR},
+            sysdate,
+            <if test="refreshToken != null">
+                #{refreshToken,jdbcType=VARCHAR},
+                sysdate,
+                sysdate,
+            </if>
+        </trim>
+    </insert>
+</mapper>
