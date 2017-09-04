@@ -8,6 +8,7 @@ import com.tb.commpt.model.JsonResponse;
 import com.tb.commpt.model.XtJwt;
 import com.tb.commpt.model.XtUser;
 import com.tb.commpt.service.IAuthService;
+import com.tb.commpt.service.IUserService;
 import com.tb.commpt.utils.JwtUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +37,9 @@ public class CommViewController {
     @Autowired
     private IAuthService authService;
 
+    @Autowired
+    private IUserService userService;
+
     @RequestMapping("/tologin")
     public ModelAndView login() {
         return new ModelAndView("login");
@@ -44,8 +50,7 @@ public class CommViewController {
     public JsonResponse login(@ModelAttribute JsonRequest jsonRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         JsonResponse jsonResponse = new JsonResponse();
 
-
-        XtUser user = authService.selectByUsernameAndPassword(String.valueOf(jsonRequest.getReqData().get("username")),
+        XtUser user = userService.selectByUsernameAndPassword(String.valueOf(jsonRequest.getReqData().get("username")),
                 String.valueOf(jsonRequest.getReqData().get("password")));
 
         if (null != user) {
@@ -67,12 +72,20 @@ public class CommViewController {
     }
 
     @RequestMapping("/index")
-    public ModelAndView index() {
+    public ModelAndView index() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         Map<String, Object> modelMap = new HashMap<>();
         modelMap.put("data", "hahahhh弹拨");
         ModelAndView mv = new ModelAndView("index");
         // return new ModelAndView("index",modelMap);
 
+        XtUser user = new XtUser();
+        user.setUserName("tanbow1");
+        user.setUserAccount("770157216");
+        user.setRealName("谈波2");
+        user.setPass("123");
+
+        String userId = userService.saveUserInfo(user, null, null, null);
+        System.out.println(userId);
         mv.addObject("data2", "谈波");
         return mv;
     }

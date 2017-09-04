@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tb.commpt.mapper.XtUserRoleMapper">
+  <resultMap id="BaseResultMap" type="com.tb.commpt.model.XtUserRole">
+    <id column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <id column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+    <result column="YXBJ" jdbcType="CHAR" property="yxbj" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    USER_ID, ROLE_ID, YXBJ
+  </sql>
+  <insert id="insertSelective" parameterType="com.tb.commpt.model.XtUserRole">
+    insert into T_XT_USERANDROLE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+      <if test="yxbj != null">
+        YXBJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="yxbj != null">
+        #{yxbj,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tb.commpt.model.XtUserRole">
+    update T_XT_USERANDROLE
+    <set>
+      <if test="yxbj != null">
+        YXBJ = #{yxbj,jdbcType=CHAR},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+      and ROLE_ID = #{roleId,jdbcType=VARCHAR}
+  </update>
+</mapper>

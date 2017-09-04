@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tb.commpt.mapper.XtUserAccountMapper">
+  <resultMap id="BaseResultMap" type="com.tb.commpt.model.XtUserAccount">
+    <id column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <id column="ACCOUNT_TYPE" jdbcType="CHAR" property="accountType" />
+    <id column="ACCOUNT" jdbcType="VARCHAR" property="account" />
+    <result column="IS_DEFAULT" jdbcType="CHAR" property="isDefault" />
+    <result column="YXBJ" jdbcType="CHAR" property="yxbj" />
+    <result column="LR_SJ" jdbcType="TIMESTAMP" property="lrSj" />
+    <result column="PASS" jdbcType="VARCHAR" property="pass" />
+    <result column="PASS_ENC" jdbcType="VARCHAR" property="passEnc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    USER_ID, ACCOUNT_TYPE, ACCOUNT, IS_DEFAULT, YXBJ, LR_SJ, PASS, PASS_ENC
+  </sql>
+  <insert id="insertSelective" parameterType="com.tb.commpt.model.XtUserAccount">
+    insert into T_XT_USER_ACCOUNT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="accountType != null">
+        ACCOUNT_TYPE,
+      </if>
+      <if test="account != null">
+        ACCOUNT,
+      </if>
+      <if test="isDefault != null">
+        IS_DEFAULT,
+      </if>
+      <if test="yxbj != null">
+        YXBJ,
+      </if>
+      <if test="lrSj != null">
+        LR_SJ,
+      </if>
+      <if test="pass != null">
+        PASS,
+      </if>
+      <if test="passEnc != null">
+        PASS_ENC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountType != null">
+        #{accountType,jdbcType=CHAR},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=CHAR},
+      </if>
+      <if test="yxbj != null">
+        #{yxbj,jdbcType=CHAR},
+      </if>
+      <if test="lrSj != null">
+        #{lrSj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pass != null">
+        #{pass,jdbcType=VARCHAR},
+      </if>
+      <if test="passEnc != null">
+        #{passEnc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tb.commpt.model.XtUserAccount">
+    update T_XT_USER_ACCOUNT
+    <set>
+      <if test="isDefault != null">
+        IS_DEFAULT = #{isDefault,jdbcType=CHAR},
+      </if>
+      <if test="yxbj != null">
+        YXBJ = #{yxbj,jdbcType=CHAR},
+      </if>
+      <if test="lrSj != null">
+        LR_SJ = #{lrSj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pass != null">
+        PASS = #{pass,jdbcType=VARCHAR},
+      </if>
+      <if test="passEnc != null">
+        PASS_ENC = #{passEnc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+      and ACCOUNT_TYPE = #{accountType,jdbcType=CHAR}
+      and ACCOUNT = #{account,jdbcType=VARCHAR}
+  </update>
+</mapper>

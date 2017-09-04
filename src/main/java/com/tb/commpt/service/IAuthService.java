@@ -12,8 +12,6 @@ import java.util.Map;
  */
 public interface IAuthService {
 
-    XtUser selectByUsernameAndPassword(String username, String password);
-
     Map<String, String> saveJwt(String userId) throws Exception;
 
     Map<String, String> refreshToken(String accessToken, String refreshToken) throws Exception;

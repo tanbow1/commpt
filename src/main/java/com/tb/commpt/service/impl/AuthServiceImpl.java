@@ -24,22 +24,8 @@ public class AuthServiceImpl implements IAuthService {
     private JwtUtil jwt;
 
     @Autowired
-    private XtUserMapper xtUserMapper;
-
-    @Autowired
     private XtJwtMapper xtJwtMapper;
 
-    /**
-     * 校验用户信息
-     *
-     * @param username
-     * @param password
-     * @return
-     */
-    @Override
-    public XtUser selectByUsernameAndPassword(String username, String password) {
-        return xtUserMapper.selectByUsernameAndPassword(username, password);
-    }
 
     /**
      * 新增token

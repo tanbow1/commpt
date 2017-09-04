@@ -68,4 +68,6 @@ public interface XtUserMapper {
 
     XtUser selectByUsernameAndPassword(@Param("username") String username,
                                        @Param("password") String password);
+
+    String insert2(XtUser xtUser);
 }
