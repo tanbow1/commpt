@@ -187,7 +187,7 @@
         </set>
         where USER_ID = #{userId,jdbcType=VARCHAR}
     </update>
-    <select id="selectByUsernameAndPassword" resultMap="BaseResultMap">
+    <select id="selectByUsernameAndPassword" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from T_XT_USER where (

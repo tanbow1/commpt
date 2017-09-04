@@ -8,10 +8,11 @@
         <result column="JWT_TTL" jdbcType="TIMESTAMP" property="jwtTtl"/>
         <result column="JWT_REFRESH_TTL" jdbcType="TIMESTAMP" property="jwtRefreshTtl"/>
         <result column="JWT_REFRESH_INTERVAL" jdbcType="TIMESTAMP" property="jwtRefreshInterval"/>
+        <result column="LR_SJ" jdbcType="TIMESTAMP" property="lrSj"/>
     </resultMap>
     <sql id="Base_Column_List">
-    USER_ID, ACCESS_TOKEN, REFRESH_TOKEN, JWT_TTL, JWT_REFRESH_TTL, JWT_REFRESH_INTERVAL
-  </sql>
+    USER_ID, ACCESS_TOKEN, REFRESH_TOKEN, JWT_TTL, JWT_REFRESH_TTL, JWT_REFRESH_INTERVAL, LR_SJ
+    </sql>
     <insert id="insertSelective" parameterType="com.tb.commpt.model.XtJwt">
         insert into T_XT_JWT
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -79,6 +80,7 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             USER_ID,
             ACCESS_TOKEN,
+            LR_SJ,
             JWT_TTL,
             <if test="refreshToken != null">
                 REFRESH_TOKEN,
@@ -90,11 +92,32 @@
             #{userId,jdbcType=VARCHAR},
             #{accessToken,jdbcType=VARCHAR},
             sysdate,
+            sysdate+2,
             <if test="refreshToken != null">
                 #{refreshToken,jdbcType=VARCHAR},
-                sysdate,
-                sysdate,
+                sysdate+365,
+                sysdate+1,
             </if>
         </trim>
     </insert>
+    <resultMap id="TokenInfoMap" type="java.util.HashMap">
+        <result column="USER_ID" jdbcType="VARCHAR" property="USER_ID"/>
+        <result column="ACCESS_TOKEN" jdbcType="VARCHAR" property="ACCESS_TOKEN"/>
+        <result column="REFRESH_TOKEN" jdbcType="VARCHAR" property="REFRESH_TOKEN"/>
+        <result column="ACCESS_TOKEN_TIMEOUT" jdbcType="VARCHAR" property="ACCESS_TOKEN_TIMEOUT"/>
+        <result column="REFRESH_TOKEN_TIMEOUT" jdbcType="VARCHAR" property="REFRESH_TOKEN_TIMEOUT"/>
+        <result column="NEED_REFRESH" jdbcType="VARCHAR" property="NEED_REFRESH"/>
+    </resultMap>
+    <select id="selectByAccessToken" parameterType="java.lang.String" resultMap="TokenInfoMap">
+        select t.USER_ID,t.ACCESS_TOKEN,t.REFRESH_TOKEN,case when t.jwt_ttl>sysdate then 'N' else 'Y' end as ACCESS_TOKEN_TIMEOUT,
+        case when t.jwt_refresh_ttl>sysdate then 'N' else 'Y' end as REFRESH_TOKEN_TIMEOUT,
+        case when t.JWT_REFRESH_INTERVAL>sysdate then 'N' else 'Y' end as NEED_REFRESH
+        from T_XT_JWT t where
+        ACCESS_TOKEN = #{accessToken,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByRefreshToken" parameterType="java.lang.String" resultType="java.lang.String">
+        select USER_ID from T_XT_JWT where ACCESS_TOKEN = #{accessToken,jdbcType=VARCHAR}
+        and #{refreshToken,jdbcType=VARCHAR}
+        and JWT_REFRESH_TTL>sysdate
+    </select>
 </mapper>

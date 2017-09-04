@@ -32,9 +32,6 @@ public class CommViewController {
     private static Logger logger = LoggerFactory.getLogger(CommViewController.class);
 
     @Autowired
-    private JwtUtil jwt;
-
-    @Autowired
     private IAuthService authService;
 
     @RequestMapping("/tologin")
@@ -52,20 +49,15 @@ public class CommViewController {
                 String.valueOf(jsonRequest.getReqData().get("password")));
 
         if (null != user) {
-            String subject = JwtUtil.generalSubject(user.getUserId());
-            String token = jwt.createJWT(ConsCommon.JWT_ID, subject, ConsCommon.JWT_TTL);
-            String refreshToken = jwt.createJWT(ConsCommon.JWT_ID, subject, ConsCommon.JWT_REFRESH_TTL);
-            jsonResponse.getRepData().put(ConsCommon.ACCESS_TOKEN, token);
-            jsonResponse.getRepData().put(ConsCommon.REFRESH_TOKEN, refreshToken);
 
-            XtJwt xtJwt = new XtJwt();
-            xtJwt.setUserId(user.getUserId());
-            xtJwt.setAccessToken(token);
-            xtJwt.setRefreshToken(refreshToken);
-            int insertCount = authService.saveJwt(xtJwt);
-            if (insertCount == 0) {
-                throw new SystemLevelException(ConsCommon.ERROR_CODE_UNKNOW);
+            Map<String, String> resultMap = authService.saveJwt(user.getUserId());
+            if ("0".equals(resultMap.get("insertCount"))) {
+                throw new SystemLevelException(ConsCommon.ERROR_CODE_UNKNOW + ":插入token失败");
             }
+
+            jsonResponse.getRepData().put(ConsCommon.ACCESS_TOKEN, resultMap.get("accessToken"));
+            jsonResponse.getRepData().put(ConsCommon.REFRESH_TOKEN, resultMap.get("refreshToken"));
+
         } else {
             jsonResponse.setCode(ConsCommon.ERROR_CODE);
             jsonResponse.setMsg("用户名或密码有误");

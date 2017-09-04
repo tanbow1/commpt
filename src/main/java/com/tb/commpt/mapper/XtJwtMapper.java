@@ -5,6 +5,8 @@ import com.tb.commpt.model.XtJwt;
 import com.tb.commpt.model.XtJwtKey;
 import org.apache.ibatis.annotations.*;
 
+import java.util.Map;
+
 @MyBatisRepository
 public interface XtJwtMapper {
     @Delete({
@@ -56,4 +58,8 @@ public interface XtJwtMapper {
     int deleteByUserId(String userId);
 
     int insert2(XtJwt xtJwt);
+
+    Map<String, String> selectByAccessToken(String accessToken);
+
+    String selectByRefreshToken(String accessToken, String refreshToken);
 }
