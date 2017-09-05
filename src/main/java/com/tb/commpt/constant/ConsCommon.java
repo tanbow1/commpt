@@ -104,11 +104,14 @@ public class ConsCommon {
 
     public static final String JWT_ID = "jwt";
 
-    public static final int JWT_TTL = 60 * 60 * 1000;  //millisecond
+    //accessToken2天有效
+    public static final int JWT_TTL = 48 * 60 * 60 * 1000;  //millisecond
 
-    public static final int JWT_REFRESH_INTERVAL = 55 * 60 * 1000;  //millisecond
+    //refreshToken每天刷新
+    public static final int JWT_REFRESH_INTERVAL = 24 * 60 * 60 * 1000;  //millisecond
 
-    public static final int JWT_REFRESH_TTL = 24 * 60 * 60 * 1000;  //millisecond
+    //refreshToken1年有效
+    public static final int JWT_REFRESH_TTL = 356 * 24 * 60 * 60 * 1000;  //millisecond
 
     public static final String ACCESS_TOKEN = SYS_PREFIX + "ACCESS_TOKEN";
 

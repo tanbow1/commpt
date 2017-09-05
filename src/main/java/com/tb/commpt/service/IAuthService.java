@@ -1,10 +1,5 @@
 package com.tb.commpt.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.tb.commpt.exception.BizLevelException;
-import com.tb.commpt.model.XtJwt;
-import com.tb.commpt.model.XtUser;
-
 import java.util.Map;
 
 /**
@@ -17,5 +12,7 @@ public interface IAuthService {
     Map<String, String> refreshToken(String accessToken, String refreshToken) throws Exception;
 
     Map<String, String> selectByAccessToken(String accessToken);
+
+    Map<String, String> checkToken(String accessToken, String refreshToken) throws Exception;
 
 }

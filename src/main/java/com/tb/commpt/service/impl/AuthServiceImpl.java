@@ -29,7 +29,7 @@ public class AuthServiceImpl implements IAuthService {
 
 
     /**
-     * 新增token
+     * 新增用户token
      *
      * @param userId
      * @return
@@ -48,6 +48,7 @@ public class AuthServiceImpl implements IAuthService {
         int insertCount = xtJwtMapper.insert2(xtJwt);
         Map<String, String> resultMap = new HashMap<String, String>();
         resultMap.put("insertCount", String.valueOf(insertCount));
+        resultMap.put("userId", userId);
         resultMap.put("accessToken", accessToken);
         resultMap.put("refreshToken", refreshToken);
         return resultMap;
@@ -69,7 +70,6 @@ public class AuthServiceImpl implements IAuthService {
         if (StringUtils.isEmptyOrWhitespace(refreshToken)) {
             throw new BizLevelException(ConsCommon.WARN_MSG_005);
         }
-        Map<String, String> reMap = xtJwtMapper.selectByAccessToken(accessToken);
         String userId = xtJwtMapper.selectByRefreshToken(accessToken, refreshToken);
         if (null == userId) {
             throw new BizLevelException(ConsCommon.WARN_MSG_006);
@@ -78,9 +78,62 @@ public class AuthServiceImpl implements IAuthService {
         }
     }
 
+    /**
+     * 获取该token及有效性
+     *
+     * @param accessToken
+     * @return key:USER_ID, ACCESS_TOKEN, REFRESH_TOKEN, ACCESS_TOKEN_TIMEOUT, REFRESH_TOKEN_TIMEOUT, NEED_REFRESH
+     */
     @Override
     public Map<String, String> selectByAccessToken(String accessToken) {
         return xtJwtMapper.selectByAccessToken(accessToken);
+    }
+
+    /**
+     * 调用业务时token校验
+     *
+     * @param accessToken
+     * @param refreshToken
+     * @return
+     */
+    @Override
+    public Map<String, String> checkToken(String accessToken, String refreshToken) throws Exception {
+        Map<String, String> tokenMap = selectByAccessToken(accessToken);
+        if (null != tokenMap) {
+            Map<String, String> resultMap = new HashMap<String, String>();
+            if ("N".equals(tokenMap.get("ACCESS_TOKEN_TIMEOUT"))) {
+                //accessToken未失效
+
+                if ("Y".equals(tokenMap.get("NEED_REFRESH"))) {
+                    //达到需要刷新时间点
+                    if (!StringUtils.isEmptyOrWhitespace(refreshToken)) {
+                        //主动刷新token
+                        return refreshToken(accessToken, refreshToken);
+                    }
+                    //无refreshToken，无法主动刷新token
+                } else {
+                    resultMap.put("userId", tokenMap.get("USER_ID"));
+                    resultMap.put("accessToken", accessToken);
+                    resultMap.put("refreshToken", tokenMap.get("REFRESH_TOKEN"));
+                    return resultMap;
+                }
+
+            } else {
+                //accessToken失效
+                if ("N".equals(tokenMap.get("REFRESH_TOKEN_TIMEOUT"))) {
+                    //refreshToken未失效
+                    if (!StringUtils.isEmptyOrWhitespace(refreshToken)) {
+                        //主动刷新token
+                        return refreshToken(accessToken, refreshToken);
+                    }
+                    //无refreshToken，无法主动刷新token
+                }
+
+                //refreshToken失效
+
+            }
+        }
+        return null;
     }
 
 
