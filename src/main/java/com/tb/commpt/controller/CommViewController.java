@@ -84,11 +84,13 @@ public class CommViewController {
 
     @ResponseBody
     @RequestMapping("/refreshToken")
-    public String refreshToken(@ModelAttribute JsonRequest jsonRequest) throws Exception {
+    public JsonResponse refreshToken(@ModelAttribute JsonRequest jsonRequest) throws Exception {
+        JsonResponse jsonResponse = new JsonResponse();
         String accessToken = jsonRequest.getAccessToken();
         String refreshToken = jsonRequest.getRefreshToken();
         Map<String, String> resultMap = authService.refreshToken(accessToken, refreshToken);
-        return null;
+        jsonResponse.getRepData().put("resultData", resultMap);
+        return jsonResponse;
     }
 
     @RequestMapping("/error")

@@ -17,7 +17,11 @@ function refreshToken() {
         },
         success: function (responseText, textStatus, XMLHttpRequest) {
             if (checkResponseText(responseText)) {
-                alert(responseText.msg);
+
+                $.cookie(SYS_PREFIX + 'ACCESS_TOKEN', responseText.repData.resultData.accessToken);
+                $.cookie(SYS_PREFIX + 'REFRESH_TOKEN', responseText.repData.resultData.refreshToken);
+
+                console.log(responseText);
             } else {
                 $("#tipMsg").text(responseText.msg);
             }

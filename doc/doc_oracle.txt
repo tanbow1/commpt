@@ -17,11 +17,11 @@ procedures:
 db_xt.P_DROPTBIFEXISTS
 
 trigger:
-db_xt.TRIGGER_LOGBACK
+db_xt.TRIGGER_LOGBACK --插入logback_event 的event_id前触发，获取序列插入
 
 tables:
-db_xt.LOGBACK_EVENT
-db_xt.LOGBACK_EVENT_EXCEPTION
-db_xt.LOGBACK_EVENT_PROPERTY
+db_xt.LOGBACK_EVENT --logback日志记录表
+db_xt.LOGBACK_EVENT_EXCEPTION --logback日志记录表
+db_xt.LOGBACK_EVENT_PROPERTY --logback日志记录表
 db_xt.T_XT_*
 db_dm.T_DM_*
