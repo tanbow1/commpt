@@ -78,8 +78,13 @@ public class UserServiceImpl implements IUserService {
         return null;
     }
 
-    @Override
-    public XtUser selectByPrimaryKey(String userId) {
+    /**
+     * 主健查询用户信息
+     *
+     * @param userId
+     * @return
+     */
+    private XtUser selectByPrimaryKey(String userId) {
         return xtUserMapper.selectByPrimaryKey(userId);
     }
 }

@@ -18,5 +18,4 @@ public interface IUserService {
 
     String saveUserInfo(XtUser user, XtUserAccount userAccount, XtUserAddress userAddress, XtUserRole userRole) throws UnsupportedEncodingException, NoSuchAlgorithmException, BizLevelException;
 
-    XtUser selectByPrimaryKey(String userId);
 }

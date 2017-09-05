@@ -82,7 +82,8 @@ public class AuthServiceImpl implements IAuthService {
      * 获取该token及有效性
      *
      * @param accessToken
-     * @return key:USER_ID, ACCESS_TOKEN, REFRESH_TOKEN, ACCESS_TOKEN_TIMEOUT, REFRESH_TOKEN_TIMEOUT, NEED_REFRESH
+     * @return key:[USER_ID, ACCESS_TOKEN, REFRESH_TOKEN,
+     * ACCESS_TOKEN_TIMEOUT, REFRESH_TOKEN_TIMEOUT, NEED_REFRESH]
      */
     @Override
     public Map<String, String> selectByAccessToken(String accessToken) {
@@ -94,7 +95,8 @@ public class AuthServiceImpl implements IAuthService {
      *
      * @param accessToken
      * @param refreshToken
-     * @return
+     * @return 校验通过必返字段：userId，accessToken，refreshToken
+     * 可选insertCount，token更新时返回
      */
     @Override
     public Map<String, String> checkToken(String accessToken, String refreshToken) throws Exception {
