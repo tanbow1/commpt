@@ -10,6 +10,7 @@ import com.tb.commpt.service.IAuthService;
 import com.tb.commpt.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,12 +63,24 @@ public class AuthServiceImpl implements IAuthService {
      */
     @Override
     public Map<String, String> refreshToken(String accessToken, String refreshToken) throws Exception {
+        if (StringUtils.isEmptyOrWhitespace(accessToken)) {
+            throw new BizLevelException(ConsCommon.WARN_MSG_004);
+        }
+        if (StringUtils.isEmptyOrWhitespace(refreshToken)) {
+            throw new BizLevelException(ConsCommon.WARN_MSG_005);
+        }
+        Map<String, String> reMap = xtJwtMapper.selectByAccessToken(accessToken);
         String userId = xtJwtMapper.selectByRefreshToken(accessToken, refreshToken);
         if (null == userId) {
-            throw new BizLevelException("token失效，请重新登录");
+            throw new BizLevelException(ConsCommon.WARN_MSG_006);
         } else {
             return saveJwt(userId);
         }
+    }
+
+    @Override
+    public Map<String, String> selectByAccessToken(String accessToken) {
+        return xtJwtMapper.selectByAccessToken(accessToken);
     }
 
 

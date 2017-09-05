@@ -61,5 +61,5 @@ public interface XtJwtMapper {
 
     Map<String, String> selectByAccessToken(String accessToken);
 
-    String selectByRefreshToken(String accessToken, String refreshToken);
+    String selectByRefreshToken(@Param("accessToken") String accessToken, @Param("refreshToken") String refreshToken);
 }

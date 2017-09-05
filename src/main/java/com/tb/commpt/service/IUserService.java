@@ -1,5 +1,6 @@
 package com.tb.commpt.service;
 
+import com.tb.commpt.exception.BizLevelException;
 import com.tb.commpt.model.XtUser;
 import com.tb.commpt.model.XtUserAccount;
 import com.tb.commpt.model.XtUserAddress;
@@ -15,6 +16,7 @@ public interface IUserService {
 
     XtUser selectByUsernameAndPassword(String username, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException;
 
-    String saveUserInfo(XtUser user, XtUserAccount userAccount, XtUserAddress userAddress, XtUserRole userRole) throws UnsupportedEncodingException, NoSuchAlgorithmException;
+    String saveUserInfo(XtUser user, XtUserAccount userAccount, XtUserAddress userAddress, XtUserRole userRole) throws UnsupportedEncodingException, NoSuchAlgorithmException, BizLevelException;
 
+    XtUser selectByPrimaryKey(String userId);
 }

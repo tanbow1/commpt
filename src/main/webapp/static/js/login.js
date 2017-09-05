@@ -59,7 +59,8 @@ function loginsys() {
             if (checkResponseText(responseText)) {
                 $.cookie(SYS_PREFIX + 'ACCESS_TOKEN', responseText.repData.COMMONPT_ACCESS_TOKEN);
                 $.cookie(SYS_PREFIX + 'REFRESH_TOKEN', responseText.repData.COMMONPT_REFRESH_TOKEN);
-                //window.location.href = '/comm/index';
+
+                window.location.href = '/comm/index';
             } else {
                 $("#tipMsg").text(responseText.msg);
             }

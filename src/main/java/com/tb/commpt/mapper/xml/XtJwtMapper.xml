@@ -116,8 +116,8 @@
         ACCESS_TOKEN = #{accessToken,jdbcType=VARCHAR}
     </select>
     <select id="selectByRefreshToken" parameterType="java.lang.String" resultType="java.lang.String">
-        select USER_ID from T_XT_JWT where ACCESS_TOKEN = #{accessToken,jdbcType=VARCHAR}
-        and #{refreshToken,jdbcType=VARCHAR}
-        and JWT_REFRESH_TTL>sysdate
+        select USER_ID from T_XT_JWT where JWT_REFRESH_TTL>sysdate
+         and ACCESS_TOKEN = #{accessToken,jdbcType=VARCHAR}
+         and REFRESH_TOKEN = #{refreshToken,jdbcType=VARCHAR}
     </select>
 </mapper>

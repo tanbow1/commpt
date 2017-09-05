@@ -65,29 +65,30 @@ public class CommViewController {
 
         } else {
             jsonResponse.setCode(ConsCommon.ERROR_CODE);
-            jsonResponse.setMsg("用户名或密码有误");
+            jsonResponse.setMsg(ConsCommon.WARN_MSG_007);
         }
 
         return jsonResponse;
     }
 
     @RequestMapping("/index")
-    public ModelAndView index() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public ModelAndView index() throws UnsupportedEncodingException, NoSuchAlgorithmException, BizLevelException {
         Map<String, Object> modelMap = new HashMap<>();
         modelMap.put("data", "hahahhh弹拨");
         ModelAndView mv = new ModelAndView("index");
         // return new ModelAndView("index",modelMap);
 
-        XtUser user = new XtUser();
-        user.setUserName("tanbow1");
-        user.setUserAccount("770157216");
-        user.setRealName("谈波2");
-        user.setPass("123");
-
-        String userId = userService.saveUserInfo(user, null, null, null);
-        System.out.println(userId);
         mv.addObject("data2", "谈波");
         return mv;
+    }
+
+    @ResponseBody
+    @RequestMapping("/refreshToken")
+    public String refreshToken(@ModelAttribute JsonRequest jsonRequest) throws Exception {
+        String accessToken = jsonRequest.getAccessToken();
+        String refreshToken = jsonRequest.getRefreshToken();
+        Map<String, String> resultMap = authService.refreshToken(accessToken, refreshToken);
+        return null;
     }
 
     @RequestMapping("/error")

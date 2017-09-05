@@ -1,5 +1,7 @@
 package com.tb.commpt.service.impl;
 
+import com.tb.commpt.constant.ConsCommon;
+import com.tb.commpt.exception.BizLevelException;
 import com.tb.commpt.mapper.XtUserMapper;
 import com.tb.commpt.model.XtUser;
 import com.tb.commpt.model.XtUserAccount;
@@ -23,7 +25,7 @@ public class UserServiceImpl implements IUserService {
     private XtUserMapper xtUserMapper;
 
     /**
-     * 获取用户信息
+     * 用户名、密码获取用户信息
      *
      * @param username
      * @param password
@@ -31,15 +33,53 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public XtUser selectByUsernameAndPassword(String username, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        return xtUserMapper.selectByUsernameAndPassword(username, MD5Util.getEncryptedStr(password));
+        XtUser xtUser = xtUserMapper.selectExistsUser(username);
+        if (null != xtUser) {
+            if (MD5Util.validateStr(password, xtUser.getPassEnc())) {
+                return xtUser;
+            }
+        }
+        return null;
     }
 
+    /**
+     * 保存用户信息
+     *
+     * @param user
+     * @param userAccount
+     * @param userAddress
+     * @param userRole
+     * @return 用户主键
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
+     */
     @Override
-    public String saveUserInfo(XtUser user, XtUserAccount userAccount, XtUserAddress userAddress, XtUserRole userRole) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public String saveUserInfo(XtUser user, XtUserAccount userAccount, XtUserAddress userAddress, XtUserRole userRole) throws UnsupportedEncodingException, NoSuchAlgorithmException, BizLevelException {
         if (null != user.getPass()) {
             user.setPassEnc(MD5Util.getEncryptedStr(user.getPass()));
             user.setPass("");
         }
-        return xtUserMapper.insert2(user);
+        XtUser existsUser = xtUserMapper.selectExistsUser(user.getUserAccount());
+        if (null != existsUser) {
+            throw new BizLevelException(ConsCommon.WARN_MSG_001);
+        }
+        existsUser = xtUserMapper.selectExistsUser(user.getCardNumber());
+        if (null != existsUser) {
+            throw new BizLevelException(ConsCommon.WARN_MSG_002);
+        }
+        existsUser = xtUserMapper.selectExistsUser(user.getMobile());
+        if (null != existsUser) {
+            throw new BizLevelException(ConsCommon.WARN_MSG_003);
+        }
+
+        int insertCount = xtUserMapper.insert2(user);
+        if (insertCount > 0)
+            return user.getUserId();
+        return null;
+    }
+
+    @Override
+    public XtUser selectByPrimaryKey(String userId) {
+        return xtUserMapper.selectByPrimaryKey(userId);
     }
 }

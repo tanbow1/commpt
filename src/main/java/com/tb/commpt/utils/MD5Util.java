@@ -58,7 +58,11 @@ public class MD5Util {
         //声明盐变量
         byte[] salt = new byte[SALT_LENGTH];
         //将盐从数据库中保存的口令字节数组中提取出来
-        System.arraycopy(hexStrArr, 0, salt, 0, SALT_LENGTH);
+        try {
+            System.arraycopy(hexStrArr, 0, salt, 0, SALT_LENGTH);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return false;
+        }
         //创建消息摘要对象
         MessageDigest md = MessageDigest.getInstance("MD5");
         //将盐数据传入消息摘要对象

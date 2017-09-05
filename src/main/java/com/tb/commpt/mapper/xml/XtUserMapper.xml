@@ -16,13 +16,12 @@
         <result column="YXBJ" jdbcType="CHAR" property="yxbj"/>
         <result column="LR_SJ" jdbcType="TIMESTAMP" property="lrSj"/>
         <result column="XG_SJ" jdbcType="TIMESTAMP" property="xgSj"/>
-        <result column="PASS" jdbcType="VARCHAR" property="pass"/>
-        <result column="PASS_ENC" jdbcType="VARCHAR" property="passEnc"/>
         <result column="AVATAR" jdbcType="VARCHAR" property="avatar"/>
+        <result column="PASS_ENC" jdbcType="VARCHAR" property="passEnc"/>
     </resultMap>
     <sql id="Base_Column_List">
     USER_ID, USER_NAME, USER_ACCOUNT, REAL_NAME, SEX, BIRTHDAY, MOBILE, NATIONALITY, 
-    CARD_TYPE, CARD_NUMBER, ADDR, YXBJ, LR_SJ, XG_SJ, PASS, PASS_ENC, AVATAR
+    CARD_TYPE, CARD_NUMBER, ADDR, YXBJ, LR_SJ, XG_SJ, AVATAR ,PASS_ENC
   </sql>
     <insert id="insertSelective" parameterType="com.tb.commpt.model.XtUser">
         insert into T_XT_USER
@@ -187,16 +186,6 @@
         </set>
         where USER_ID = #{userId,jdbcType=VARCHAR}
     </update>
-    <select id="selectByUsernameAndPassword" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from T_XT_USER where (
-        USER_ACCOUNT = #{username,jdbcType=VARCHAR}
-        or MOBILE = #{username,jdbcType=VARCHAR}
-        or CARD_NUMBER = #{username,jdbcType=VARCHAR}
-        )
-        and PASS_ENC = #{password,jdbcType=VARCHAR}
-    </select>
     <insert id="insert2" parameterType="com.tb.commpt.model.XtUser">
         <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="userId">
             SELECT sys_guid() from dual
@@ -289,4 +278,14 @@
             </if>
         </trim>
     </insert>
+    <select id="selectExistsUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_XT_USER WHERE
+        MOBILE = #{username,jdbcType=VARCHAR}
+        OR
+        USER_ACCOUNT = #{username,jdbcType=VARCHAR}
+        OR
+        CARD_NUMBER = #{username,jdbcType=VARCHAR}
+    </select>
 </mapper>

@@ -16,4 +16,6 @@ public interface IAuthService {
 
     Map<String, String> refreshToken(String accessToken, String refreshToken) throws Exception;
 
+    Map<String, String> selectByAccessToken(String accessToken);
+
 }

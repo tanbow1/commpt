@@ -35,7 +35,7 @@ public interface XtUserMapper {
     @Select({
             "select",
             "USER_ID, USER_NAME, USER_ACCOUNT, REAL_NAME, SEX, BIRTHDAY, MOBILE, NATIONALITY, ",
-            "CARD_TYPE, CARD_NUMBER, ADDR, YXBJ, LR_SJ, XG_SJ, PASS, PASS_ENC, AVATAR",
+            "CARD_TYPE, CARD_NUMBER, ADDR,  YXBJ, LR_SJ, XG_SJ, AVATAR",
             "from T_XT_USER",
             "where USER_ID = #{userId,jdbcType=VARCHAR}"
     })
@@ -66,8 +66,7 @@ public interface XtUserMapper {
     })
     int updateByPrimaryKey(XtUser record);
 
-    XtUser selectByUsernameAndPassword(@Param("username") String username,
-                                       @Param("password") String password);
+    int insert2(XtUser xtUser);
 
-    String insert2(XtUser xtUser);
+    XtUser selectExistsUser(@Param("username") String username);
 }
