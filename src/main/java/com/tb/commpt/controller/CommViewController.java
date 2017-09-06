@@ -57,7 +57,7 @@ public class CommViewController {
 
             Map<String, String> resultMap = authService.saveJwt(user.getUserId());
             if ("0".equals(resultMap.get("insertCount"))) {
-                throw new SystemLevelException(ConsCommon.ERROR_CODE_UNKNOW + ":插入token失败");
+                throw new SystemLevelException(ConsCommon.ERROR_MSG_UNKNOW + ":插入token失败");
             }
 
             jsonResponse.getRepData().put(ConsCommon.ACCESS_TOKEN, resultMap.get("accessToken"));
@@ -89,6 +89,9 @@ public class CommViewController {
         String accessToken = jsonRequest.getAccessToken();
         String refreshToken = jsonRequest.getRefreshToken();
         Map<String, String> resultMap = authService.refreshToken(accessToken, refreshToken);
+        if ("0".equals(resultMap.get("insertCount"))) {
+            throw new SystemLevelException(ConsCommon.ERROR_MSG_UNKNOW + ":刷新token失败");
+        }
         jsonResponse.getRepData().put("resultData", resultMap);
         return jsonResponse;
     }

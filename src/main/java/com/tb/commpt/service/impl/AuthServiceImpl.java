@@ -10,6 +10,7 @@ import com.tb.commpt.service.IAuthService;
 import com.tb.commpt.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.HashMap;
@@ -63,6 +64,7 @@ public class AuthServiceImpl implements IAuthService {
      * @throws Exception
      */
     @Override
+    @Transactional
     public Map<String, String> refreshToken(String accessToken, String refreshToken) throws Exception {
         if (StringUtils.isEmptyOrWhitespace(accessToken)) {
             throw new BizLevelException(ConsCommon.WARN_MSG_004);
@@ -74,8 +76,13 @@ public class AuthServiceImpl implements IAuthService {
         if (null == userId) {
             throw new BizLevelException(ConsCommon.WARN_MSG_006);
         } else {
-            return saveJwt(userId);
+//            return saveJwt(userId);
+
+            saveJwt(userId);
+
+            throw new BizLevelException(ConsCommon.ERROR_MSG_UNKNOW);
         }
+
     }
 
     /**

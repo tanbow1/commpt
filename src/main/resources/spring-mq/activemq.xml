@@ -9,7 +9,7 @@
     <context:property-placeholder location="classpath:config/datasource.properties"
                                   ignore-unresolvable="true"/>
 
-    <context:component-scan base-package="com.tb.commpt.service.mq"/>
+    <!--<context:component-scan base-package="com.tb.commpt.service.mq"/>-->
 
     <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <property name="brokerURL" value="${mq.brokerurl}"/>
