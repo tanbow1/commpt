@@ -96,9 +96,22 @@ public class CommViewController {
         return jsonResponse;
     }
 
+    @ResponseBody
+    @RequestMapping("/checkToken")
+    public JsonResponse checkToken(@ModelAttribute JsonRequest jsonRequest) throws Exception {
+        JsonResponse jsonResponse = new JsonResponse();
+        String accessToken = jsonRequest.getAccessToken();
+        String refreshToken = jsonRequest.getRefreshToken();
+        Map<String, String> resultMap = authService.checkToken(accessToken, refreshToken);
+        if (null == resultMap) {
+            throw new BizLevelException(ConsCommon.WARN_MSG_006 + ":请重新登录");
+        }
+        jsonResponse.getRepData().put("resultData", resultMap);
+        return jsonResponse;
+    }
+
     @RequestMapping("/error")
     public ModelAndView error() throws BizLevelException {
-        throw new BizLevelException("出错了，呵呵呵！");
-        //return new ModelAndView("common/error");
+        return new ModelAndView("common/error");
     }
 }

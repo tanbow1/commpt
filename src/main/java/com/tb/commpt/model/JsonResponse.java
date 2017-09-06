@@ -6,7 +6,20 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class JsonResponse extends BaseModel {
+    public JsonResponse() {
 
+    }
+
+    public JsonResponse(String msg, String code) {
+        this.msg = msg;
+        this.code = code;
+    }
+
+    public JsonResponse(String msg, String code, Map<String, Object> repData) {
+        this.msg = msg;
+        this.code = code;
+        this.repData = repData;
+    }
 
     private String msg = ConsCommon.SUCCESS_MSG;
     private String code = ConsCommon.SUCCESS_CODE;

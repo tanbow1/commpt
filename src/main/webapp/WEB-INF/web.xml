@@ -94,23 +94,23 @@
 
     <error-page>
         <error-code>401</error-code>
-        <location>/commview/error</location>
+        <location>/comm/error</location>
     </error-page>
     <error-page>
         <error-code>403</error-code>
-        <location>/commview/error</location>
+        <location>/comm/error</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/commview/error</location>
+        <location>/comm/error</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/commview/error</location>
+        <location>/comm/error</location>
     </error-page>
     <error-page>
         <error-code>503</error-code>
-        <location>/commview/error</location>
+        <location>/comm/error</location>
     </error-page>
 
     <session-config>

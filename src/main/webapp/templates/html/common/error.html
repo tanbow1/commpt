@@ -6,6 +6,6 @@
 </head>
 <body>
 出错了:
-<span th:text="${msg}"></span>
+<span th:text="${jsonResponse} == null?'错误未知':jsonResponse.msg"></span>
 </body>
 </html>
