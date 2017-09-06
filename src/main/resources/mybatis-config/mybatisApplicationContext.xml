@@ -21,6 +21,9 @@
                                 expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
+    <!-- 启动AOP支持 -->
+    <aop:aspectj-autoproxy/>
+
 
     <!--<bean id="dataSourceDefault_sc" class="org.springframework.jndi.JndiObjectFactoryBean">-->
     <!--<property name="jndiName">-->
@@ -73,11 +76,10 @@
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSourceDefault"/>
     </bean>
+
     <!--使用annotation定义事务 -->
     <tx:annotation-driven transaction-manager="transactionManager"
                           proxy-target-class="true"/>
-    <!-- 启动AOP支持 -->
-    <aop:aspectj-autoproxy/>
 
 
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">

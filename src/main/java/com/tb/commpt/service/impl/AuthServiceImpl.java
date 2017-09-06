@@ -2,6 +2,7 @@ package com.tb.commpt.service.impl;
 
 import com.tb.commpt.constant.ConsCommon;
 import com.tb.commpt.exception.BizLevelException;
+import com.tb.commpt.exception.SystemLevelException;
 import com.tb.commpt.mapper.XtJwtMapper;
 import com.tb.commpt.mapper.XtUserMapper;
 import com.tb.commpt.model.XtJwt;
@@ -64,7 +65,7 @@ public class AuthServiceImpl implements IAuthService {
      * @throws Exception
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = {BizLevelException.class, SystemLevelException.class})
     public Map<String, String> refreshToken(String accessToken, String refreshToken) throws Exception {
         if (StringUtils.isEmptyOrWhitespace(accessToken)) {
             throw new BizLevelException(ConsCommon.WARN_MSG_004);
@@ -76,11 +77,7 @@ public class AuthServiceImpl implements IAuthService {
         if (null == userId) {
             throw new BizLevelException(ConsCommon.WARN_MSG_006);
         } else {
-//            return saveJwt(userId);
-
-            saveJwt(userId);
-
-            throw new BizLevelException(ConsCommon.ERROR_MSG_UNKNOW);
+            return saveJwt(userId);
         }
 
     }
