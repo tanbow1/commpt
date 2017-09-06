@@ -38,6 +38,7 @@ public class AuthServiceImpl implements IAuthService {
      * @throws Exception
      */
     @Override
+    @Transactional(rollbackFor = {BizLevelException.class, SystemLevelException.class})
     public Map<String, String> saveJwt(String userId) throws Exception {
         xtJwtMapper.deleteByUserId(userId);
         String subject = JwtUtil.generalSubject(userId);

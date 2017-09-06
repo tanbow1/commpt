@@ -4,7 +4,7 @@
 var sysinfo = {
     sysname: "公共服务管理系统",
     version: "v1.0.0",
-    footerinfo: "Copyright © 2017 tanbo"
+    footerinfo: "Copyright © 2017 by tanbo"
 }
 
 $(function () {

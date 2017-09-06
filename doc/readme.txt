@@ -11,12 +11,14 @@ java:
 
     exception
     filter
+    global
     interceptor
+    listener
     logback
     model
     redis
     utils
-    global
+
 
 resources:
     config
@@ -32,3 +34,8 @@ resources:
     spring-mvc
     spring-redis
     ws-config
+
+
+page:
+    static
+    templates

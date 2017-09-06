@@ -1,7 +1,7 @@
 package com.tb.commpt.global;
 
 
-import com.tb.commpt.utils.FileTool;
+import com.tb.commpt.utils.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,7 +69,7 @@ public class SystemContext {
         InputStream is = null;
         try {
             for (int i = 0; i < BOOTSTRAP.split(",").length; i++) {
-                URL url = FileTool.getFileURL(BOOTSTRAP.split(",")[i]);
+                URL url = FileUtil.getFileURL(BOOTSTRAP.split(",")[i]);
                 is = url.openStream();
                 props.load(is);
             }
