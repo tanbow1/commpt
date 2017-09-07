@@ -79,6 +79,10 @@ public class CommViewController {
         // return new ModelAndView("index",modelMap);
 
         mv.addObject("data2", "谈波");
+
+
+
+
         return mv;
     }
 

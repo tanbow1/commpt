@@ -1,7 +1,9 @@
 package com.tb.commpt.service.impl;
 
 import com.tb.commpt.mapper.DmAccountMapper;
+import com.tb.commpt.mapper.DmMenuMapper;
 import com.tb.commpt.model.DmAccount;
+import com.tb.commpt.model.DmMenu;
 import com.tb.commpt.service.BaseService;
 import com.tb.commpt.service.IDmService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,19 @@ import java.util.List;
 /**
  * Created by Tanbo on 2017/8/27.
  */
+
+/***
+ *
+ */
 @WebService
 @Service("dmService")
 public class DmServiceImpl implements IDmService {
 
     @Resource
     private DmAccountMapper dmAccountMapper;
+
+    @Resource
+    private DmMenuMapper dmMenuMapper;
 
     @WebMethod
     @Override
@@ -44,5 +53,10 @@ public class DmServiceImpl implements IDmService {
     @Override
     public int saveDmAccount(DmAccount record) {
         return dmAccountMapper.insert(record);
+    }
+
+    @Override
+    public List<DmMenu> selectMenuByPId(String pId) {
+        return null;
     }
 }

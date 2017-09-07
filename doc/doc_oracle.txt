@@ -25,3 +25,11 @@ db_xt.LOGBACK_EVENT_EXCEPTION --logback日志记录表
 db_xt.LOGBACK_EVENT_PROPERTY --logback日志记录表
 db_xt.T_XT_*
 db_dm.T_DM_*
+db_comm.T_PROCUCT_*
+db_comm.T_STORE_*
+
+users:
+C##DB_XT
+C##DB_DM
+C##DB_COMM
+

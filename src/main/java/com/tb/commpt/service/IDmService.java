@@ -1,6 +1,7 @@
 package com.tb.commpt.service;
 
 import com.tb.commpt.model.DmAccount;
+import com.tb.commpt.model.DmMenu;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public interface IDmService {
     int deleteDmAccountByPrimaryKey(String accountType);
 
     int saveDmAccount(DmAccount record);
+
+    List<DmMenu> selectMenuByPId(String pId);
 
 
 }
