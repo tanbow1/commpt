@@ -1,5 +1,7 @@
 package com.tb.commpt.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tb.commpt.constant.ConsCommon;
 import com.tb.commpt.exception.BizLevelException;
 import com.tb.commpt.exception.SystemLevelException;
@@ -8,6 +10,7 @@ import com.tb.commpt.model.JsonResponse;
 import com.tb.commpt.model.XtJwt;
 import com.tb.commpt.model.XtUser;
 import com.tb.commpt.service.IAuthService;
+import com.tb.commpt.service.IDmService;
 import com.tb.commpt.service.IUserService;
 import com.tb.commpt.utils.JwtUtil;
 import org.slf4j.Logger;
@@ -23,7 +26,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +44,9 @@ public class CommViewController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IDmService dmService;
 
     @RequestMapping("/tologin")
     public ModelAndView login() {
@@ -81,8 +89,6 @@ public class CommViewController {
         mv.addObject("data2", "谈波");
 
 
-
-
         return mv;
     }
 
@@ -114,8 +120,15 @@ public class CommViewController {
         return jsonResponse;
     }
 
+    @ResponseBody
+    @RequestMapping("/getMaintree")
+    public List getMaintree() {
+        return dmService.mainMenus();
+    }
+
     @RequestMapping("/error")
     public ModelAndView error() throws BizLevelException {
         return new ModelAndView("common/error");
     }
+
 }

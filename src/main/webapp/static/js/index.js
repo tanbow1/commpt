@@ -1,3 +1,10 @@
+$(function () {
+    $("#mainmenutree").tree({
+        url: '/comm/getMaintree'
+    });
+})
+
+
 function logout() {
     window.location.href = '/comm/tologin';
 }

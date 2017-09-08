@@ -4,10 +4,12 @@ import com.tb.commpt.model.DmAccount;
 import com.tb.commpt.model.DmMenu;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface IDmService {
 
+    //dmAccount
     List<DmAccount> selectAllDmAccount();
 
     DmAccount selectDmAccountByPrimaryKey(String accountType);
@@ -16,7 +18,8 @@ public interface IDmService {
 
     int saveDmAccount(DmAccount record);
 
-    List<DmMenu> selectMenuByPId(String pId);
+    //dmMenu
+    List<DmMenu> selectMenuByPId(String parentId);
 
-
+    List<Map<String, Object>> mainMenus();
 }

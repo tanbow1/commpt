@@ -13,6 +13,26 @@ public class DmMenu extends BaseModel {
 
     private String openType;
 
+    private String state;
+
+    private String haschildren;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getHaschildren() {
+        return haschildren;
+    }
+
+    public void setHaschildren(String haschildren) {
+        this.haschildren = haschildren;
+    }
+
     public String getMenuId() {
         return menuId;
     }
