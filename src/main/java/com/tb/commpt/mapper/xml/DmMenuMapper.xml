@@ -10,9 +10,10 @@
         <result column="OPEN_TYPE" jdbcType="CHAR" property="openType"/>
         <result column="STATE" jdbcType="CHAR" property="state"/>
         <result column="HASCHILDREN" jdbcType="CHAR" property="haschildren"/>
+        <result column="READONLY" jdbcType="CHAR" property="readonly"/>
     </resultMap>
     <sql id="Base_Column_List">
-    MENU_ID, PARENT_ID, MENU_NAME, URL, YXBJ, OPEN_TYPE,STATE,HASCHILDREN
+    MENU_ID, PARENT_ID, MENU_NAME, URL, YXBJ, OPEN_TYPE,STATE,HASCHILDREN,READONLY
   </sql>
     <insert id="insertSelective" parameterType="com.tb.commpt.model.DmMenu">
         insert into T_DM_MENU

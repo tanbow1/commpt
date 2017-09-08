@@ -123,7 +123,7 @@ public class CommViewController {
     @ResponseBody
     @RequestMapping("/getMaintree")
     public List getMaintree() {
-        return dmService.mainMenus();
+        return dmService.getMenuTree("1");
     }
 
     @RequestMapping("/error")

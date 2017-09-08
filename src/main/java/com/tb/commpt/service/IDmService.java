@@ -21,5 +21,5 @@ public interface IDmService {
     //dmMenu
     List<DmMenu> selectMenuByPId(String parentId);
 
-    List<Map<String, Object>> mainMenus();
+    List<Map<String, Object>> getMenuTree(String parentId);
 }

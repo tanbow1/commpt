@@ -58,15 +58,22 @@ public class DmServiceImpl implements IDmService {
         return dmMenuMapper.selectMenuByPId(parentId);
     }
 
-    //所有功能菜单
+    /**
+     * 根据父节点获取菜单树
+     */
     @Override
-    public List<Map<String, Object>> mainMenus() {
+    public List<Map<String, Object>> getMenuTree(String parentId) {
         List<Map<String, Object>> dataList = new ArrayList<>();
-        getGns(dataList, "1");
-        getGns(dataList, "2");
+        getGns(dataList, parentId);
         return dataList;
     }
 
+    /**
+     * 根据父节点迭代菜单树
+     *
+     * @param dataList
+     * @param parentId
+     */
     private void getGns(List<Map<String, Object>> dataList,
                         String parentId) {
         List<DmMenu> menuList = dmMenuMapper.selectMenuByPId(parentId);
@@ -81,6 +88,7 @@ public class DmServiceImpl implements IDmService {
             map.put("id", menu.getMenuId());
             map.put("text", menu.getMenuName());
             map.put("openType", menu.getOpenType());
+            map.put("readonly", menu.getReadonly());
             if (!StringUtils.isEmptyOrWhitespace(menu.getUrl())) {
                 map.put("url", menu.getUrl());
             } else {

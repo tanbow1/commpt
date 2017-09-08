@@ -17,6 +17,16 @@ public class DmMenu extends BaseModel {
 
     private String haschildren;
 
+    private String readonly;
+
+    public String getReadonly() {
+        return readonly;
+    }
+
+    public void setReadonly(String readonly) {
+        this.readonly = readonly;
+    }
+
     public String getState() {
         return state;
     }
