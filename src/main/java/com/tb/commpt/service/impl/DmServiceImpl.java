@@ -58,26 +58,25 @@ public class DmServiceImpl implements IDmService {
         return dmMenuMapper.selectMenuByPId(parentId);
     }
 
+    //所有功能菜单
     @Override
     public List<Map<String, Object>> mainMenus() {
         List<Map<String, Object>> dataList = new ArrayList<>();
         getGns(dataList, "1");
-
-        return null;
+        getGns(dataList, "2");
+        return dataList;
     }
 
     private void getGns(List<Map<String, Object>> dataList,
                         String parentId) {
-
-        List<DmMenu> menuList = selectMenuByPId(parentId);
+        List<DmMenu> menuList = dmMenuMapper.selectMenuByPId(parentId);
         DmMenu menu = null;
         Map<String, Object> map = null;
 
         Iterator menuIterator = menuList.iterator();
-
         while (menuIterator.hasNext()) {
-            menu = (DmMenu) menuIterator.next();
             map = new ConcurrentHashMap<String, Object>();
+            menu = (DmMenu) menuIterator.next();
             dataList.add(map);
             map.put("id", menu.getMenuId());
             map.put("text", menu.getMenuName());
@@ -93,7 +92,7 @@ public class DmServiceImpl implements IDmService {
                 }
                 List<Map<String, Object>> childrenList = new ArrayList<Map<String, Object>>();
                 map.put("children", childrenList);
-                getGns(childrenList, menu.getParentId());
+                getGns(childrenList, menu.getMenuId());
             }
         }
     }
