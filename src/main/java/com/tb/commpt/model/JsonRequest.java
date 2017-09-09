@@ -9,9 +9,25 @@ import java.util.concurrent.ConcurrentHashMap;
 public class JsonRequest extends BaseModel {
     private Map<String, Object> reqData = new ConcurrentHashMap<String, Object>();
 
-    private String handleCode;
-
     private String serviceName;
+
+    private String methodName;
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
+    }
 
     private String accessToken;
 
@@ -41,19 +57,5 @@ public class JsonRequest extends BaseModel {
         this.reqData = reqData;
     }
 
-    public String getHandleCode() {
-        return handleCode;
-    }
 
-    public void setHandleCode(String handleCode) {
-        this.handleCode = handleCode;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
 }

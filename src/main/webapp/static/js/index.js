@@ -1,12 +1,24 @@
 $(function () {
+
+    easyuiTabOption.addPanel('mainpage', {
+        text: "首页",
+        openType: "1",
+        url: "/templates/html/fragment/gjdq.html"
+    });
+
     $("#mainmenutree").tree({
-        url: '/comm/getMaintree'
+        url: '/comm/getMaintree',
+        onClick: function (node) {
+            $(this).tree('toggle', node.target);//点击菜单任意位置展开
+
+            easyuiTabOption.addPanel('mainpage', node);
+        }
     });
 })
 
 
 function logout() {
-    window.location.href = '/comm/tologin';
+    window.location.href = '/comm/toPage/login';
 }
 
 function refreshToken() {
@@ -28,35 +40,6 @@ function refreshToken() {
                 $.cookie(SYS_PREFIX + 'ACCESS_TOKEN', responseText.repData.resultData.accessToken);
                 $.cookie(SYS_PREFIX + 'REFRESH_TOKEN', responseText.repData.resultData.refreshToken);
 
-                console.log(responseText);
-            } else {
-                $("#tipMsg").text(responseText.msg);
-            }
-        }
-
-
-    });
-}
-
-function checkToken() {
-    $.ajax({
-        url: "/comm/checkToken",
-        data: {
-            accessToken: $.cookie(SYS_PREFIX + 'ACCESS_TOKEN'),
-            refreshToken: $.cookie(SYS_PREFIX + 'REFRESH_TOKEN')
-        },
-        type: 'post',
-        timeout: SYS_TIMEOUT,
-        dataType: 'json',
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(textStatus);
-        },
-        success: function (responseText, textStatus, XMLHttpRequest) {
-
-            console.log(responseText);
-
-            if (checkResponseText(responseText)) {
-                console.log(responseText);
             } else {
                 $("#tipMsg").text(responseText.msg);
             }

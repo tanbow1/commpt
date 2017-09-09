@@ -104,4 +104,10 @@ public class DmServiceImpl implements IDmService {
             }
         }
     }
+
+
+    public String test() {
+        System.out.println("=====================test测试=====================");
+        return "弹拨test";
+    }
 }

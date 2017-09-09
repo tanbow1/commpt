@@ -13,23 +13,20 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SystemContext {
+    private static final Logger logger = LoggerFactory.getLogger(SystemContext.class);
 
     private static boolean initialized = false;
-    //配置文件
+
     private static Map contextPool = null;
-    //代码表
-    private static Map dmbTablePool = null;
 
     private static SystemContext systemContext = null;
+
     private static final String BOOTSTRAP = "config/config.properties";
 
-
-    private static final Logger logger = LoggerFactory.getLogger(SystemContext.class);
 
     private SystemContext() {
 
     }
-
 
     public static void reload() {
         systemContext = new SystemContext();
@@ -152,14 +149,14 @@ public class SystemContext {
 
     public Object getValue(String pkID, String skID) {
         Object obj = contextPool.get(pkID);
-        if (obj == null) {
+        if (null == obj) {
             logger.error(
-                    "找不到配置项：" + pkID + "　，请检查配置文件：" + "ctp_bootstrap.properties");
+                    "找不到配置项：" + pkID + "　，请检查配置文件：" + BOOTSTRAP);
             return null;
         }
         if (!(obj instanceof IConfigContext)) {
             logger.error(
-                    "配置项：" + pkID + "　没有加载或加载错误，请检查配置文件：" + "ctp_bootstrap.properties");
+                    "配置项：" + pkID + "　没有加载或加载错误，请检查配置文件：" + BOOTSTRAP);
             return null;
         }
         IConfigContext configContext = (IConfigContext) obj;

@@ -1,33 +1,31 @@
 package com.tb.commpt.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tb.commpt.constant.ConsCommon;
 import com.tb.commpt.exception.BizLevelException;
 import com.tb.commpt.exception.SystemLevelException;
 import com.tb.commpt.model.JsonRequest;
 import com.tb.commpt.model.JsonResponse;
-import com.tb.commpt.model.XtJwt;
 import com.tb.commpt.model.XtUser;
 import com.tb.commpt.service.IAuthService;
 import com.tb.commpt.service.IDmService;
 import com.tb.commpt.service.IUserService;
-import com.tb.commpt.utils.JwtUtil;
+import com.tb.commpt.global.SpringContext;
+import com.tb.commpt.service.impl.DmServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -36,8 +34,8 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/comm")
-public class CommViewController {
-    private static Logger logger = LoggerFactory.getLogger(CommViewController.class);
+public class CommController {
+    private static Logger logger = LoggerFactory.getLogger(CommController.class);
 
     @Autowired
     private IAuthService authService;
@@ -48,14 +46,20 @@ public class CommViewController {
     @Autowired
     private IDmService dmService;
 
-    @RequestMapping("/tologin")
-    public ModelAndView login() {
-        return new ModelAndView("login");
+    @RequestMapping("/toPage/{page}")
+    public ModelAndView toPage(@PathVariable String page) {
+        return new ModelAndView(page);
     }
+
+    @RequestMapping("/error")
+    public ModelAndView error() throws BizLevelException {
+        return new ModelAndView("common/error");
+    }
+
 
     @ResponseBody
     @RequestMapping("/login")
-    public JsonResponse login(@ModelAttribute JsonRequest jsonRequest, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+    public JsonResponse login(@ModelAttribute JsonRequest jsonRequest) throws Exception {
         JsonResponse jsonResponse = new JsonResponse();
 
         XtUser user = userService.selectByUsernameAndPassword(String.valueOf(jsonRequest.getReqData().get("username")),
@@ -77,19 +81,6 @@ public class CommViewController {
         }
 
         return jsonResponse;
-    }
-
-    @RequestMapping("/index")
-    public ModelAndView index() throws UnsupportedEncodingException, NoSuchAlgorithmException, BizLevelException {
-        Map<String, Object> modelMap = new HashMap<>();
-        modelMap.put("data", "hahahhh弹拨");
-        ModelAndView mv = new ModelAndView("index");
-        // return new ModelAndView("index",modelMap);
-
-        mv.addObject("data2", "谈波");
-
-
-        return mv;
     }
 
     @ResponseBody
@@ -126,9 +117,26 @@ public class CommViewController {
         return dmService.getMenuTree("1");
     }
 
-    @RequestMapping("/error")
-    public ModelAndView error() throws BizLevelException {
-        return new ModelAndView("common/error");
+    @ResponseBody
+    @RequestMapping("/getJsonData")
+    public JsonResponse getData(@ModelAttribute JsonRequest jsonRequest,
+                                HttpServletRequest httpServletRequest,
+                                HttpServletResponse httpServletResponse) throws IllegalAccessException, InstantiationException, InvocationTargetException {
+        JsonResponse jsonResponse = new JsonResponse();
+        String serviceName = jsonRequest.getServiceName();
+        String methodName = jsonRequest.getMethodName();
+
+        Object service = SpringContext.getBean(serviceName);
+        Class clazz = service.getClass();
+        Method[] methods = clazz.getMethods();
+        for (int i = 0; i < methods.length; i++) {
+            if (methodName.equals(methods[i].getName())) {
+                methods[i].invoke(clazz.newInstance());
+                break;
+            }
+        }
+
+        return jsonResponse;
     }
 
 }

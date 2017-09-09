@@ -2,6 +2,9 @@ html {
     min-width: 1024px !important;
 }
 
+/**
+login.html
+ */
 .login__wrap {
     max-width: 350px;
     margin: 200px auto 0;
@@ -31,3 +34,13 @@ html {
     font-size: 12px;
 }
 
+/**
+index.html - easyui tabs
+ */
+#mainpage .tabs .tabs-p-tool a {
+    opacity: 1;
+}
+
+#mainpage .tabs li a.tabs-close{
+    opacity: 1;
+}
