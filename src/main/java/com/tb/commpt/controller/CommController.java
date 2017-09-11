@@ -133,7 +133,7 @@ public class CommController {
         String refreshToken = jsonRequest.getRefreshToken();
         Map<String, String> resultMap = authService.checkToken(accessToken, refreshToken);
         if (null == resultMap) {
-            throw new BizLevelException(ConsCommon.WARN_MSG_006 + ":请重新登录");
+            throw new BizLevelException(ConsCommon.WARN_MSG_006);
         }
         jsonResponse.getRepData().put("resultData", resultMap);
         return jsonResponse;
@@ -153,7 +153,7 @@ public class CommController {
     /**
      * 统一ajax调用
      * <p>
-     * 目前支持的参数类型：int boolean string
+     * 目前支持的method参数类型：int boolean string
      *
      * @param jsonRequest
      * @param httpServletRequest
@@ -163,9 +163,9 @@ public class CommController {
      */
     @ResponseBody
     @RequestMapping("/getJsonData")
-    public JsonResponse getData(@ModelAttribute JsonRequest jsonRequest,
-                                HttpServletRequest httpServletRequest,
-                                HttpServletResponse httpServletResponse) throws BizLevelException {
+    public JsonResponse getJsonData(@ModelAttribute JsonRequest jsonRequest,
+                                    HttpServletRequest httpServletRequest,
+                                    HttpServletResponse httpServletResponse) throws BizLevelException {
         JsonResponse jsonResponse = new JsonResponse();
         String serviceName = jsonRequest.getServiceName();
         String methodName = jsonRequest.getMethodName();
@@ -201,7 +201,6 @@ public class CommController {
 
             Method method = serviceBean.getClass().getMethod(methodName, paramClasses);
             jsonResponse = (JsonResponse) method.invoke(serviceBean, paramValues);
-            //!方法invoke(clazz.newInstance())无法在service中注入;
 
         } catch (NoSuchMethodException e) {
             logger.error(e.getMessage());
@@ -232,4 +231,55 @@ public class CommController {
         return jsonResponse;
     }
 
+
+    /**
+     * 统一ajax调用
+     * <p>
+     * 默认service入参：JsonRequest，出参：JsonResponse
+     *
+     * @param jsonRequest
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @return
+     * @throws BizLevelException
+     */
+    @ResponseBody
+    @RequestMapping("/getJsonData2")
+    public JsonResponse getJsonData2(@ModelAttribute JsonRequest jsonRequest,
+                                     HttpServletRequest httpServletRequest,
+                                     HttpServletResponse httpServletResponse) throws BizLevelException {
+        JsonResponse jsonResponse = new JsonResponse();
+        String serviceName = jsonRequest.getServiceName();
+        String methodName = jsonRequest.getMethodName();
+        Object serviceBean = SpringContext.getBean(serviceName);
+        try {
+            Method method = serviceBean.getClass().getMethod(methodName, JsonRequest.class);
+            jsonResponse = (JsonResponse) method.invoke(serviceBean, jsonRequest);
+        } catch (NoSuchMethodException e) {
+            logger.error(e.getMessage());
+            jsonResponse.setCode(ConsCommon.WARN_CODE_008);
+            jsonResponse.setMsg(ConsCommon.WARN_MSG_008);
+        } catch (IllegalAccessException e) {
+            logger.error(e.getMessage());
+            jsonResponse.setCode(ConsCommon.WARN_CODE_009);
+            jsonResponse.setMsg(ConsCommon.WARN_MSG_009);
+        } catch (InvocationTargetException e) {
+            logger.error(e.getMessage());
+            jsonResponse.setCode(ConsCommon.WARN_CODE_011);
+            jsonResponse.setMsg(ConsCommon.WARN_MSG_011);
+        } catch (ClassCastException e) {
+            logger.error(e.getMessage());
+            jsonResponse.setCode(ConsCommon.WARN_CODE_012);
+            jsonResponse.setMsg(ConsCommon.WARN_MSG_012);
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
+            jsonResponse.setCode(ConsCommon.WARN_CODE_014);
+            jsonResponse.setMsg(ConsCommon.WARN_MSG_014);
+        }
+
+        return jsonResponse;
+    }
+
+
 }
+
