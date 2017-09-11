@@ -16,6 +16,7 @@ import org.thymeleaf.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Tanbo on 2017/9/4.
@@ -39,7 +40,7 @@ public class AuthServiceImpl implements IAuthService {
      */
     @Override
     @Transactional(rollbackFor = {BizLevelException.class, SystemLevelException.class})
-    public Map<String, String> saveJwt(String userId) throws Exception {
+    public ConcurrentHashMap<String, String> saveJwt(String userId) throws Exception {
         xtJwtMapper.deleteByUserId(userId);
         String subject = JwtUtil.generalSubject(userId);
         String accessToken = jwt.createJWT(ConsCommon.JWT_ID, subject, ConsCommon.JWT_TTL);
@@ -49,7 +50,7 @@ public class AuthServiceImpl implements IAuthService {
         xtJwt.setAccessToken(accessToken);
         xtJwt.setRefreshToken(refreshToken);
         int insertCount = xtJwtMapper.insert2(xtJwt);
-        Map<String, String> resultMap = new HashMap<String, String>();
+        ConcurrentHashMap<String, String> resultMap = new ConcurrentHashMap<String, String>();
         resultMap.put("insertCount", String.valueOf(insertCount));
         resultMap.put("userId", userId);
         resultMap.put("accessToken", accessToken);
@@ -67,7 +68,7 @@ public class AuthServiceImpl implements IAuthService {
      */
     @Override
     @Transactional(rollbackFor = {BizLevelException.class, SystemLevelException.class})
-    public Map<String, String> refreshToken(String accessToken, String refreshToken) throws Exception {
+    public ConcurrentHashMap<String, String> refreshToken(String accessToken, String refreshToken) throws Exception {
         if (StringUtils.isEmptyOrWhitespace(accessToken)) {
             throw new BizLevelException(ConsCommon.WARN_MSG_004);
         }
@@ -91,7 +92,7 @@ public class AuthServiceImpl implements IAuthService {
      * ACCESS_TOKEN_TIMEOUT, REFRESH_TOKEN_TIMEOUT, NEED_REFRESH]
      */
     @Override
-    public Map<String, String> selectByAccessToken(String accessToken) {
+    public ConcurrentHashMap<String, String> selectByAccessToken(String accessToken) {
         return xtJwtMapper.selectByAccessToken(accessToken);
     }
 
@@ -104,10 +105,10 @@ public class AuthServiceImpl implements IAuthService {
      * 可选insertCount，token更新时返回
      */
     @Override
-    public Map<String, String> checkToken(String accessToken, String refreshToken) throws Exception {
+    public ConcurrentHashMap<String, String> checkToken(String accessToken, String refreshToken) throws Exception {
         Map<String, String> tokenMap = selectByAccessToken(accessToken);
         if (null != tokenMap) {
-            Map<String, String> resultMap = new HashMap<String, String>();
+            ConcurrentHashMap<String, String> resultMap = new ConcurrentHashMap<String, String>();
             if ("N".equals(tokenMap.get("ACCESS_TOKEN_TIMEOUT"))) {
                 //accessToken未失效
 

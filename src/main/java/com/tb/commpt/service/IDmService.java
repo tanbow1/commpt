@@ -6,6 +6,7 @@ import com.tb.commpt.model.JsonResponse;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public interface IDmService {
@@ -22,7 +23,7 @@ public interface IDmService {
     //dmMenu
     List<DmMenu> selectMenuByPId(String parentId);
 
-    List<Map<String, Object>> getMenuTree(String parentId);
+    List<ConcurrentHashMap<String, Object>> getMenuTree(String parentId);
 
     //dmGjdq
     JsonResponse getGjdqListPagination(int pageStart, int pageEnd);

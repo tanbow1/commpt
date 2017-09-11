@@ -39,7 +39,7 @@ function initGjdqTable() {
                     rownumbers: true,
                     pagination: true,
                     multiSort: true,
-                    singleSelect: true,
+                    singleSelect: false,
                     sortName: 'gjdqId',
                     sortOrder: 'desc',
                     onClickCell: onClickCell,
@@ -148,6 +148,7 @@ function onClickRow(index) {
     }
 }
 function onAfterEdit(index, row, changes) {
+    console.log('结束编辑');
     console.log(row);
     console.log(changes);
 }
@@ -157,8 +158,8 @@ function saveEdit() {
     if (endEditing()) {
         $('#tb_gjdq').datagrid('acceptChanges');
     }
-    var row = $('#tb_gjdq').datagrid('selectRow', editIndex);
-    console.log(row);
+    console.log("保存");
+    console.log($('#tb_gjdq').datagrid('getSelections'));
 }
 function rejectEdit() {
     $('#tb_gjdq').datagrid('rejectChanges');
@@ -173,10 +174,10 @@ function addRecord() {
     }
 }
 function removeRecord() {
+    console.log('移除');
     console.log($('#tb_gjdq').datagrid('getSelections'));
 }
 function onClickCell(index, field) {
-    debugger
     if (editIndex != index) {
         if (endEditing()) {
             $('#tb_gjdq').datagrid('selectRow', index)

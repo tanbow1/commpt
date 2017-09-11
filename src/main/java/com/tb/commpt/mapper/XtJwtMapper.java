@@ -6,6 +6,7 @@ import com.tb.commpt.model.XtJwtKey;
 import org.apache.ibatis.annotations.*;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @MyBatisRepository
 public interface XtJwtMapper {
@@ -59,7 +60,7 @@ public interface XtJwtMapper {
 
     int insert2(XtJwt xtJwt);
 
-    Map<String, String> selectByAccessToken(String accessToken);
+    ConcurrentHashMap<String, String> selectByAccessToken(String accessToken);
 
     String selectByRefreshToken(@Param("accessToken") String accessToken, @Param("refreshToken") String refreshToken);
 }

@@ -201,7 +201,7 @@ public class CommController {
 
             Method method = serviceBean.getClass().getMethod(methodName, paramClasses);
             jsonResponse = (JsonResponse) method.invoke(serviceBean, paramValues);
-            //!方法invoke(clazz.newInstance())无法在service中注入其他;
+            //!方法invoke(clazz.newInstance())无法在service中注入;
 
         } catch (NoSuchMethodException e) {
             logger.error(e.getMessage());

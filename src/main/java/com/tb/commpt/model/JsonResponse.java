@@ -15,7 +15,7 @@ public class JsonResponse extends BaseModel {
         this.code = code;
     }
 
-    public JsonResponse(String msg, String code, Map<String, Object> repData) {
+    public JsonResponse(String msg, String code, ConcurrentHashMap<String, Object> repData) {
         this.msg = msg;
         this.code = code;
         this.repData = repData;
@@ -23,7 +23,7 @@ public class JsonResponse extends BaseModel {
 
     private String msg = ConsCommon.SUCCESS_MSG;
     private String code = ConsCommon.SUCCESS_CODE;
-    private Map<String, Object> repData = new ConcurrentHashMap<String, Object>();
+    private ConcurrentHashMap<String, Object> repData = new ConcurrentHashMap<String, Object>();
 
     public String getMsg() {
         return msg;
@@ -46,7 +46,7 @@ public class JsonResponse extends BaseModel {
         return repData;
     }
 
-    public void setRepData(Map<String, Object> repData) {
+    public void setRepData(ConcurrentHashMap<String, Object> repData) {
         this.repData = repData;
     }
 }

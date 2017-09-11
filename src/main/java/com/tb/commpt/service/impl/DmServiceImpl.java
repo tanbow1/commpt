@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
-import javax.annotation.Resource;
 import javax.jws.WebMethod;
+import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /***
  *
  */
+@WebService
 @Service("dmService")
 public class DmServiceImpl implements IDmService {
 
@@ -68,8 +69,8 @@ public class DmServiceImpl implements IDmService {
      * 根据父节点获取菜单树
      */
     @Override
-    public List<Map<String, Object>> getMenuTree(String parentId) {
-        List<Map<String, Object>> dataList = new ArrayList<>();
+    public List<ConcurrentHashMap<String, Object>> getMenuTree(String parentId) {
+        List<ConcurrentHashMap<String, Object>> dataList = new ArrayList<>();
         getGns(dataList, parentId);
         return dataList;
     }
@@ -80,11 +81,11 @@ public class DmServiceImpl implements IDmService {
      * @param dataList
      * @param parentId
      */
-    private void getGns(List<Map<String, Object>> dataList,
+    private void getGns(List<ConcurrentHashMap<String, Object>> dataList,
                         String parentId) {
         List<DmMenu> menuList = dmMenuMapper.selectMenuByPId(parentId);
         DmMenu menu = null;
-        Map<String, Object> map = null;
+        ConcurrentHashMap<String, Object> map = null;
 
         Iterator menuIterator = menuList.iterator();
         while (menuIterator.hasNext()) {
@@ -104,7 +105,7 @@ public class DmServiceImpl implements IDmService {
                 if ("0".equals(menu.getState())) {
                     map.put("state", "closed");
                 }
-                List<Map<String, Object>> childrenList = new ArrayList<Map<String, Object>>();
+                List<ConcurrentHashMap<String, Object>> childrenList = new ArrayList<ConcurrentHashMap<String, Object>>();
                 map.put("children", childrenList);
                 getGns(childrenList, menu.getMenuId());
             }
@@ -119,6 +120,7 @@ public class DmServiceImpl implements IDmService {
      * @param pageEnd
      * @return
      */
+    @WebMethod
     @Override
     public JsonResponse getGjdqListPagination(int pageStart, int pageEnd) {
         JsonResponse jsonResponse = new JsonResponse();
