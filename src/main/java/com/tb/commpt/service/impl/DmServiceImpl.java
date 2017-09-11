@@ -1,5 +1,6 @@
 package com.tb.commpt.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tb.commpt.mapper.DmAccountMapper;
 import com.tb.commpt.mapper.DmGjdqMapper;
 import com.tb.commpt.mapper.DmMenuMapper;
@@ -11,6 +12,7 @@ import org.thymeleaf.util.StringUtils;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -127,12 +129,15 @@ public class DmServiceImpl implements IDmService {
     }
 
     @Override
-    public JsonResponse deleteBatch(JsonRequest jsonRequest) {
+    public JsonResponse deleteBatch(JsonRequest jsonRequest) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List list = objectMapper.readValue(String.valueOf(jsonRequest.getReqData().get("records")),List.class);
         return null;
     }
 
     @Override
     public JsonResponse addBatch(JsonRequest jsonRequest) {
+
         return null;
     }
 }

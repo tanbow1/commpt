@@ -5,6 +5,7 @@ import com.tb.commpt.model.DmMenu;
 import com.tb.commpt.model.JsonRequest;
 import com.tb.commpt.model.JsonResponse;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,7 +30,7 @@ public interface IDmService {
     //dmGjdq
     JsonResponse getGjdqListPagination(int pageStart, int pageEnd);
 
-    JsonResponse deleteBatch(JsonRequest jsonRequest);
+    JsonResponse deleteBatch(JsonRequest jsonRequest) throws IOException;
 
     JsonResponse addBatch(JsonRequest jsonRequest);
 }

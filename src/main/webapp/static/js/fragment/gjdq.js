@@ -176,7 +176,11 @@ function addRecord() {
 function removeRecord() {
     var removeRecords = $('#tb_gjdq').datagrid('getSelections');
     if (removeRecords.length > 0) {
-        commonAjax('/comm/getJsonData2', 'dmService', 'deleteBatch', {"records": removeRecords});
+        commonAjax('/comm/getJsonData2', 'dmService', 'deleteBatch', {records: JSON.stringify(removeRecords)}).then(function (resultData) {
+            console.log(resultData);
+        }, function (textStatus) {
+            console.log(textStatus + ':ajax请求失败');
+        });
     }
 }
 function onClickCell(index, field) {

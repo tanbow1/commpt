@@ -232,10 +232,10 @@ function commonAjax(requestUrl, serviceName, methodName, dataObj, methodParamsAr
         data: {
             accessToken: $.cookie(SYS_PREFIX + 'ACCESS_TOKEN'),
             refreshToken: $.cookie(SYS_PREFIX + 'REFRESH_TOKEN'),
-            reqData: dataObj,
             serviceName: serviceName,
             methodName: methodName,
-            methodParams: methodParamsArr
+            methodParams: methodParamsArr,
+            reqData: dataObj
         },
         type: "post",
         timeout: SYS_TIMEOUT,
