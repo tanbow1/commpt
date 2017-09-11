@@ -16,7 +16,7 @@ public class JsonRequest extends BaseModel {
     private String refreshToken;
 
     //请求具体参数
-    private Map<String, Object> reqData = new ConcurrentHashMap<String, Object>();
+    private ConcurrentHashMap<String, Object> reqData = new ConcurrentHashMap<String, Object>();
 
     //服务名
     private String serviceName;
@@ -26,13 +26,13 @@ public class JsonRequest extends BaseModel {
 
 
     //方法中参数（索引index 类型type 值value）,用于确定同名方法不同参数,index从1开始
-    private List<Map<String, Object>> methodParams = new ArrayList<Map<String, Object>>();
+    private List<ConcurrentHashMap<String, Object>> methodParams = new ArrayList<ConcurrentHashMap<String, Object>>();
 
-    public List<Map<String, Object>> getMethodParams() {
+    public List<ConcurrentHashMap<String, Object>> getMethodParams() {
         return methodParams;
     }
 
-    public void setMethodParams(List<Map<String, Object>> methodParams) {
+    public void setMethodParams(List<ConcurrentHashMap<String, Object>> methodParams) {
         this.methodParams = methodParams;
     }
 
@@ -68,11 +68,11 @@ public class JsonRequest extends BaseModel {
         this.refreshToken = refreshToken;
     }
 
-    public Map<String, Object> getReqData() {
+    public ConcurrentHashMap<String, Object> getReqData() {
         return reqData;
     }
 
-    public void setReqData(Map<String, Object> reqData) {
+    public void setReqData(ConcurrentHashMap<String, Object> reqData) {
         this.reqData = reqData;
     }
 

@@ -19,16 +19,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Tanbo on 2017/8/22.
@@ -169,7 +168,7 @@ public class CommController {
         JsonResponse jsonResponse = new JsonResponse();
         String serviceName = jsonRequest.getServiceName();
         String methodName = jsonRequest.getMethodName();
-        List<Map<String, Object>> methodParams = jsonRequest.getMethodParams();
+        List<ConcurrentHashMap<String, Object>> methodParams = jsonRequest.getMethodParams();
 
         Object serviceBean = SpringContext.getBean(serviceName);
         try {

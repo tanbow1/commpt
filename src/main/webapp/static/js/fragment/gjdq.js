@@ -174,8 +174,10 @@ function addRecord() {
     }
 }
 function removeRecord() {
-    console.log('移除');
-    console.log($('#tb_gjdq').datagrid('getSelections'));
+    var removeRecords = $('#tb_gjdq').datagrid('getSelections');
+    if (removeRecords.length > 0) {
+        commonAjax('/comm/getJsonData2', 'dmService', 'deleteBatch', {"records": removeRecords});
+    }
 }
 function onClickCell(index, field) {
     if (editIndex != index) {

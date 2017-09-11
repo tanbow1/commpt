@@ -3,10 +3,7 @@ package com.tb.commpt.service.impl;
 import com.tb.commpt.mapper.DmAccountMapper;
 import com.tb.commpt.mapper.DmGjdqMapper;
 import com.tb.commpt.mapper.DmMenuMapper;
-import com.tb.commpt.model.DmAccount;
-import com.tb.commpt.model.DmGjdq;
-import com.tb.commpt.model.DmMenu;
-import com.tb.commpt.model.JsonResponse;
+import com.tb.commpt.model.*;
 import com.tb.commpt.service.IDmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,7 +73,7 @@ public class DmServiceImpl implements IDmService {
     }
 
     /**
-     * 根据父节点迭代菜单树
+     * 迭代菜单树
      *
      * @param dataList
      * @param parentId
@@ -120,7 +117,6 @@ public class DmServiceImpl implements IDmService {
      * @param pageEnd
      * @return
      */
-    @WebMethod
     @Override
     public JsonResponse getGjdqListPagination(int pageStart, int pageEnd) {
         JsonResponse jsonResponse = new JsonResponse();
@@ -128,5 +124,15 @@ public class DmServiceImpl implements IDmService {
         if (null != dmGjdqList)
             jsonResponse.getRepData().put("gjdqList", dmGjdqList);
         return jsonResponse;
+    }
+
+    @Override
+    public JsonResponse deleteBatch(JsonRequest jsonRequest) {
+        return null;
+    }
+
+    @Override
+    public JsonResponse addBatch(JsonRequest jsonRequest) {
+        return null;
     }
 }

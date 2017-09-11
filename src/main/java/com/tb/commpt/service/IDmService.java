@@ -2,6 +2,7 @@ package com.tb.commpt.service;
 
 import com.tb.commpt.model.DmAccount;
 import com.tb.commpt.model.DmMenu;
+import com.tb.commpt.model.JsonRequest;
 import com.tb.commpt.model.JsonResponse;
 
 import java.util.List;
@@ -27,4 +28,8 @@ public interface IDmService {
 
     //dmGjdq
     JsonResponse getGjdqListPagination(int pageStart, int pageEnd);
+
+    JsonResponse deleteBatch(JsonRequest jsonRequest);
+
+    JsonResponse addBatch(JsonRequest jsonRequest);
 }

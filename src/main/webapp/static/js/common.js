@@ -108,7 +108,7 @@ var easyuiTabOption = {
             }
 
             if ($('#' + tabId).tabs('tabs').length > 10) {
-                $.messager.alert(commomMessageTitle, '为提高系统可操作性，请先关闭部分选项卡!',
+                $.messager.alert(commomMessageTitle, '请先关闭部分选项卡!',
                     'warning');
                 return;
             }
@@ -219,18 +219,23 @@ function getUrlParamByKey(keyName) {
 /**
  * 通用 ajax
  * @param requestUrl
- * @param data
+ * @param dataObj
+ * @param serviceName service名
+ * @param methodName 方法名
+ * @param methodParamsArr method 入参数组
  * @returns {*}
- * @constructor
  */
-function GeneralAjax(requestUrl, data) {
+function commonAjax(requestUrl, serviceName, methodName, dataObj, methodParamsArr) {
     var deferred = $.Deferred();
     $.ajax({
         url: requestUrl,
         data: {
             accessToken: $.cookie(SYS_PREFIX + 'ACCESS_TOKEN'),
             refreshToken: $.cookie(SYS_PREFIX + 'REFRESH_TOKEN'),
-            reqData: JSON.stringify(data)
+            reqData: dataObj,
+            serviceName: serviceName,
+            methodName: methodName,
+            methodParams: methodParamsArr
         },
         type: "post",
         timeout: SYS_TIMEOUT,
