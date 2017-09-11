@@ -5,6 +5,8 @@
 var SYS_TIMEOUT = 60000;
 var SYS_PREFIX = "COMMONPT_";
 var commomMessageTitle = "系统提示";
+var commomMessagePushTitle = "系统消息";
+var commonConfirmTitle = "确认提示";
 
 function checkResponseText(responseText) {
     try {
@@ -18,6 +20,17 @@ function checkResponseText(responseText) {
         return false;
     }
 }
+
+/*
+ * 检测对象是否是空对象(不包含任何可读属性)。
+ * 方法既检测对象本身的属性，也检测从原型继承的属性(没有使hasOwnProperty)。
+ */
+function isEmptyObject(obj) {
+    for (var name in obj) {
+        return false;
+    }
+    return true;
+};
 
 /**
  * 转大写
@@ -158,6 +171,62 @@ var easyuiTabOption = {
         });
     }
 
+}
+
+var easyMsg = {
+    toast: function (msg) {
+        $.messager.show({
+            title: commomMessageTitle,
+            msg: msg,
+            showType: 'show',
+            timeout: 2000,
+            style: {
+                right: '',
+                top: document.body.scrollTop + document.documentElement.scrollTop,
+                bottom: ''
+            }
+        });
+    },
+    push: function (msg) {
+        $.messager.show({
+            title: commomMessagePushTitle,
+            msg: msg,
+            showType: 'slide',
+            timeout: 0
+        });
+    },
+    progresson: function () {
+        $.messager.progress();
+    },
+    progressoff: function () {
+        $.messager.progress('close');
+    },
+    alert: function (msg, type, fn) {
+        if (type == undefined) {
+            type = 'info';
+        }
+        $.messager.alert(commomMessageTitle, msg, type, fn);
+    },
+    confirm: function (msg, ok, cancel) {
+        $.messager.confirm(commonConfirmTitle, msg, function (r) {
+            if (r) {
+                if (ok && typeof(ok) == 'function') {
+                    ok();
+                }
+            } else {
+                if (cancel && typeof(cancel) == 'function') {
+                    cancel();
+                }
+            }
+        });
+    },
+    prompt: function (msg) {
+        $.messager.prompt(commomMessageTitle, msg, function (r) {
+            if (r) {
+                return r;
+            }
+        });
+    }
 }
 
 

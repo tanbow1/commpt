@@ -30,7 +30,8 @@ public interface IDmService {
     //dmGjdq
     JsonResponse getGjdqListPagination(int pageStart, int pageEnd);
 
-    JsonResponse deleteBatch(JsonRequest jsonRequest) throws IOException;
+    JsonResponse deleteGjdqBatch(JsonRequest jsonRequest) throws IOException;
 
-    JsonResponse addBatch(JsonRequest jsonRequest);
+    JsonResponse addGjdqBatch(JsonRequest jsonRequest) throws IOException;
+
 }

@@ -39,6 +39,8 @@ public class DmServiceImpl implements IDmService {
     @Autowired
     private DmGjdqMapper dmGjdqMapper;
 
+    ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
     public List<DmAccount> selectAllDmAccount() {
         return dmAccountMapper.selectAll();
@@ -128,16 +130,31 @@ public class DmServiceImpl implements IDmService {
         return jsonResponse;
     }
 
+    /**
+     * 批量删除
+     *
+     * @param jsonRequest
+     * @return
+     * @throws IOException
+     */
     @Override
-    public JsonResponse deleteBatch(JsonRequest jsonRequest) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List list = objectMapper.readValue(String.valueOf(jsonRequest.getReqData().get("records")),List.class);
+    public JsonResponse deleteGjdqBatch(JsonRequest jsonRequest) throws IOException {
+        List<DmGjdq> list = objectMapper.readValue(String.valueOf(jsonRequest.getReqData().get("records")), List.class);
         return null;
     }
 
+    /**
+     * 批量新增/更新
+     *
+     * @param jsonRequest
+     * @return
+     * @throws IOException
+     */
     @Override
-    public JsonResponse addBatch(JsonRequest jsonRequest) {
-
+    public JsonResponse addGjdqBatch(JsonRequest jsonRequest) throws IOException {
+        List<DmGjdq> list = objectMapper.readValue(String.valueOf(jsonRequest.getReqData().get("records")), List.class);
+        System.out.println(list.get(0).getGjdqDhdm());
         return null;
     }
+
 }

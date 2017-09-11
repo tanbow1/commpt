@@ -71,7 +71,7 @@ public class ConsCommon {
     public static final String WARN_MSG_010 = "服务实例化失败，检查serviceName是否有误";
 
     public static final String WARN_CODE_011 = "W0011";
-    public static final String WARN_MSG_011 = "方法调用失败，检查具体方法体是否有误";
+    public static final String WARN_MSG_011 = "方法调用失败，检查方法体是否有误";
 
     public static final String WARN_CODE_012 = "W0012";
     public static final String WARN_MSG_012 = "方法调用成功，返回类型有误";

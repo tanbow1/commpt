@@ -39,12 +39,12 @@ function initGjdqTable() {
                     rownumbers: true,
                     pagination: true,
                     multiSort: true,
-                    singleSelect: false,
-                    sortName: 'gjdqId',
-                    sortOrder: 'desc',
+                    striped: true,
+                    singleSelect: true,
                     onClickCell: onClickCell,
                     onClickRow: onClickRow,
                     onAfterEdit: onAfterEdit,
+                    onCheck: onCheck,
                     columns: [[
                         {field: 'ck', checkbox: true},
                         {
@@ -98,11 +98,6 @@ function initGjdqTable() {
                             saveEdit();
                         }
                     }, '-', {
-                        iconCls: 'icon-undo',
-                        handler: function () {
-                            rejectEdit();
-                        }
-                    }, '-', {
                         iconCls: 'icon-add',
                         handler: function () {
                             addRecord();
@@ -123,7 +118,8 @@ function initGjdqTable() {
     });
 }
 
-var editIndex = undefined;
+var editIndex = undefined,
+    checkIndex = undefined;
 function endEditing() {
     if (editIndex == undefined) {
         return true
@@ -136,6 +132,7 @@ function endEditing() {
         return false;
     }
 }
+//row edit
 function onClickRow(index) {
     if (editIndex != index) {
         if (endEditing()) {
@@ -147,42 +144,7 @@ function onClickRow(index) {
         }
     }
 }
-function onAfterEdit(index, row, changes) {
-    console.log('结束编辑');
-    console.log(row);
-    console.log(changes);
-}
-
-//table顶部工具条方法
-function saveEdit() {
-    if (endEditing()) {
-        $('#tb_gjdq').datagrid('acceptChanges');
-    }
-    console.log("保存");
-    console.log($('#tb_gjdq').datagrid('getSelections'));
-}
-function rejectEdit() {
-    $('#tb_gjdq').datagrid('rejectChanges');
-    editIndex = undefined;
-}
-function addRecord() {
-    if (endEditing()) {
-        $('#tb_gjdq').datagrid('appendRow', {'yxbj': '1'});
-        editIndex = $('#tb_gjdq').datagrid('getRows').length - 1;
-        $('#tb_gjdq').datagrid('selectRow', editIndex)
-            .datagrid('beginEdit', editIndex);
-    }
-}
-function removeRecord() {
-    var removeRecords = $('#tb_gjdq').datagrid('getSelections');
-    if (removeRecords.length > 0) {
-        commonAjax('/comm/getJsonData2', 'dmService', 'deleteBatch', {records: JSON.stringify(removeRecords)}).then(function (resultData) {
-            console.log(resultData);
-        }, function (textStatus) {
-            console.log(textStatus + ':ajax请求失败');
-        });
-    }
-}
+//cell edit
 function onClickCell(index, field) {
     if (editIndex != index) {
         if (endEditing()) {
@@ -199,4 +161,47 @@ function onClickCell(index, field) {
             }, 0);
         }
     }
+}
+function onAfterEdit(index, row, changes) {
+    if (!isEmptyObject(changes)) {
+        easyMsg.toast('记得保存这条记录哦');
+    }
+}
+function onCheck(index, row) {
+    checkIndex = index;
+}
+function saveEdit() {
+    var rows = $('#tb_gjdq').datagrid('getChanges');
+    if (endEditing()) {
+        $('#tb_gjdq').datagrid('acceptChanges');
+    }
+    var removeRecords = $('#tb_gjdq').datagrid('getSelections');
+    if (removeRecords.length > 0) {
+        commonAjax('/comm/getJsonData2', 'dmService', 'addGjdqBatch', {records: JSON.stringify(removeRecords)}).then(function (resultData) {
+            console.log(resultData);
+        }, function (textStatus) {
+            console.log(textStatus);
+        });
+    }
+}
+function addRecord() {
+    if (endEditing()) {
+        $('#tb_gjdq').datagrid('appendRow', {'yxbj': '1'});
+        editIndex = $('#tb_gjdq').datagrid('getRows').length - 1;
+        $('#tb_gjdq').datagrid('selectRow', editIndex)
+            .datagrid('beginEdit', editIndex);
+    }
+}
+function removeRecord() {
+    var removeRecords = $('#tb_gjdq').datagrid('getSelections');
+
+    if (removeRecords.length > 0) {
+        commonAjax('/comm/getJsonData2', 'dmService', 'deleteGjdqBatch', {records: JSON.stringify(removeRecords)}).then(function (resultData) {
+            console.log(resultData);
+        }, function (textStatus) {
+            console.log(textStatus);
+        });
+    }
+
+    $('#tb_gjdq').datagrid('deleteRow', checkIndex);
 }
