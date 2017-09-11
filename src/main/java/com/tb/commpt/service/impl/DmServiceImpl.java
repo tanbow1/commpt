@@ -1,10 +1,14 @@
 package com.tb.commpt.service.impl;
 
 import com.tb.commpt.mapper.DmAccountMapper;
+import com.tb.commpt.mapper.DmGjdqMapper;
 import com.tb.commpt.mapper.DmMenuMapper;
 import com.tb.commpt.model.DmAccount;
+import com.tb.commpt.model.DmGjdq;
 import com.tb.commpt.model.DmMenu;
+import com.tb.commpt.model.JsonResponse;
 import com.tb.commpt.service.IDmService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
@@ -26,13 +30,15 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service("dmService")
 public class DmServiceImpl implements IDmService {
 
-    @Resource
+    @Autowired
     private DmAccountMapper dmAccountMapper;
 
-    @Resource
+    @Autowired
     private DmMenuMapper dmMenuMapper;
 
-    @WebMethod
+    @Autowired
+    private DmGjdqMapper dmGjdqMapper;
+
     @Override
     public List<DmAccount> selectAllDmAccount() {
         return dmAccountMapper.selectAll();
@@ -106,8 +112,19 @@ public class DmServiceImpl implements IDmService {
     }
 
 
-    public String test() {
-        System.out.println("=====================test测试=====================");
-        return "弹拨test";
+    /**
+     * 获取国籍地区列表（分页）
+     *
+     * @param pageStart
+     * @param pageEnd
+     * @return
+     */
+    @Override
+    public JsonResponse getGjdqListPagination(int pageStart, int pageEnd) {
+        JsonResponse jsonResponse = new JsonResponse();
+        List<DmGjdq> dmGjdqList = dmGjdqMapper.selectGjdqList(pageStart, pageEnd);
+        if (null != dmGjdqList)
+            jsonResponse.getRepData().put("gjdqList", dmGjdqList);
+        return jsonResponse;
     }
 }

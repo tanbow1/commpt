@@ -50,10 +50,10 @@ public class ConsCommon {
     public static final String WARN_MSG_003 = "该手机号已经被注册";
 
     public static final String WARN_CODE_004 = "W0004";
-    public static final String WARN_MSG_004 = "参数accessToken为空";
+    public static final String WARN_MSG_004 = "accessToken为空";
 
     public static final String WARN_CODE_005 = "W0005";
-    public static final String WARN_MSG_005 = "参数refreshToken为空";
+    public static final String WARN_MSG_005 = "refreshToken为空";
 
     public static final String WARN_CODE_006 = "W0006";
     public static final String WARN_MSG_006 = "token失效";
@@ -62,28 +62,28 @@ public class ConsCommon {
     public static final String WARN_MSG_007 = "用户名或密码有误";
 
     public static final String WARN_CODE_008 = "W0008";
-    public static final String WARN_MSG_008 = "";
+    public static final String WARN_MSG_008 = "方法不存在，检查methodName是否有误";
 
     public static final String WARN_CODE_009 = "W0009";
-    public static final String WARN_MSG_009 = "";
+    public static final String WARN_MSG_009 = "方法调用权限不足，检查是否为private";
 
     public static final String WARN_CODE_010 = "W0010";
-    public static final String WARN_MSG_010 = "";
+    public static final String WARN_MSG_010 = "服务实例化失败，检查serviceName是否有误";
 
     public static final String WARN_CODE_011 = "W0011";
-    public static final String WARN_MSG_011 = "";
+    public static final String WARN_MSG_011 = "方法调用失败，检查具体方法体是否有误";
 
     public static final String WARN_CODE_012 = "W0012";
-    public static final String WARN_MSG_012 = "";
+    public static final String WARN_MSG_012 = "方法调用成功，返回类型有误";
 
     public static final String WARN_CODE_013 = "W0013";
-    public static final String WARN_MSG_013 = "";
+    public static final String WARN_MSG_013 = "未找到该类，检查className是否有误";
 
     public static final String WARN_CODE_014 = "W0014";
-    public static final String WARN_MSG_014 = "";
+    public static final String WARN_MSG_014 = "方法调用失败，检查传入参数";
 
     public static final String WARN_CODE_015 = "W0015";
-    public static final String WARN_MSG_015 = "";
+    public static final String WARN_MSG_015 = "方法参数类型不支持";
 
     public static final String WARN_CODE_016 = "W0016";
     public static final String WARN_MSG_016 = "";

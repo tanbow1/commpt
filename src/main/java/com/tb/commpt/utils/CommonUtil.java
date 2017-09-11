@@ -10,6 +10,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -91,5 +92,38 @@ public class CommonUtil {
         pageMap.put("pageStart", pageStart);
         pageMap.put("pageEnd", pageEnd);
         return pageMap;
+    }
+
+    /**
+     * 通过类的简写返回类全名
+     *
+     * @param simpleClassName
+     * @return
+     */
+    public static Class getClassName(String simpleClassName) throws ClassNotFoundException {
+        simpleClassName = simpleClassName.toLowerCase();
+        if ("byte".equals(simpleClassName)) {
+            return byte.class;
+        } else if ("short".equals(simpleClassName)) {
+            return short.class;
+        } else if ("int".equals(simpleClassName)) {
+            return int.class;
+        } else if ("long".equals(simpleClassName)) {
+            return long.class;
+        } else if ("float".equals(simpleClassName)) {
+            return float.class;
+        } else if ("double".equals(simpleClassName)) {
+            return double.class;
+        } else if ("boolean".equals(simpleClassName)) {
+            return boolean.class;
+        } else if ("char".equals(simpleClassName)) {
+            return char.class;
+        } else if ("string".equals(simpleClassName)) {
+            return String.class;
+        } else if ("array".equals(simpleClassName)) {
+            return Array.class;
+        } else {
+            return Class.forName(simpleClassName);
+        }
     }
 }

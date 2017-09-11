@@ -1,6 +1,8 @@
 package com.tb.commpt.model;
 
 public class DmGjdq extends BaseModel {
+    private String uuid;
+
     private String gjdqMcZ;
 
     private String gjdqMcE;
@@ -12,6 +14,14 @@ public class DmGjdq extends BaseModel {
     private String yxbj;
 
     private String gjdqId;
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     public String getGjdqMcZ() {
         return gjdqMcZ;
