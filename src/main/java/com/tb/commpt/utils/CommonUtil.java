@@ -1,5 +1,7 @@
 package com.tb.commpt.utils;
 
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tb.commpt.constant.ConsCommon;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
@@ -125,5 +127,10 @@ public class CommonUtil {
         } else {
             return Class.forName(simpleClassName);
         }
+    }
+
+    public static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
     }
 }

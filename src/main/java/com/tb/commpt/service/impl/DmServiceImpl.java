@@ -1,11 +1,13 @@
 package com.tb.commpt.service.impl;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tb.commpt.mapper.DmAccountMapper;
 import com.tb.commpt.mapper.DmGjdqMapper;
 import com.tb.commpt.mapper.DmMenuMapper;
 import com.tb.commpt.model.*;
 import com.tb.commpt.service.IDmService;
+import com.tb.commpt.utils.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
@@ -139,7 +141,9 @@ public class DmServiceImpl implements IDmService {
      */
     @Override
     public JsonResponse deleteGjdqBatch(JsonRequest jsonRequest) throws IOException {
-        List<DmGjdq> list = objectMapper.readValue(String.valueOf(jsonRequest.getReqData().get("records")), List.class);
+        JavaType javaType = CommonUtil.getCollectionType(ArrayList.class, DmGjdq.class);
+        List list = objectMapper.readValue(String.valueOf(jsonRequest.getReqData().get("records")), javaType);
+
         return null;
     }
 
@@ -152,9 +156,7 @@ public class DmServiceImpl implements IDmService {
      */
     @Override
     public JsonResponse addGjdqBatch(JsonRequest jsonRequest) throws IOException {
-        List<DmGjdq> list = objectMapper.readValue(String.valueOf(jsonRequest.getReqData().get("records")), List.class);
-        System.out.println(list.get(0).getGjdqDhdm());
+        List list = objectMapper.readValue(String.valueOf(jsonRequest.getReqData().get("records")), List.class);
         return null;
     }
-
 }
