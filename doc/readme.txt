@@ -6,8 +6,8 @@ java:
     constant常量
     controller
         service
-            1.dao //代码表等公共部分使用dao注入JdbcTemplate
-            2.mapper(mapper.xml) //业务处理使用mapper
+            1.dao //使用JdbcTemplate时
+            2.mapper(mapper.xml) //使用mybatis时
 
     exception
     filter

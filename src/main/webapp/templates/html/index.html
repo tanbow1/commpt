@@ -11,7 +11,6 @@
     <link rel="stylesheet" type="text/css" href="/static/css/app.css">
     <script type="text/javascript" src="/static/js/app.js"></script>
 </head>
-<body>
 
 <body class="easyui-layout">
 <div data-options="region:'north',border:false" class="h__50p ov__hidden">
@@ -66,9 +65,11 @@
 <div class="easyui-tabs" data-options="region:'center',title:''" id="mainpage">
 
 </div>
-</body>
 
 <script type="text/javascript" src="/static/js/index.js"></script>
 
+
+<!--easyui component import-->
+<div th:replace="common/tmpl_easyui::easyui_component"></div>
 </body>
 </html>
