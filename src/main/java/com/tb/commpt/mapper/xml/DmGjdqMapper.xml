@@ -79,24 +79,26 @@
     </select>
     <update id="updateByPrimaryKey" parameterType="com.tb.commpt.model.DmGjdq">
         UPDATE t_dm_gjdq set
-        <if test="gjdqMcZ != null">
-            gjdqMcZ = #{gjdqMcZ,jdbcType=VARCHAR},
-        </if>
-        <if test="gjdqMcE != null">
-            gjdqMcE = #{gjdqMcE,jdbcType=VARCHAR},
-        </if>
-        <if test="gjdqMcdm != null">
-            gjdqMcdm = #{gjdqMcdm,jdbcType=VARCHAR},
-        </if>
-        <if test="gjdqDhdm != null">
-            gjdqDhdm = #{gjdqDhdm,jdbcType=VARCHAR},
-        </if>
-        <if test="yxbj != null">
-            yxbj = #{yxbj,jdbcType=CHAR},
-        </if>
-        <if test="gjdqId != null">
-            gjdqId = #{gjdqId,jdbcType=VARCHAR},
-        </if>
+        <trim suffixOverrides=",">
+            <if test="gjdqMcZ != null">
+                GJDQ_MC_Z = #{gjdqMcZ,jdbcType=VARCHAR},
+            </if>
+            <if test="gjdqMcE != null">
+                GJDQ_MC_E = #{gjdqMcE,jdbcType=VARCHAR},
+            </if>
+            <if test="gjdqMcdm != null">
+                GJDQ_MCDM = #{gjdqMcdm,jdbcType=VARCHAR},
+            </if>
+            <if test="gjdqDhdm != null">
+                GJDQ_DHDM = #{gjdqDhdm,jdbcType=VARCHAR},
+            </if>
+            <if test="yxbj != null">
+                YXBJ = #{yxbj,jdbcType=CHAR},
+            </if>
+            <if test="gjdqId != null">
+                GJDQ_ID = #{gjdqId,jdbcType=VARCHAR},
+            </if>
+        </trim>
         WHERE UUID = #{uuid,jdbcType=VARCHAR}
     </update>
 </mapper>

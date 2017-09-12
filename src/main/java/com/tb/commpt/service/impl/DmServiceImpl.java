@@ -157,6 +157,7 @@ public class DmServiceImpl implements IDmService {
                 successList.add(dmGjdq);
             } else {
                 errorList.add(dmGjdq);
+                jsonResponse.setCode(ConsCommon.WARN_CODE_017);
                 jsonResponse.setMsg(ConsCommon.WARN_MSG_017);
             }
         }
@@ -194,6 +195,7 @@ public class DmServiceImpl implements IDmService {
                 successList.add(dmGjdq);
             } else {
                 errorList.add(dmGjdq);
+                jsonResponse.setCode(ConsCommon.WARN_CODE_016);
                 jsonResponse.setMsg(ConsCommon.WARN_MSG_016);
             }
         }

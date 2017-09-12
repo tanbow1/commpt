@@ -164,7 +164,7 @@ function onClickCell(index, field) {
 }
 function onAfterEdit(index, row, changes) {
     if (!isEmptyObject(changes)) {
-        easyMsg.toast('记得保存这条记录哦');
+
     }
 }
 function onCheck(index, row) {
@@ -178,9 +178,13 @@ function saveEdit() {
     var removeRecords = $('#tb_gjdq').datagrid('getSelections');
     if (removeRecords.length > 0) {
         commonAjax('/comm/getJsonData2', 'dmService', 'addGjdqBatch', {records: JSON.stringify(removeRecords)}).then(function (resultData) {
-            console.log(resultData);
+            if (checkResponseText(resultData)) {
+                easyMsg.alert(resultData.msg, 'info');
+            } else {
+                easyMsg.alert(resultData.msg, 'warn');
+            }
         }, function (textStatus) {
-            console.log(textStatus);
+            easyMsg.alert(textStatus, 'error');
         });
     }
 }
@@ -194,14 +198,16 @@ function addRecord() {
 }
 function removeRecord() {
     var removeRecords = $('#tb_gjdq').datagrid('getSelections');
-
     if (removeRecords.length > 0) {
         commonAjax('/comm/getJsonData2', 'dmService', 'deleteGjdqBatch', {records: JSON.stringify(removeRecords)}).then(function (resultData) {
-            console.log(resultData);
+            if (checkResponseText(resultData)) {
+                $('#tb_gjdq').datagrid('deleteRow', checkIndex);
+                easyMsg.toast(resultData.msg);
+            } else {
+                easyMsg.alert(resultData.msg, 'warn');
+            }
         }, function (textStatus) {
-            console.log(textStatus);
+            easyMsg.alert(textStatus, 'error');
         });
     }
-
-    $('#tb_gjdq').datagrid('deleteRow', checkIndex);
 }
