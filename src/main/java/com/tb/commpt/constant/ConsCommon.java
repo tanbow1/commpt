@@ -86,10 +86,10 @@ public class ConsCommon {
     public static final String WARN_MSG_015 = "方法参数类型不支持";
 
     public static final String WARN_CODE_016 = "W0016";
-    public static final String WARN_MSG_016 = "";
+    public static final String WARN_MSG_016 = "数据更新或新增失败";
 
     public static final String WARN_CODE_017 = "W0017";
-    public static final String WARN_MSG_017 = "";
+    public static final String WARN_MSG_017 = "数据删除失败";
 
     public static final String WARN_CODE_018 = "W0018";
     public static final String WARN_MSG_018 = "";

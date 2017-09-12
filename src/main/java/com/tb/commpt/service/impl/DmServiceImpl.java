@@ -2,6 +2,7 @@ package com.tb.commpt.service.impl;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tb.commpt.constant.ConsCommon;
 import com.tb.commpt.mapper.DmAccountMapper;
 import com.tb.commpt.mapper.DmGjdqMapper;
 import com.tb.commpt.mapper.DmMenuMapper;
@@ -141,10 +142,25 @@ public class DmServiceImpl implements IDmService {
      */
     @Override
     public JsonResponse deleteGjdqBatch(JsonRequest jsonRequest) throws IOException {
+        JsonResponse jsonResponse = new JsonResponse();
         JavaType javaType = CommonUtil.getCollectionType(ArrayList.class, DmGjdq.class);
         List list = objectMapper.readValue(String.valueOf(jsonRequest.getReqData().get("records")), javaType);
-
-        return null;
+        Iterator it = list.iterator();
+        DmGjdq dmGjdq;
+        int deleteCount;
+        List<DmGjdq> successList = new ArrayList<DmGjdq>();
+        List<DmGjdq> errorList = new ArrayList<DmGjdq>();
+        while (it.hasNext()) {
+            dmGjdq = (DmGjdq) it.next();
+            deleteCount = dmGjdqMapper.deleteByPrimaryKey(dmGjdq.getUuid());
+            if (deleteCount > 0) {
+                successList.add(dmGjdq);
+            } else {
+                errorList.add(dmGjdq);
+                jsonResponse.setMsg(ConsCommon.WARN_MSG_017);
+            }
+        }
+        return jsonResponse;
     }
 
     /**
@@ -156,7 +172,27 @@ public class DmServiceImpl implements IDmService {
      */
     @Override
     public JsonResponse addGjdqBatch(JsonRequest jsonRequest) throws IOException {
+        JsonResponse jsonResponse = new JsonResponse();
         List list = objectMapper.readValue(String.valueOf(jsonRequest.getReqData().get("records")), List.class);
-        return null;
+        Iterator it = list.iterator();
+        DmGjdq dmGjdq;
+        int changeCount;
+        List<DmGjdq> successList = new ArrayList<DmGjdq>();
+        List<DmGjdq> errorList = new ArrayList<DmGjdq>();
+        while (it.hasNext()) {
+            dmGjdq = (DmGjdq) it.next();
+            if (null == dmGjdq.getUuid()) {
+                changeCount = dmGjdqMapper.insertSelective(dmGjdq);
+            } else {
+                changeCount = dmGjdqMapper.updateByPrimaryKey(dmGjdq);
+            }
+            if (changeCount > 0) {
+                successList.add(dmGjdq);
+            } else {
+                errorList.add(dmGjdq);
+                jsonResponse.setMsg(ConsCommon.WARN_MSG_016);
+            }
+        }
+        return jsonResponse;
     }
 }
