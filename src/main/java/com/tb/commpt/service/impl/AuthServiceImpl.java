@@ -104,6 +104,7 @@ public class AuthServiceImpl implements IAuthService {
      * @return 校验通过必返字段：userId，accessToken，refreshToken
      * 可选insertCount，token更新时返回
      */
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public ConcurrentHashMap<String, String> checkToken(String accessToken, String refreshToken) throws Exception {
         Map<String, String> tokenMap = selectByAccessToken(accessToken);

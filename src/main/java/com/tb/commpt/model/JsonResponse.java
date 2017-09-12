@@ -22,8 +22,17 @@ public class JsonResponse extends BaseModel {
     }
 
     private String msg = ConsCommon.SUCCESS_MSG;
+    private String detailMsg;
     private String code = ConsCommon.SUCCESS_CODE;
     private ConcurrentHashMap<String, Object> repData = new ConcurrentHashMap<String, Object>();
+
+    public String getDetailMsg() {
+        return detailMsg;
+    }
+
+    public void setDetailMsg(String detailMsg) {
+        this.detailMsg = detailMsg;
+    }
 
     public String getMsg() {
         return msg;

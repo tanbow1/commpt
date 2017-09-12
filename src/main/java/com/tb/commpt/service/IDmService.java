@@ -1,5 +1,6 @@
 package com.tb.commpt.service;
 
+import com.tb.commpt.exception.BizLevelException;
 import com.tb.commpt.model.DmAccount;
 import com.tb.commpt.model.DmMenu;
 import com.tb.commpt.model.JsonRequest;
@@ -32,6 +33,6 @@ public interface IDmService {
 
     JsonResponse deleteGjdqBatch(JsonRequest jsonRequest) throws IOException;
 
-    JsonResponse addGjdqBatch(JsonRequest jsonRequest) throws IOException;
+    JsonResponse addGjdqBatch(JsonRequest jsonRequest) throws IOException, BizLevelException;
 
 }

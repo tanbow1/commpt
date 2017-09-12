@@ -11,6 +11,7 @@ import com.tb.commpt.service.IUserService;
 import com.tb.commpt.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -53,6 +54,7 @@ public class UserServiceImpl implements IUserService {
      * @throws UnsupportedEncodingException
      * @throws NoSuchAlgorithmException
      */
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public String saveUserInfo(XtUser user, XtUserAccount userAccount, XtUserAddress userAddress, XtUserRole userRole) throws UnsupportedEncodingException, NoSuchAlgorithmException, BizLevelException {
         if (null != user.getPass()) {

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -59,12 +60,19 @@ public class MySimpleMappingExceptionResolver implements
     private void setErrorJsonResponse(Exception ex, JsonResponse jsonResponse) {
         jsonResponse.setCode(ConsCommon.ERROR_CODE);
         if (ex instanceof BizLevelException) {
-            jsonResponse.setMsg("出现错误 " + ex.getMessage());
+            jsonResponse.setMsg("出现错误: " + ex.getMessage());
+            jsonResponse.setDetailMsg(ex.getCause().toString());
         } else if (ex instanceof SystemLevelException) {
-            jsonResponse.setMsg("系统出错 " + ex.getMessage() + ",请联系系统管理员!");
+            jsonResponse.setMsg("系统出错: " + ex.getMessage() + ",请联系系统管理员!");
+            jsonResponse.setDetailMsg(ex.getCause().toString());
+        } else if (ex instanceof InvocationTargetException) {
+            Throwable throwable = ((InvocationTargetException) ex).getTargetException();
+            jsonResponse.setMsg("出现错误: " + throwable.getMessage());
+            jsonResponse.setDetailMsg(ex.getCause().toString());
         } else if (ex instanceof MaxUploadSizeExceededException) {
-            jsonResponse.setMsg("出现错误，文件过大 " + ex.getMessage());
-            //TODO 该异常待解决
+            jsonResponse.setMsg("出现错误,文件过大: " + ex.getMessage());
+            jsonResponse.setDetailMsg(ex.getCause().toString());
+            //TODO 该异常貌似有点问题
         } else {
             jsonResponse.setCode(ConsCommon.ERROR_CODE_UNKNOW);
             jsonResponse.setMsg(ConsCommon.ERROR_MSG_UNKNOW + " " + ex.getMessage());

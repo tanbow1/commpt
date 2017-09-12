@@ -5,6 +5,7 @@ import com.tb.commpt.annotation.mybatis.MyBatisRepository;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -31,4 +32,7 @@ public interface DmGjdqMapper {
     int updateByPrimaryKey(DmGjdq record);
 
     List<DmGjdq> selectGjdqList(@Param("pageStart") int pageStart, @Param("pageEnd") int pageEnd);
+
+    @Select({"select count(GJDQ_ID) from T_DM_GJDQ where GJDQ_ID = #{gjdqId,jdbcType=VARCHAR} "})
+    int selectCountByGjdqId(String gjdqId);
 }

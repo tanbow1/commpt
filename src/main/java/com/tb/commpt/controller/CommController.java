@@ -240,13 +240,13 @@ public class CommController {
      * @param httpServletRequest
      * @param httpServletResponse
      * @return
-     * @throws BizLevelException
+     * @throws InvocationTargetException 该异常需要抛出给异常类统一处理，否则无法明确service中抛出的具体错误原因
      */
     @ResponseBody
     @RequestMapping("/getJsonData2")
     public JsonResponse getJsonData2(@ModelAttribute JsonRequest jsonRequest,
                                      HttpServletRequest httpServletRequest,
-                                     HttpServletResponse httpServletResponse) throws BizLevelException {
+                                     HttpServletResponse httpServletResponse) throws InvocationTargetException {
         JsonResponse jsonResponse = new JsonResponse();
         String serviceName = jsonRequest.getServiceName();
         String methodName = jsonRequest.getMethodName();
@@ -262,10 +262,6 @@ public class CommController {
             logger.error(e.getMessage());
             jsonResponse.setCode(ConsCommon.WARN_CODE_009);
             jsonResponse.setMsg(ConsCommon.WARN_MSG_009);
-        } catch (InvocationTargetException e) {
-            logger.error(e.getMessage());
-            jsonResponse.setCode(ConsCommon.WARN_CODE_011);
-            jsonResponse.setMsg(ConsCommon.WARN_MSG_011);
         } catch (ClassCastException e) {
             logger.error(e.getMessage());
             jsonResponse.setCode(ConsCommon.WARN_CODE_012);

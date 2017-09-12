@@ -92,7 +92,7 @@ public class ConsCommon {
     public static final String WARN_MSG_017 = "数据删除失败";
 
     public static final String WARN_CODE_018 = "W0018";
-    public static final String WARN_MSG_018 = "";
+    public static final String WARN_MSG_018 = "存在重复数据";
 
     public static final String WARN_CODE_019 = "W0019";
     public static final String WARN_MSG_019 = "";

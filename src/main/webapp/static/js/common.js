@@ -202,6 +202,7 @@ var easyMsg = {
         $.messager.progress('close');
     },
     alert: function (msg, type, fn) {
+        //type:error,question,info,warning
         if (type == undefined) {
             type = 'info';
         }

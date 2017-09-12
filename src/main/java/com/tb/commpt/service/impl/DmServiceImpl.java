@@ -3,6 +3,7 @@ package com.tb.commpt.service.impl;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tb.commpt.constant.ConsCommon;
+import com.tb.commpt.exception.BizLevelException;
 import com.tb.commpt.mapper.DmAccountMapper;
 import com.tb.commpt.mapper.DmGjdqMapper;
 import com.tb.commpt.mapper.DmMenuMapper;
@@ -11,15 +12,14 @@ import com.tb.commpt.service.IDmService;
 import com.tb.commpt.utils.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
-import javax.jws.WebMethod;
 import javax.jws.WebService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -140,6 +140,7 @@ public class DmServiceImpl implements IDmService {
      * @return
      * @throws IOException
      */
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public JsonResponse deleteGjdqBatch(JsonRequest jsonRequest) throws IOException {
         JsonResponse jsonResponse = new JsonResponse();
@@ -174,8 +175,9 @@ public class DmServiceImpl implements IDmService {
      * @return
      * @throws IOException
      */
+    @Transactional(rollbackFor = {Exception.class})
     @Override
-    public JsonResponse addGjdqBatch(JsonRequest jsonRequest) throws IOException {
+    public JsonResponse addGjdqBatch(JsonRequest jsonRequest) throws IOException, BizLevelException {
         JsonResponse jsonResponse = new JsonResponse();
         JavaType javaType = CommonUtil.getCollectionType(ArrayList.class, DmGjdq.class);
         List list = objectMapper.readValue(String.valueOf(jsonRequest.getReqData().get("records")), javaType);
@@ -187,11 +189,17 @@ public class DmServiceImpl implements IDmService {
         while (it.hasNext()) {
             dmGjdq = (DmGjdq) it.next();
             if (null == dmGjdq.getUuid()) {
+                //add
                 changeCount = dmGjdqMapper.insertSelective(dmGjdq);
             } else {
+                //update
                 changeCount = dmGjdqMapper.updateByPrimaryKey(dmGjdq);
             }
             if (changeCount > 0) {
+                int recordCount = dmGjdqMapper.selectCountByGjdqId(dmGjdq.getGjdqId());
+                if (recordCount > 1) {
+                    throw new BizLevelException(ConsCommon.WARN_MSG_018);
+                }
                 successList.add(dmGjdq);
             } else {
                 errorList.add(dmGjdq);
