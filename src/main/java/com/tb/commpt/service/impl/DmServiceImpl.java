@@ -160,6 +160,9 @@ public class DmServiceImpl implements IDmService {
                 jsonResponse.setMsg(ConsCommon.WARN_MSG_017);
             }
         }
+        if (errorList.size() > 0) {
+            jsonResponse.getRepData().put("errorList", errorList);
+        }
         return jsonResponse;
     }
 
@@ -173,7 +176,8 @@ public class DmServiceImpl implements IDmService {
     @Override
     public JsonResponse addGjdqBatch(JsonRequest jsonRequest) throws IOException {
         JsonResponse jsonResponse = new JsonResponse();
-        List list = objectMapper.readValue(String.valueOf(jsonRequest.getReqData().get("records")), List.class);
+        JavaType javaType = CommonUtil.getCollectionType(ArrayList.class, DmGjdq.class);
+        List list = objectMapper.readValue(String.valueOf(jsonRequest.getReqData().get("records")), javaType);
         Iterator it = list.iterator();
         DmGjdq dmGjdq;
         int changeCount;
@@ -192,6 +196,9 @@ public class DmServiceImpl implements IDmService {
                 errorList.add(dmGjdq);
                 jsonResponse.setMsg(ConsCommon.WARN_MSG_016);
             }
+        }
+        if (errorList.size() > 0) {
+            jsonResponse.getRepData().put("errorList", errorList);
         }
         return jsonResponse;
     }
