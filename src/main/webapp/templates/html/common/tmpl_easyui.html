@@ -1,33 +1,16 @@
 <div th:fragment="easyui_component">
-    <div id="dlg" class="easyui-dialog" title="提示" style="width:400px;height:200px;padding:10px"
+    <div id="comm_msgdialog" class="easyui-dialog" title="提示" style="padding:10px"
          data-options="
-				iconCls: 'icon-save',
-				toolbar: [{
-					text:'Add',
-					iconCls:'icon-add',
-					handler:function(){
-						alert('add')
-					}
-				},'-',{
-					text:'Save',
-					iconCls:'icon-save',
-					handler:function(){
-						alert('save')
-					}
-				}],
-				buttons: [{
-					text:'确定',
-					iconCls:'icon-ok',
-					handler:function(){
-						alert('ok');
-					}
-				},{
-					text:'取消',
-					handler:function(){
-						alert('cancel');;
-					}
-				}]
+                width: 400,
+                height: 200,
+                closed:true,
+                cache: false,
+                collapsible:true,
+                maximizable:true,
+                resizable:true,
+                modal:true,
+				iconCls: 'icon-save'
 			">
-        xxxxxxxx
+        <div id="comm_msgdialog_content"></div>
     </div>
 </div>

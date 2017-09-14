@@ -181,7 +181,9 @@ function saveEdit() {
             if (checkResponseText(resultData)) {
                 easyMsg.alert(resultData.msg, 'info');
             } else {
-                easyMsg.alert(resultData.msg, 'warning');
+                easyDialog.alert(resultData.msg, function () {
+                    easyDialog.close();
+                });
             }
         }, function (textStatus) {
             easyMsg.alert(textStatus, 'error');
@@ -204,7 +206,9 @@ function removeRecord() {
                 $('#tb_gjdq').datagrid('deleteRow', checkIndex);
                 easyMsg.toast(resultData.msg);
             } else {
-                easyMsg.alert(resultData.msg, 'warning');
+                easyDialog.alert(resultData.msg, function () {
+                    easyDialog.close();
+                });
             }
         }, function (textStatus) {
             easyMsg.alert(textStatus, 'error');

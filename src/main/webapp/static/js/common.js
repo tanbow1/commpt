@@ -8,6 +8,7 @@ var commomMessageTitle = "系统提示";
 var commomMessagePushTitle = "系统消息";
 var commonConfirmTitle = "确认提示";
 
+
 function checkResponseText(responseText) {
     try {
         if (responseText.code == '1') {
@@ -30,7 +31,25 @@ function isEmptyObject(obj) {
         return false;
     }
     return true;
-};
+}
+
+function isContains(subStr) {
+    var currentIndex = this.indexOf(subStr);
+    if (currentIndex != -1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isEmpty(str) {
+    if (null == str || str.trim() == '') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 /**
  * 转大写
@@ -227,6 +246,60 @@ var easyMsg = {
                 return r;
             }
         });
+    }
+}
+
+var easyDialog = {
+    alert: function (msg, ok, cancel, help, dialogId, title) {
+        if (isEmpty(title)) {
+            title = commomMessageTitle;
+        }
+        if (isEmpty(dialogId)) {
+            dialogId = 'comm_msgdialog';
+        }
+        $('#' + dialogId).dialog({
+            title: title,
+            toolbar: [{
+                text: '帮助',
+                iconCls: 'icon-help',
+                handler: function () {
+                    if (typeof help == 'function') {
+                        help()
+                    }
+                }
+            }],
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    if (typeof ok == 'function') {
+                        ok()
+                    }
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    if (typeof cancel == 'function') {
+                        cancel()
+                    }
+                    easyDialog.close(dialogId);
+                }
+            }]
+        });
+        if (isEmpty(msg)) {
+            msg = '-';
+        }
+
+        $('#' + dialogId + '_content').html(msg);
+        $('#' + dialogId).dialog('open');
+    },
+    close: function (dialogId) {
+        if (isEmpty(dialogId)) {
+            dialogId = 'comm_msgdialog';
+        }
+        $('#' + dialogId + '_content').html('');
+        $('#' + dialogId).dialog('close');
     }
 }
 
