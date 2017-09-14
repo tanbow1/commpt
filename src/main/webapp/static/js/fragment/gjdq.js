@@ -77,14 +77,14 @@ function gjdqDatagridOpts() {
             }
         ]],
         toolbar: [{
-            iconCls: 'icon-save',
-            handler: function () {
-                saveEdit();
-            }
-        }, '-', {
             iconCls: 'icon-reload',
             handler: function () {
                 reloadRecord();
+            }
+        }, '-', {
+            iconCls: 'icon-save',
+            handler: function () {
+                saveEdit();
             }
         }, '-', {
             iconCls: 'icon-add',
@@ -243,21 +243,27 @@ function addRecord() {
 function removeRecord() {
     var removeRecords = $('#tb_gjdq').datagrid('getSelections');
     if (removeRecords.length > 0) {
-        commonAjax('/comm/getJsonData2', 'dmService', 'deleteGjdqBatch', {records: JSON.stringify(removeRecords)}).then(function (resultData) {
-            if (checkResponseText(resultData)) {
-                $('#tb_gjdq').datagrid('deleteRow', checkIndex);
-                easyMsg.toast(resultData.msg + ":已删除");
-            } else {
-                easyDialog.alert(resultData.msg, function () {
-                    easyDialog.close();
-                });
-            }
-        }, function (textStatus) {
-            easyMsg.alert(textStatus, 'error');
-        });
+
+        easyMsg.confirm('删除记录？', function () {
+            commonAjax('/comm/getJsonData2', 'dmService', 'deleteGjdqBatch', {records: JSON.stringify(removeRecords)}).then(function (resultData) {
+                if (checkResponseText(resultData)) {
+                    $('#tb_gjdq').datagrid('deleteRow', checkIndex);
+                    easyMsg.toast(resultData.msg + ":已删除");
+                } else {
+                    easyDialog.alert(resultData.msg, function () {
+                        easyDialog.close();
+                    });
+                }
+            }, function (textStatus) {
+                easyMsg.alert(textStatus, 'error');
+            });
+        })
+
     }
 }
 
 function reloadRecord() {
+    gjdqDatagridOpts();
+
     initGjdqTable(DEFAULT_PAGESTART, DEFAULT_PAGESIZE);
 }
