@@ -33,6 +33,9 @@ public interface DmGjdqMapper {
 
     List<DmGjdq> selectGjdqList(@Param("pageStart") int pageStart, @Param("pageEnd") int pageEnd);
 
+    @Select({"select count(*) from T_DM_GJDQ "})
+    int selectGjdqCount();
+
     @Select({"select count(GJDQ_ID) from T_DM_GJDQ where GJDQ_ID = #{gjdqId,jdbcType=VARCHAR} "})
     int selectCountByGjdqId(String gjdqId);
 }

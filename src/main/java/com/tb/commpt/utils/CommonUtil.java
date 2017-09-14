@@ -80,9 +80,8 @@ public class CommonUtil {
      * @param pageSize   每页记录数
      * @return
      */
-    public static Map<String, Integer> getPageStartEnd(Integer pageNumber,
-                                                       Integer pageSize) {
-        Map<String, Integer> pageMap = new ConcurrentHashMap<String, Integer>();
+    public static Integer[] getPageStartAndEnd(Integer pageNumber,
+                                            Integer pageSize) {
         if (null == pageNumber || pageNumber < 1) {
             pageNumber = ConsCommon.DEFAULT_PAGE_START;
         }
@@ -91,9 +90,9 @@ public class CommonUtil {
         }
         int pageStart = pageSize * (pageNumber - 1) + 1;
         int pageEnd = pageSize * pageNumber;
-        pageMap.put("pageStart", pageStart);
-        pageMap.put("pageEnd", pageEnd);
-        return pageMap;
+
+        Integer[] pageArr = new Integer[]{pageStart, pageEnd};
+        return pageArr;
     }
 
     /**
@@ -129,6 +128,13 @@ public class CommonUtil {
         }
     }
 
+    /**
+     * 用于objectMapper 泛型转换
+     *
+     * @param collectionClass
+     * @param elementClasses
+     * @return
+     */
     public static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);

@@ -7,6 +7,9 @@ var SYS_PREFIX = "COMMONPT_";
 var commomMessageTitle = "系统提示";
 var commomMessagePushTitle = "系统消息";
 var commonConfirmTitle = "确认提示";
+var loadMsg = "加载中...";
+var DEFAULT_PAGESIZE = 10;
+var DEFAULT_PAGESTART = 1;
 
 
 function checkResponseText(responseText) {

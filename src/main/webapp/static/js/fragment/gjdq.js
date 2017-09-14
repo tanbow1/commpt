@@ -5,12 +5,14 @@ $(function () {
 
     gjdqDatagridOpts();
 
-    initGjdqTable();
+    initGjdqTable(DEFAULT_PAGESTART, DEFAULT_PAGESIZE);
 
 })
 
 function gjdqDatagridOpts() {
     $("#tb_gjdq").datagrid({
+        loadMsg: loadMsg,
+        fit: true,
         fitColumns: true,
         rownumbers: true,
         pagination: true,
@@ -80,6 +82,11 @@ function gjdqDatagridOpts() {
                 saveEdit();
             }
         }, '-', {
+            iconCls: 'icon-reload',
+            handler: function () {
+                reloadRecord();
+            }
+        }, '-', {
             iconCls: 'icon-add',
             handler: function () {
                 addRecord();
@@ -91,9 +98,25 @@ function gjdqDatagridOpts() {
             }
         }]
     });
+
+    //分页
+    $("#tb_gjdq").datagrid("getPager").pagination({
+        loading: true,
+        showPageList: true,
+        showRefresh: true,
+        pageSize: DEFAULT_PAGESIZE,
+        pageList: [10, 20, 50, 100],
+        //layout: ['first', 'links', 'last'],
+        onRefresh: function (pageNumber, pageSize) {
+            initGjdqTable(pageNumber, pageSize);
+        },
+        onSelectPage: function (pageNumber, pageSize) {
+            initGjdqTable(pageNumber, pageSize);
+        }
+    });
 }
 
-function initGjdqTable() {
+function initGjdqTable(pageNumber, pageSize) {
     $.ajax({
         url: "/comm/getJsonData",
         data: {
@@ -104,11 +127,11 @@ function initGjdqTable() {
             methodParams: [{
                 index: 1,
                 type: 'int',
-                value: 1
+                value: pageNumber
             }, {
                 index: 2,
                 type: 'int',
-                value: 10
+                value: pageSize
             }]
         },
         type: 'post',
@@ -119,10 +142,15 @@ function initGjdqTable() {
         },
         success: function (responseText, textStatus, XMLHttpRequest) {
             if (checkResponseText(responseText)) {
+                var gjdqCount = responseText.repData.gjdqCount;
+                if (gjdqCount > 0) {
+                    $("#tb_gjdq").datagrid('loadData', responseText.repData.gjdqList);
+                }
 
-                $("#tb_gjdq").datagrid({
-                    data: responseText.repData.gjdqList
-                });
+                $("#tb_gjdq").datagrid("getPager").pagination('refresh', {
+                    total: gjdqCount,
+                    pageNumber: pageNumber
+                }).pagination('loaded');
 
             } else {
                 alert(responseText.msg);
@@ -228,4 +256,8 @@ function removeRecord() {
             easyMsg.alert(textStatus, 'error');
         });
     }
+}
+
+function reloadRecord() {
+    initGjdqTable(DEFAULT_PAGESTART, DEFAULT_PAGESIZE);
 }

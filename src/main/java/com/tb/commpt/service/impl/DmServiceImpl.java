@@ -120,16 +120,22 @@ public class DmServiceImpl implements IDmService {
     /**
      * 获取国籍地区列表（分页）
      *
-     * @param pageStart
-     * @param pageEnd
+     * @param pageNum
+     * @param pageSize
      * @return
      */
     @Override
-    public JsonResponse getGjdqListPagination(int pageStart, int pageEnd) {
+    public JsonResponse getGjdqListPagination(int pageNum, int pageSize) {
         JsonResponse jsonResponse = new JsonResponse();
-        List<DmGjdq> dmGjdqList = dmGjdqMapper.selectGjdqList(pageStart, pageEnd);
-        if (null != dmGjdqList)
-            jsonResponse.getRepData().put("gjdqList", dmGjdqList);
+        Integer[] pageStartAndEnd = CommonUtil.getPageStartAndEnd(pageNum, pageSize);
+        int total = dmGjdqMapper.selectGjdqCount();
+        if (total > 0) {
+            List<DmGjdq> dmGjdqList = dmGjdqMapper.selectGjdqList(pageStartAndEnd[0], pageStartAndEnd[1]);
+            if (null != dmGjdqList)
+                jsonResponse.getRepData().put("gjdqList", dmGjdqList);
+        }
+        jsonResponse.getRepData().put("gjdqCount", total);
+
         return jsonResponse;
     }
 
