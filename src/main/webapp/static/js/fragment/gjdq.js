@@ -3,9 +3,95 @@
  */
 $(function () {
 
+    gjdqDatagridOpts();
+
     initGjdqTable();
 
 })
+
+function gjdqDatagridOpts() {
+    $("#tb_gjdq").datagrid({
+        fitColumns: true,
+        rownumbers: true,
+        pagination: true,
+        multiSort: true,
+        striped: true,
+        singleSelect: true,
+        onClickCell: onClickCell,
+        onClickRow: onClickRow,
+        onAfterEdit: onAfterEdit,
+        onCheck: onCheck,
+        columns: [[
+            {field: 'ck', checkbox: true},
+            {
+                field: 'gjdqMcZ', title: '中文名称', width: 100,
+                editor: {
+                    type: 'text'
+                }
+            },
+            {
+                field: 'gjdqMcE', title: '英文名称', width: 100,
+                editor: {
+                    type: 'text'
+                }
+            },
+            {
+                field: 'gjdqMcdm', title: '国籍地区代码', width: 100,
+                editor: {
+                    type: 'text'
+                }
+            },
+            {
+                field: 'gjdqDhdm', title: '电话代码', width: 100,
+                editor: {
+                    type: 'numberbox'
+                }
+            },
+            {
+                field: 'gjdqId', title: '自定义编码', width: 100,
+                editor: {
+                    type: 'numberbox'
+                }
+            },
+            {
+                field: 'sc', title: '与中国时差', width: 100,
+                editor: {
+                    type: 'text'
+                }
+            },
+            {
+                field: 'yxbj',
+                title: '有效标记(1:有效,0:无效)',
+                width: 100,
+                align: 'center',
+                formatter: function (value, row, index) {
+                    return value;
+                },
+                editor: {
+                    type: 'checkbox', options: {
+                        on: '1', off: '0'
+                    }
+                }
+            }
+        ]],
+        toolbar: [{
+            iconCls: 'icon-save',
+            handler: function () {
+                saveEdit();
+            }
+        }, '-', {
+            iconCls: 'icon-add',
+            handler: function () {
+                addRecord();
+            }
+        }, '-', {
+            iconCls: 'icon-remove',
+            handler: function () {
+                removeRecord();
+            }
+        }]
+    });
+}
 
 function initGjdqTable() {
     $.ajax({
@@ -33,89 +119,11 @@ function initGjdqTable() {
         },
         success: function (responseText, textStatus, XMLHttpRequest) {
             if (checkResponseText(responseText)) {
+
                 $("#tb_gjdq").datagrid({
-                    data: responseText.repData.gjdqList,
-                    fitColumns: true,
-                    rownumbers: true,
-                    pagination: true,
-                    multiSort: true,
-                    striped: true,
-                    singleSelect: true,
-                    onClickCell: onClickCell,
-                    onClickRow: onClickRow,
-                    onAfterEdit: onAfterEdit,
-                    onCheck: onCheck,
-                    columns: [[
-                        {field: 'ck', checkbox: true},
-                        {
-                            field: 'gjdqMcZ', title: '中文名称', width: 100,
-                            editor: {
-                                type: 'text'
-                            }
-                        },
-                        {
-                            field: 'gjdqMcE', title: '英文名称', width: 100,
-                            editor: {
-                                type: 'text'
-                            }
-                        },
-                        {
-                            field: 'gjdqMcdm', title: '国籍地区代码', width: 100,
-                            editor: {
-                                type: 'text'
-                            }
-                        },
-                        {
-                            field: 'gjdqDhdm', title: '电话代码', width: 100,
-                            editor: {
-                                type: 'numberbox'
-                            }
-                        },
-                        {
-                            field: 'gjdqId', title: '自定义编码', width: 100,
-                            editor: {
-                                type: 'numberbox'
-                            }
-                        },
-                        {
-                            field: 'sc', title: '与中国时差', width: 100,
-                            editor: {
-                                type: 'text'
-                            }
-                        },
-                        {
-                            field: 'yxbj',
-                            title: '有效标记(1:有效,0:无效)',
-                            width: 100,
-                            align: 'center',
-                            formatter: function (value, row, index) {
-                                return value;
-                            },
-                            editor: {
-                                type: 'checkbox', options: {
-                                    on: '1', off: '0'
-                                }
-                            }
-                        }
-                    ]],
-                    toolbar: [{
-                        iconCls: 'icon-save',
-                        handler: function () {
-                            saveEdit();
-                        }
-                    }, '-', {
-                        iconCls: 'icon-add',
-                        handler: function () {
-                            addRecord();
-                        }
-                    }, '-', {
-                        iconCls: 'icon-remove',
-                        handler: function () {
-                            removeRecord();
-                        }
-                    }]
-                })
-                ;
+                    data: responseText.repData.gjdqList
+                });
+
             } else {
                 alert(responseText.msg);
             }
@@ -210,7 +218,7 @@ function removeRecord() {
         commonAjax('/comm/getJsonData2', 'dmService', 'deleteGjdqBatch', {records: JSON.stringify(removeRecords)}).then(function (resultData) {
             if (checkResponseText(resultData)) {
                 $('#tb_gjdq').datagrid('deleteRow', checkIndex);
-                easyMsg.toast(resultData.msg+":已删除");
+                easyMsg.toast(resultData.msg + ":已删除");
             } else {
                 easyDialog.alert(resultData.msg, function () {
                     easyDialog.close();

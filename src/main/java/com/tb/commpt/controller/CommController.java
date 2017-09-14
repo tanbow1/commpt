@@ -164,7 +164,7 @@ public class CommController {
     @RequestMapping("/getJsonData")
     public JsonResponse getJsonData(@ModelAttribute JsonRequest jsonRequest,
                                     HttpServletRequest httpServletRequest,
-                                    HttpServletResponse httpServletResponse) throws BizLevelException {
+                                    HttpServletResponse httpServletResponse) throws BizLevelException, InvocationTargetException {
         JsonResponse jsonResponse = new JsonResponse();
         String serviceName = jsonRequest.getServiceName();
         String methodName = jsonRequest.getMethodName();
@@ -209,11 +209,7 @@ public class CommController {
             logger.error(e.getMessage());
             jsonResponse.setCode(ConsCommon.WARN_CODE_009);
             jsonResponse.setMsg(ConsCommon.WARN_MSG_009);
-        } catch (InvocationTargetException e) {
-            logger.error(e.getMessage());
-            jsonResponse.setCode(ConsCommon.WARN_CODE_011);
-            jsonResponse.setMsg(ConsCommon.WARN_MSG_011);
-        } catch (ClassCastException e) {
+        }  catch (ClassCastException e) {
             logger.error(e.getMessage());
             jsonResponse.setCode(ConsCommon.WARN_CODE_012);
             jsonResponse.setMsg(ConsCommon.WARN_MSG_012);

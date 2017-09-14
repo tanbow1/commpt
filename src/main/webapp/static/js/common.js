@@ -147,10 +147,9 @@ var easyuiTabOption = {
 
             $('#' + tabId).tabs('add', {
                 title: title,
-                collapsible: true,
                 href: targetNode.url,
                 closable: true,
-                cache: false
+                cache: true
             });
         }
 
