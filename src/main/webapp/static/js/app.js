@@ -12,6 +12,7 @@ $(function () {
 
     $(".sys__footerinfo").text(sysinfo.footerinfo + "  版本：" + sysinfo.version);
 
+
     function getCacheContainer(t) {
         var view = $(t).closest('div.datagrid-view');
         var c = view.children('div.datagrid-editor-cache');

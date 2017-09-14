@@ -77,7 +77,7 @@ function gjdqDatagridOpts() {
             }
         ]],
         toolbar: [{
-            iconCls: 'icon-reload',
+            iconCls: 'icon-undo',
             handler: function () {
                 reloadRecord();
             }
@@ -261,7 +261,7 @@ function removeRecord() {
 
     }
 }
-
+//重置该datagrid整个数据
 function reloadRecord() {
     gjdqDatagridOpts();
 
