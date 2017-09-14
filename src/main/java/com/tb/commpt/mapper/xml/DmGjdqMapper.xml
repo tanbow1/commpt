@@ -9,9 +9,10 @@
         <result column="GJDQ_DHDM" jdbcType="VARCHAR" property="gjdqDhdm"/>
         <result column="YXBJ" jdbcType="CHAR" property="yxbj"/>
         <result column="GJDQ_ID" jdbcType="VARCHAR" property="gjdqId"/>
+        <result column="SC" jdbcType="VARCHAR" property="sc"/>
     </resultMap>
     <sql id="Base_Column_List">
-        UUID,GJDQ_MC_Z,GJDQ_MC_E,GJDQ_MCDM,GJDQ_DHDM,GJDQ_ID,YXBJ
+        UUID,GJDQ_MC_Z,GJDQ_MC_E,GJDQ_MCDM,GJDQ_DHDM,GJDQ_ID,YXBJ,SC
     </sql>
     <insert id="insertSelective" parameterType="com.tb.commpt.model.DmGjdq">
         <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="uuid">
@@ -38,6 +39,9 @@
             <if test="gjdqId != null">
                 GJDQ_ID,
             </if>
+            <if test="sc != null">
+                SC,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             #{uuid,jdbcType=VARCHAR},
@@ -58,6 +62,9 @@
             </if>
             <if test="gjdqId != null">
                 #{gjdqId,jdbcType=VARCHAR},
+            </if>
+            <if test="gjdqId != null">
+                #{sc,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -97,6 +104,9 @@
             </if>
             <if test="gjdqId != null">
                 GJDQ_ID = #{gjdqId,jdbcType=VARCHAR},
+            </if>
+            <if test="sc != null">
+                SC = #{sc,jdbcType=VARCHAR},
             </if>
         </trim>
         WHERE UUID = #{uuid,jdbcType=VARCHAR}

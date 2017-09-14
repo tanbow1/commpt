@@ -78,6 +78,12 @@ function initGjdqTable() {
                             }
                         },
                         {
+                            field: 'sc', title: '与中国时差', width: 100,
+                            editor: {
+                                type: 'text'
+                            }
+                        },
+                        {
                             field: 'yxbj',
                             title: '有效标记(1:有效,0:无效)',
                             width: 100,
@@ -204,7 +210,7 @@ function removeRecord() {
         commonAjax('/comm/getJsonData2', 'dmService', 'deleteGjdqBatch', {records: JSON.stringify(removeRecords)}).then(function (resultData) {
             if (checkResponseText(resultData)) {
                 $('#tb_gjdq').datagrid('deleteRow', checkIndex);
-                easyMsg.toast(resultData.msg);
+                easyMsg.toast(resultData.msg+":已删除");
             } else {
                 easyDialog.alert(resultData.msg, function () {
                     easyDialog.close();

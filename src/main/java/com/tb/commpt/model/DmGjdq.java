@@ -15,6 +15,16 @@ public class DmGjdq extends BaseModel {
 
     private String gjdqId;
 
+    private String sc;
+
+    public String getSc() {
+        return sc;
+    }
+
+    public void setSc(String sc) {
+        this.sc = sc;
+    }
+
     public String getUuid() {
         return uuid;
     }
