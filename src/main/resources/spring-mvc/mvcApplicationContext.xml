@@ -55,19 +55,20 @@
     <bean id="exceptionResolver"
           class="com.tb.commpt.exception.MySimpleMappingExceptionResolver"></bean>
 
-    <!--<bean id="multipartResolver"
+    <!--文件上传-->
+    <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding">
             <value>UTF-8</value>
         </property>
-        <property name="resolveLazily" value="true" />
+        <property name="resolveLazily" value="true"/>
         <property name="maxUploadSize">
-            <value>1048576</value>&lt;!&ndash; 上传文件大小限制为1M &ndash;&gt;
+            <value>${file.default.maxUploadSize}</value><!--一次上传文件总大小限制 -->
         </property>
         <property name="maxInMemorySize">
-            <value>40960</value> &lt;!&ndash; 最大内存大小 &ndash;&gt;
+            <value>${file.default.maxInMemorySize}</value> <!-- 最大内存大小-->
         </property>
-    </bean>-->
+    </bean>
 
     <!--拦截器： 忽略静态文件和登陆请求 -->
     <mvc:interceptors>

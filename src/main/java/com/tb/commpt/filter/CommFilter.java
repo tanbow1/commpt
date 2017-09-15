@@ -34,7 +34,7 @@ public class CommFilter implements Filter {
 
         System.out.println(" filter 当前url : " + url);
 
-        String[] IGNORE_URI = SystemContext.singleton().getValueAsString("filter.ignoreuri").split(",");
+        String[] IGNORE_URI = SystemContext.singleton().getValueAsString("filter.ignoreUri").split(",");
         logger.info("忽略过滤：" + Arrays.toString(IGNORE_URI));
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);

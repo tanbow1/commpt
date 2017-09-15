@@ -4,6 +4,7 @@ import com.tb.commpt.constant.ConsCommon;
 import com.tb.commpt.exception.BizLevelException;
 import com.tb.commpt.exception.SystemLevelException;
 import com.tb.commpt.global.SpringContext;
+import com.tb.commpt.global.SystemConfig;
 import com.tb.commpt.model.JsonRequest;
 import com.tb.commpt.model.JsonResponse;
 import com.tb.commpt.model.XtUser;
@@ -15,16 +16,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,6 +37,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequestMapping("/comm")
 public class CommController {
     private static Logger logger = LoggerFactory.getLogger(CommController.class);
+
+    @Autowired
+    private SystemConfig config;
 
     @Autowired
     private IAuthService authService;
@@ -209,7 +213,7 @@ public class CommController {
             logger.error(e.getMessage());
             jsonResponse.setCode(ConsCommon.WARN_CODE_009);
             jsonResponse.setMsg(ConsCommon.WARN_MSG_009);
-        }  catch (ClassCastException e) {
+        } catch (ClassCastException e) {
             logger.error(e.getMessage());
             jsonResponse.setCode(ConsCommon.WARN_CODE_012);
             jsonResponse.setMsg(ConsCommon.WARN_MSG_012);
@@ -271,6 +275,18 @@ public class CommController {
         return jsonResponse;
     }
 
+
+    @ResponseBody
+    @RequestMapping(value = "/uploadFiles", method = {RequestMethod.POST})
+    public JsonResponse uploadFjs(@RequestParam(value = "uploadFiles", required = false) MultipartFile[] files,
+                                  HttpServletRequest httpServletRequest,
+                                  HttpServletResponse httpServletResponse) {
+        JsonResponse jsonResponse = new JsonResponse();
+        int fileMaxlength = config.FILE_MAXLENGTH;
+
+
+        return jsonResponse;
+    }
 
 }
 

@@ -12,10 +12,16 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource(value = "classpath:config/config.properties")
 public class SystemConfig {
 
-    @Value("${interceptor.ignoreuri}")
+    @Value("${interceptor.ignoreUri}")
     public String INTERCEPTOR_IGNORE_URI;
 
     @Value("${jwt.secret}")
     public String JWT_SECRET;
+
+    @Value("${file.default.maxFileLength}")
+    public Integer FILE_MAXLENGTH;
+
+    @Value("${file.default.maxUploadSize}")
+    public Integer FILE_MAXUPLOADSIZE;
 
 }

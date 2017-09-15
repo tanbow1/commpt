@@ -1,5 +1,6 @@
 <div th:fragment="easyui_component">
-    <div id="comm_msgdialog" class="easyui-dialog" title="提示" style="padding:10px"
+    <!--简单消息提示对话框-->
+    <div id="comm_msgdialog" class="easyui-dialog" title="系统提示" style="padding:10px"
          data-options="
                 width: 400,
                 height: 200,
@@ -13,4 +14,39 @@
 			">
         <div id="comm_msgdialog_content"></div>
     </div>
+    <!--简单文件上传-->
+    <div id="comm_fileuploadDialog" class="easyui-dialog" title="文件上传" style="padding:10px"
+         data-options="
+                width: 600,
+                height: 400,
+                closed:false,
+                cache: false,
+                collapsible:true,
+                maximizable:true,
+                resizable:true,
+                modal:true,
+				iconCls: 'icon-redo',
+				toolbar: '#comm_fileuploadDialog_toolbar',
+				buttons: '#comm_fileuploadDialog_buttons'
+			">
+        <div id="comm_fileuploadDialog_content"></div>
+    </div>
+    <div id="comm_fileuploadDialog_toolbar" style="padding:2px 0">
+        <table cellpadding="0" cellspacing="0" style="width:100%">
+            <tr>
+                <td style="padding-left:2px">
+                    <a href="javascript:void(0)" class="easyui-linkbutton"
+                       data-options="iconCls:'icon-add2',plain:true">添加</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton"
+                       data-options="iconCls:'icon-remove2',plain:true">删除</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="comm_fileuploadDialog_buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-upload'" onclick="javascript:alert('save')"> 上 传</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel2'" onclick="javascript:$('#dlg').dialog('close')">取 消</a>
+    </div>
+
+
 </div>

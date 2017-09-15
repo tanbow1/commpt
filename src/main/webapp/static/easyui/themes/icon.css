@@ -127,10 +127,26 @@
     background: url('icons/download.png') no-repeat center center;
 }
 
-.icon-import{
+.icon-import {
     background: url('icons/import.png') no-repeat center center;
 }
 
 .icon-export {
     background: url('icons/export.png') no-repeat center center;
+}
+
+.icon-upload {
+    background: url('icons/upload_2.png') no-repeat center center;
+}
+
+.icon-cancel2 {
+    background: url('icons/cancel_2.png') no-repeat center center;
+}
+
+.icon-add2 {
+    background: url('icons/add_2.png') no-repeat center center;
+}
+
+.icon-remove2 {
+    background: url('icons/remove_2.png') no-repeat center center;
 }
