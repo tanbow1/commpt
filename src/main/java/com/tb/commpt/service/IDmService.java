@@ -34,4 +34,8 @@ public interface IDmService {
 
     JsonResponse addGjdqBatch(JsonRequest jsonRequest) throws IOException, BizLevelException;
 
+    JsonResponse importGjdqFromExcel(JsonRequest jsonRequest);
+
+    JsonResponse exportGjdqToExcel(JsonRequest jsonRequest);
+
 }

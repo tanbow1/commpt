@@ -77,7 +77,7 @@ function gjdqDatagridOpts() {
             }
         ]],
         toolbar: [{
-            iconCls: 'icon-undo',
+            iconCls: 'icon-reload',
             handler: function () {
                 reloadRecord();
             }
@@ -95,6 +95,16 @@ function gjdqDatagridOpts() {
             iconCls: 'icon-remove',
             handler: function () {
                 removeRecord();
+            }
+        }, '-', {
+            iconCls: 'icon-import',
+            handler: function () {
+                importRecord();
+            }
+        }, '-', {
+            iconCls: 'icon-export',
+            handler: function () {
+                exportRecord();
             }
         }]
     });
@@ -266,4 +276,12 @@ function reloadRecord() {
     gjdqDatagridOpts();
 
     initGjdqTable(DEFAULT_PAGESTART, DEFAULT_PAGESIZE);
+}
+
+//导入导出
+function importRecord() {
+
+}
+function exportRecord() {
+
 }

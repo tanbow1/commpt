@@ -140,7 +140,7 @@ public class DmServiceImpl implements IDmService {
     }
 
     /**
-     * 批量删除
+     * 批量删除国籍地区
      *
      * @param jsonRequest
      * @return
@@ -175,7 +175,7 @@ public class DmServiceImpl implements IDmService {
     }
 
     /**
-     * 批量新增/更新
+     * 批量新增/更新 国籍地区
      *
      * @param jsonRequest
      * @return
@@ -217,5 +217,21 @@ public class DmServiceImpl implements IDmService {
             jsonResponse.getRepData().put("errorList", errorList);
         }
         return jsonResponse;
+    }
+
+    /**
+     * 导入导出国籍地区
+     *
+     * @param jsonRequest
+     * @return
+     */
+    @Override
+    public JsonResponse importGjdqFromExcel(JsonRequest jsonRequest) {
+        return null;
+    }
+
+    @Override
+    public JsonResponse exportGjdqToExcel(JsonRequest jsonRequest) {
+        return null;
     }
 }
