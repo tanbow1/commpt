@@ -280,8 +280,22 @@ function reloadRecord() {
 
 //导入导出
 function importRecord() {
+//导入本地excel到数据库
+    $("#comm_fileuploadDialog_content tbody").find('input[name="uploadFile"]:first')[0].value = '';
+    $("#comm_fileuploadDialog_content tbody").find('tr:not(":first")').remove();
+    $("#comm_fileuploadDialog").dialog('open');
 
 }
 function exportRecord() {
+//到处数据到本地excel
 
+}
+
+function uploadFiles() {
+    var files = getFileObjs();
+    if (files.length == 0) {
+        easyMsg.push("未选择文件");
+    } else {
+
+    }
 }

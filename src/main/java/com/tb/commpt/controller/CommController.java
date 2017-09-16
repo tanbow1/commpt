@@ -278,7 +278,7 @@ public class CommController {
 
     @ResponseBody
     @RequestMapping(value = "/uploadFiles", method = {RequestMethod.POST})
-    public JsonResponse uploadFjs(@RequestParam(value = "uploadFiles", required = false) MultipartFile[] files,
+    public JsonResponse uploadFiles(@RequestParam(value = "uploadFiles", required = false) MultipartFile[] files,
                                   HttpServletRequest httpServletRequest,
                                   HttpServletResponse httpServletResponse) {
         JsonResponse jsonResponse = new JsonResponse();

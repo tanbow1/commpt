@@ -1,6 +1,6 @@
 <div th:fragment="easyui_component">
     <!--简单消息提示对话框-->
-    <div id="comm_msgdialog" class="easyui-dialog" title="系统提示" style="padding:10px"
+    <div id="comm_msgdialog" class="easyui-dialog p__10p" title="系统提示"
          data-options="
                 width: 400,
                 height: 200,
@@ -15,38 +15,123 @@
         <div id="comm_msgdialog_content"></div>
     </div>
     <!--简单文件上传-->
-    <div id="comm_fileuploadDialog" class="easyui-dialog" title="文件上传" style="padding:10px"
+    <div id="comm_fileuploadDialog" class="easyui-dialog p__10p" title="文件上传"
          data-options="
                 width: 600,
                 height: 400,
-                closed:false,
+                closed:true,
                 cache: false,
                 collapsible:true,
                 maximizable:true,
                 resizable:true,
                 modal:true,
-				iconCls: 'icon-redo',
+				iconCls: 'icon-upload',
 				toolbar: '#comm_fileuploadDialog_toolbar',
 				buttons: '#comm_fileuploadDialog_buttons'
 			">
-        <div id="comm_fileuploadDialog_content"></div>
+        <div id="comm_fileuploadDialog_content">
+            <table class="table table-sm table-striped table-bordered table-hover text-xs-center ">
+                <thead>
+                <tr>
+                    <th class="text-xs-center"><input type="checkbox" name="ck_all"/></th>
+                    <th class="text-xs-center">文件</th>
+                    <th class="text-xs-center">上传进度</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="p-0"><input type="checkbox" class="h__37p" name="ck_single"/></td>
+                    <td class="p-0">
+                        <input type="file" name="uploadFile" class="form-control-file l__h__37p w__100">
+                    </td>
+                    <td class="p-0">
+                        <span class="l__h__37p dis__inlineblock" name="process_info"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div id="comm_fileuploadDialog_toolbar" style="padding:2px 0">
-        <table cellpadding="0" cellspacing="0" style="width:100%">
+    <div id="comm_fileuploadDialog_toolbar">
+        <table cellpadding="0" cellspacing="0" class="w__100">
             <tr>
                 <td style="padding-left:2px">
                     <a href="javascript:void(0)" class="easyui-linkbutton"
-                       data-options="iconCls:'icon-add2',plain:true">添加</a>
+                       data-options="iconCls:'icon-add2',plain:true" onclick="javascript:addFile()">添加</a>
                     <a href="javascript:void(0)" class="easyui-linkbutton"
-                       data-options="iconCls:'icon-remove2',plain:true">删除</a>
+                       data-options="iconCls:'icon-remove2',plain:true" onclick="javascript:removeFiles()">删除</a>
                 </td>
             </tr>
         </table>
     </div>
     <div id="comm_fileuploadDialog_buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-upload'" onclick="javascript:alert('save')"> 上 传</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel2'" onclick="javascript:$('#dlg').dialog('close')">取 消</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-upload2'"
+           onclick="javascript:uploadFiles()"> 上 传</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel2'"
+           onclick="javascript:$('#comm_fileuploadDialog').dialog('close')">取 消</a>
     </div>
 
+    <script>
+        $('input[name="ck_all"]').eq(0).on('click', function () {
+            if (this.checked) {
+                $('input[name="ck_single"]').prop('checked', true);
+            } else {
+                $('input[name="ck_single"]').prop('checked', false);
+            }
+        })
 
+        $('input[name="ck_single"]').on('click', function () {
+            if (!this.checked) {
+                $('input[name="ck_all"]').prop('checked', false);
+            }
+
+            if ($('input[name="ck_single"]:checked').length == $('input[name="ck_single"]').length) {
+                $('input[name="ck_all"]').prop('checked', true);
+            }
+        })
+
+        function addFile() {
+            $('#comm_fileuploadDialog_content tbody').append(
+                $('#comm_fileuploadDialog_content tbody').find('tr:first').clone(true)
+            );
+        }
+
+        function removeFiles() {
+            var cks = $('input[name="ck_single"]');
+            var cksChecked = $('input[name="ck_single"]:checked');
+            if (cks.length < 2 || cksChecked.length == 0) {
+                return;
+            }
+
+            if (cksChecked.length == cks.length) {
+                easyMsg.toast("请至少保留一个文件");
+                return;
+            }
+
+            for (var i = 0, len = cksChecked.length; i < len; i++) {
+                $(cksChecked[i]).parents('tr:first').remove();
+            }
+        }
+
+        function getFileObjs() {
+            var files = [];
+            var cksChecked = $('input[name="ck_single"]:checked');
+            if (cksChecked.length == 0) {
+                var cks = $('input[name="ck_single"]');
+                for (var i = 0, len = cks.length; i < len; i++) {
+                    var file = $(cks[i]).parents('tr:first').find('input[name="uploadFile"]')[0];
+                    if (file.value != '')
+                        files.push(file);
+                }
+            } else {
+                for (var i = 0, len = cksChecked.length; i < len; i++) {
+                    var file = $(cksChecked[i]).parents('tr:first').find('input[name="uploadFile"]')[0];
+                    if (file.value != '')
+                        files.push(file);
+                }
+            }
+            return files;
+        }
+
+    </script>
 </div>

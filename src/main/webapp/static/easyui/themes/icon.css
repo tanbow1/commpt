@@ -136,6 +136,10 @@
 }
 
 .icon-upload {
+    background: url('icons/upload.png') no-repeat center center;
+}
+
+.icon-upload2 {
     background: url('icons/upload_2.png') no-repeat center center;
 }
 

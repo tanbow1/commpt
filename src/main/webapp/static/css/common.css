@@ -26,16 +26,35 @@ a {
     height: 30px;
 }
 
+.h__37p {
+    height: 37px;
+}
+
 .h__50p {
     height: 50px;
 }
 
+.h__100 {
+    height: 100%;
+}
+
+.l__h__37p {
+    line-height: 37px;
+}
 .l__h__50p {
     line-height: 50px;
 }
 
 .w_40 {
     width: 40%;
+}
+
+.w__50 {
+    width: 50%;
+}
+
+.w__100 {
+    width: 100%;
 }
 
 .w__30p {
