@@ -140,6 +140,12 @@ public class CommonUtil {
         return objectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
     }
 
+    /**
+     * 请求是否ajax
+     *
+     * @param request
+     * @return
+     */
     public static boolean isAjaxRequest(HttpServletRequest request) {
         return (request.getHeader("accept").indexOf("application/json") > -1
                 || (request.getHeader("X-Requested-With") != null

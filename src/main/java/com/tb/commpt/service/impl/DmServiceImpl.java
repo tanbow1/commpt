@@ -161,16 +161,18 @@ public class DmServiceImpl implements IDmService {
         List<DmGjdq> errorList = new ArrayList<DmGjdq>();
         while (it.hasNext()) {
             dmGjdq = (DmGjdq) it.next();
-            deleteCount = dmGjdqMapper.deleteByPrimaryKey(dmGjdq.getUuid());
-            if (deleteCount > 0) {
-                successList.add(dmGjdq);
-            } else {
-                errorList.add(dmGjdq);
-                jsonResponse.setCode(ConsCommon.WARN_CODE_017);
-                jsonResponse.setMsg(ConsCommon.WARN_MSG_017);
+            if (null != dmGjdq.getUuid()) {
+                deleteCount = dmGjdqMapper.deleteByPrimaryKey(dmGjdq.getUuid());
+                if (deleteCount > 0) {
+                    successList.add(dmGjdq);
+                } else {
+                    errorList.add(dmGjdq);
+                }
             }
         }
         if (errorList.size() > 0) {
+            jsonResponse.setCode(ConsCommon.WARN_CODE_017);
+            jsonResponse.setMsg(errorList.size() + "条" + ConsCommon.WARN_MSG_017);
             jsonResponse.getRepData().put("errorList", errorList);
         }
         return jsonResponse;

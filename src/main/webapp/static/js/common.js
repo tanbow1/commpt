@@ -267,6 +267,8 @@ var easyDialog = {
                 handler: function () {
                     if (typeof help == 'function') {
                         help()
+                    } else {
+                        easyMsg.toast("请联系管理员");
                     }
                 }
             }],

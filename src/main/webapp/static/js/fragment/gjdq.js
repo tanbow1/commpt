@@ -300,6 +300,9 @@ function uploadFiles() {
             url: "comm/uploadFiles",
             dataType: "json",
             type: "POST",
+            beforeSubmit: function () {
+                //window.getProgressTimer = setInterval("window.getProgess()", 1000);
+            },
             uploadProgress: function (event, position, total, percentComplete) {
                 console.log("event", event);
                 console.log("position", position);
@@ -315,3 +318,14 @@ function uploadFiles() {
         });
     }
 }
+
+window.getProgess = function () {
+    // $.ajax({
+    //     type: "GET",
+    //     url: "comm/uploadFileProcess",
+    //     success: function (data) {
+    //         console.log("progess", data);
+    //     }
+    // });
+};
+window.getProgressTimer = null;

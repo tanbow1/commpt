@@ -1,5 +1,5 @@
 <div th:fragment="easyui_component">
-    <!--简单消息提示对话框-->
+    <!--简单消息提示对话框START-->
     <div id="comm_msgdialog" class="easyui-dialog p__10p" title="系统提示"
          data-options="
                 width: 400,
@@ -14,7 +14,8 @@
 			">
         <div id="comm_msgdialog_content"></div>
     </div>
-    <!--简单文件上传-->
+    <!--简单消息提示对话框END-->
+    <!--简单文件上传START-->
     <div id="comm_fileuploadDialog" class="easyui-dialog p__10p" title="文件上传"
          data-options="
                 width: 600,
@@ -91,7 +92,7 @@
         })
 
         $('input[name="uploadFile"]').on('change', function () {
-            console.log(this.files[0]);
+           // console.log(this.files[0]);
         })
 
         function addFile() {
@@ -138,4 +139,5 @@
         }
 
     </script>
+    <!--简单文件上传END-->
 </div>

@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 异常handler
+ * 全局异常通用
  *
  * @author Tanbo
  */
@@ -73,6 +73,7 @@ public class MySimpleMappingExceptionResolver implements
             Throwable throwable = ((InvocationTargetException) ex).getTargetException();
             jsonResponse.setMsg("出现错误: " + throwable.getMessage());
             jsonResponse.setDetailMsg(ex.getCause().toString());
+            //方法调用出错范围太大 ，需获取该异常内部TargetException才能明确哪个异常
         } else if (ex instanceof MaxUploadSizeExceededException) {
             jsonResponse.setMsg("出现错误,文件过大(最大支持" + config.FILE_MAXUPLOADSIZE / (1024 * 1024) + "M): " + ex.getMessage());
             jsonResponse.setDetailMsg(ex.getCause().toString());

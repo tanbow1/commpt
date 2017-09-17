@@ -25,8 +25,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 全局异常
+ * 全局异常特殊处理，先于MySimpleMappingExceptionResolver
  */
+//将作用在所有注解了@RequestMapping的控制器的方法上
 @ControllerAdvice
 public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory
@@ -47,8 +48,7 @@ public class GlobalExceptionHandler {
         modelAndView = new ModelAndView();
         jsonResponse = new JsonResponse();
         jsonResponse.setCode(ConsCommon.RUNTIME_EXCEPTION_CODE);
-        jsonResponse.setMsg(ConsCommon.RUNTIME_EXCEPTION_MSG);
-        jsonResponse.setDetailMsg(ex.getMessage());
+        jsonResponse.setMsg(ConsCommon.RUNTIME_EXCEPTION_MSG + ":" + ex.getMessage());
         if (ajaxReturn(request, response)) return null;
         modelAndView.addObject("jsonResponse", jsonResponse);
         modelAndView.setViewName("common/error");
