@@ -81,7 +81,7 @@ public class CommonUtil {
      * @return
      */
     public static Integer[] getPageStartAndEnd(Integer pageNumber,
-                                            Integer pageSize) {
+                                               Integer pageSize) {
         if (null == pageNumber || pageNumber < 1) {
             pageNumber = ConsCommon.DEFAULT_PAGE_START;
         }
@@ -138,5 +138,11 @@ public class CommonUtil {
     public static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
+    }
+
+    public static boolean isAjaxRequest(HttpServletRequest request) {
+        return (request.getHeader("accept").indexOf("application/json") > -1
+                || (request.getHeader("X-Requested-With") != null
+                && request.getHeader("X-Requested-With").indexOf("XMLHttpRequest") > -1));
     }
 }

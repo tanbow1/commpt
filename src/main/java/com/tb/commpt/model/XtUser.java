@@ -1,5 +1,7 @@
 package com.tb.commpt.model;
 
+import com.tb.commpt.model.comm.BaseModel;
+
 import java.util.Date;
 
 public class XtUser extends BaseModel {

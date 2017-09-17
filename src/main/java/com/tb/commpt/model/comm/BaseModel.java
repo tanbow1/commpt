@@ -1,4 +1,4 @@
-package com.tb.commpt.model;
+package com.tb.commpt.model.comm;
 
 
 public abstract class BaseModel implements java.io.Serializable {

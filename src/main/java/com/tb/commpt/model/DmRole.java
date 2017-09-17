@@ -1,5 +1,7 @@
 package com.tb.commpt.model;
 
+import com.tb.commpt.model.comm.BaseModel;
+
 public class DmRole extends BaseModel {
     private String roleId;
 

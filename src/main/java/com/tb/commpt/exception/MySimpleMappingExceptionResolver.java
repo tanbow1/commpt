@@ -2,9 +2,12 @@ package com.tb.commpt.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tb.commpt.constant.ConsCommon;
-import com.tb.commpt.model.JsonResponse;
+import com.tb.commpt.global.SystemConfig;
+import com.tb.commpt.model.comm.JsonResponse;
+import com.tb.commpt.utils.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,15 +30,16 @@ public class MySimpleMappingExceptionResolver implements
     private static final Logger logger = LoggerFactory
             .getLogger(MySimpleMappingExceptionResolver.class);
 
+    @Autowired
+    SystemConfig config;
+
     @SuppressWarnings("unchecked")
     public ModelAndView resolveException(HttpServletRequest request,
                                          HttpServletResponse response, Object object, Exception ex) {
         JsonResponse jsonResponse = new JsonResponse();
         logger.error(ex.getMessage());
         // 判断是否ajax请求
-        if (!(request.getHeader("accept").indexOf("application/json") > -1 || (request
-                .getHeader("X-Requested-With") != null && request.getHeader(
-                "X-Requested-With").indexOf("XMLHttpRequest") > -1))) {
+        if (!CommonUtil.isAjaxRequest(request)) {
             // 非ajax请求
             setErrorJsonResponse(ex, jsonResponse);
             Map<String, Object> resultMap = new ConcurrentHashMap<String, Object>();
@@ -70,9 +74,9 @@ public class MySimpleMappingExceptionResolver implements
             jsonResponse.setMsg("出现错误: " + throwable.getMessage());
             jsonResponse.setDetailMsg(ex.getCause().toString());
         } else if (ex instanceof MaxUploadSizeExceededException) {
-            jsonResponse.setMsg("出现错误,文件过大: " + ex.getMessage());
+            jsonResponse.setMsg("出现错误,文件过大(最大支持" + config.FILE_MAXUPLOADSIZE / (1024 * 1024) + "M): " + ex.getMessage());
             jsonResponse.setDetailMsg(ex.getCause().toString());
-            //TODO 该异常貌似有点问题
+            // 该异常 由于在Controller之前触发，转至GlobalExceptionHandler.maxUploadSizeExceededExceptionHandler处理
         } else {
             jsonResponse.setCode(ConsCommon.ERROR_CODE_UNKNOW);
             jsonResponse.setMsg(ConsCommon.ERROR_MSG_UNKNOW + " " + ex.getMessage());

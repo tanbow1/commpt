@@ -1,8 +1,9 @@
-package com.tb.commpt.model;
+package com.tb.commpt.model.comm;
+
+import com.tb.commpt.model.comm.BaseModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**

@@ -5,8 +5,8 @@ import com.tb.commpt.exception.BizLevelException;
 import com.tb.commpt.exception.SystemLevelException;
 import com.tb.commpt.global.SpringContext;
 import com.tb.commpt.global.SystemConfig;
-import com.tb.commpt.model.JsonRequest;
-import com.tb.commpt.model.JsonResponse;
+import com.tb.commpt.model.comm.JsonRequest;
+import com.tb.commpt.model.comm.JsonResponse;
 import com.tb.commpt.model.XtUser;
 import com.tb.commpt.service.IAuthService;
 import com.tb.commpt.service.IDmService;
@@ -18,14 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -278,12 +277,13 @@ public class CommController {
 
     @ResponseBody
     @RequestMapping(value = "/uploadFiles", method = {RequestMethod.POST})
-    public JsonResponse uploadFiles(@RequestParam(value = "uploadFiles", required = false) MultipartFile[] files,
-                                  HttpServletRequest httpServletRequest,
-                                  HttpServletResponse httpServletResponse) {
+    public JsonResponse uploadFiles(@RequestParam(value = "uploadFile", required = false) MultipartFile[] files,
+                                    HttpServletRequest httpServletRequest,
+                                    HttpServletResponse httpServletResponse) {
         JsonResponse jsonResponse = new JsonResponse();
         int fileMaxlength = config.FILE_MAXLENGTH;
-
+        System.out.print(files);
+        System.out.print(files.length);
 
         return jsonResponse;
     }

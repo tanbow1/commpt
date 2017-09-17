@@ -90,6 +90,10 @@
             }
         })
 
+        $('input[name="uploadFile"]').on('change', function () {
+            console.log(this.files[0]);
+        })
+
         function addFile() {
             $('#comm_fileuploadDialog_content tbody').append(
                 $('#comm_fileuploadDialog_content tbody').find('tr:first').clone(true)

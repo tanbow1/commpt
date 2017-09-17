@@ -79,7 +79,7 @@
             <property name="immutable" value="false"/>
 
             <!-- 给Model添加一个父类 -->
-            <property name="rootClass" value="com.tb.commpt.model.BaseModel"/>
+            <property name="rootClass" value="com.tb.commpt.model.comm.BaseModel"/>
 
             <!-- 是否对类CHAR类型的列的数据进行trim操作 -->
             <property name="trimStrings" value="true"/>

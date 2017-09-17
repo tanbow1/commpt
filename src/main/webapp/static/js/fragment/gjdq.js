@@ -294,8 +294,24 @@ function exportRecord() {
 function uploadFiles() {
     var files = getFileObjs();
     if (files.length == 0) {
-        easyMsg.push("未选择文件");
+        easyMsg.toast("未选择文件");
     } else {
-
+        $("#comm_fileuploadDialog_content").ajaxSubmit({
+            url: "comm/uploadFiles",
+            dataType: "json",
+            type: "POST",
+            uploadProgress: function (event, position, total, percentComplete) {
+                console.log("event", event);
+                console.log("position", position);
+                console.log("total", total);
+                console.log("percentComplete", percentComplete);
+            },
+            success: function (data) {
+                console.log("data", data);
+            },
+            error: function (error) {
+                console.log("error", error);
+            }
+        });
     }
 }

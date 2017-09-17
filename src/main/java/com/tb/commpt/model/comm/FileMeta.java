@@ -1,4 +1,4 @@
-package com.tb.commpt.model;
+package com.tb.commpt.model.comm;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

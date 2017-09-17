@@ -40,6 +40,14 @@ public class ConsCommon {
 
     // //////////////////////////////////////////////////////////
 
+    public static final String RUNTIME_EXCEPTION_CODE = "EX0001";
+    public static final String RUNTIME_EXCEPTION_MSG = "运行时异常";
+
+    public static final String MAXUPLOADSIZE_EXCEPTION_CODE = "EX0002";
+    public static final String MAXUPLOADSIZE_EXCEPTION_MSG = "上传文件过大";
+
+    // //////////////////////////////////////////////////////////
+
     public static final String WARN_CODE_001 = "W0001";
     public static final String WARN_MSG_001 = "账户已存在";
 

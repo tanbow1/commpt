@@ -1,5 +1,7 @@
 package com.tb.commpt.model;
 
+import com.tb.commpt.model.comm.BaseModel;
+
 public class XtUserRoleKey extends BaseModel {
     private String userId;
 

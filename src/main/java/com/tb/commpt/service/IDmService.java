@@ -3,8 +3,8 @@ package com.tb.commpt.service;
 import com.tb.commpt.exception.BizLevelException;
 import com.tb.commpt.model.DmAccount;
 import com.tb.commpt.model.DmMenu;
-import com.tb.commpt.model.JsonRequest;
-import com.tb.commpt.model.JsonResponse;
+import com.tb.commpt.model.comm.JsonRequest;
+import com.tb.commpt.model.comm.JsonResponse;
 
 import java.io.IOException;
 import java.util.List;
