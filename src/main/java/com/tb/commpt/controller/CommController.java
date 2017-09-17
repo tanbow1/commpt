@@ -5,9 +5,9 @@ import com.tb.commpt.exception.BizLevelException;
 import com.tb.commpt.exception.SystemLevelException;
 import com.tb.commpt.global.SpringContext;
 import com.tb.commpt.global.SystemConfig;
+import com.tb.commpt.model.XtUser;
 import com.tb.commpt.model.comm.JsonRequest;
 import com.tb.commpt.model.comm.JsonResponse;
-import com.tb.commpt.model.XtUser;
 import com.tb.commpt.service.IAuthService;
 import com.tb.commpt.service.IDmService;
 import com.tb.commpt.service.IUserService;
@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -287,6 +286,8 @@ public class CommController {
 
         return jsonResponse;
     }
+
+
 
 }
 

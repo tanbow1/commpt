@@ -300,32 +300,30 @@ function uploadFiles() {
             url: "comm/uploadFiles",
             dataType: "json",
             type: "POST",
+            timeout: SYS_TIMEOUT,
+            resetForm: false,//上传后重置表单
             beforeSubmit: function () {
-                //window.getProgressTimer = setInterval("window.getProgess()", 1000);
+                $(".progress-bar").addClass('bg-info').removeClass('bg-danger');
+                $(".progress-bar").text('0%');
+                $(".progress-bar").css('width', '0');
             },
             uploadProgress: function (event, position, total, percentComplete) {
-                console.log("event", event);
-                console.log("position", position);
-                console.log("total", total);
-                console.log("percentComplete", percentComplete);
+                // console.log("event", event);
+                // console.log("position", position);
+                // console.log("total", total);
+                // console.log("percentComplete", percentComplete);
+
+                $(".progress-bar").animate({width: percentComplete + '%'});
+                $(".progress-bar").text(percentComplete + '%');
             },
             success: function (data) {
                 console.log("data", data);
             },
             error: function (error) {
+                $(".progress-bar").addClass('bg-danger').removeClass('bg-info');
+                $(".progress-bar").text('上传失败');
                 console.log("error", error);
             }
         });
     }
 }
-
-window.getProgess = function () {
-    // $.ajax({
-    //     type: "GET",
-    //     url: "comm/uploadFileProcess",
-    //     success: function (data) {
-    //         console.log("progess", data);
-    //     }
-    // });
-};
-window.getProgressTimer = null;
