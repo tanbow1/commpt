@@ -8,6 +8,11 @@ public class ConsCommon {
 
     public static final String GBK = "GBK";
 
+    public static final String LANGUAGE_ZH = "zh";
+
+    public static final String LANGUAGE_EN = "en";
+
+
     // //////////////////////////////////////////////////////////
 
 

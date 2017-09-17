@@ -1,5 +1,7 @@
 package com.tb.commpt.utils;
 
+import com.tb.commpt.constant.ConsCommon;
+import com.tb.commpt.exception.SystemLevelException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
@@ -20,6 +22,46 @@ public class FTPUtil {
     private static Logger logger = LoggerFactory.getLogger(FTPUtil.class);
 
     public FTPUtil() {
+    }
+
+
+    public static FTPClient getFtpClient(String url, String username, String password, String encoding, String systemKey, String languageCode) throws IOException, SystemLevelException {
+        FTPClient ftpClient = new FTPClient();
+        logger.info("1）创建FTP客户端成功，开始连接FTP：[" + url + "]");
+        ftpClient.connect(url);
+        logger.info("2）FTP已连接");
+        ftpClient.setControlEncoding(null == encoding ? ConsCommon.UTF8 : encoding);
+        FTPClientConfig ftpClientConfig = new FTPClientConfig(null == systemKey ? FTPClientConfig.SYST_UNIX : systemKey);
+        ftpClientConfig.setServerLanguageCode(null == languageCode ? ConsCommon.LANGUAGE_ZH : languageCode);
+        logger.info("3）FTP相关配置成功");
+        ftpClient.login(username, password);
+        ftpClient.enterLocalActiveMode();//主动模式
+        logger.info("4）开始登录FTP");
+        int reply = ftpClient.getReplyCode();
+        if (!FTPReply.isPositiveCompletion(reply)) {
+            ftpClient.disconnect();
+            logger.info("5）连接ftp服务器失败");
+            throw new SystemLevelException("连接ftp服务器失败");
+        }
+        return ftpClient;
+    }
+
+
+
+    public static void closeFtpClient(FTPClient ftpClient) throws SystemLevelException {
+        if (null != ftpClient && ftpClient.isConnected()) {
+            try {
+                ftpClient.disconnect();
+            } catch (IOException ex) {
+                throw new SystemLevelException(ex.getMessage());
+            }
+        }
+    }
+
+    public static boolean uploadFile(String url, String username, String password,String path, String filename, InputStream input) {
+        //FTPClient ftp = getFtpClient()
+
+        return false;
     }
 
 

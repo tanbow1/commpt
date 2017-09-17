@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
  */
 
 @Configuration
-@PropertySource(value = "classpath:config/config.properties")
+@PropertySource(value = "classpath:config/*.properties", ignoreResourceNotFound = true)
 public class SystemConfig {
 
     @Value("${interceptor.ignoreUri}")
@@ -24,4 +24,15 @@ public class SystemConfig {
     @Value("${file.default.maxUploadSize}")
     public Integer FILE_MAXUPLOADSIZE;
 
+    @Value("${ftp.host}")
+    public String FTP_HOST;
+
+    @Value("${ftp.port}")
+    public String FTP_PORT;
+
+    @Value("${ftp.username}")
+    public String FTP_USERNAME;
+
+    @Value("${ftp.password}")
+    public String FTP_PASSWORD;
 }
