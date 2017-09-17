@@ -284,13 +284,17 @@ function importRecord() {
     $("#comm_fileuploadDialog_content tbody").find('input[name="uploadFile"]:first')[0].value = '';
     $("#comm_fileuploadDialog_content tbody").find('tr:not(":first")').remove();
     $("#comm_fileuploadDialog").dialog('open');
+    bootstraProgress.init("comm_fileuploadDialog_content");
 
 }
 function exportRecord() {
 //到处数据到本地excel
 
 }
-
+// 校验当前file
+function checkFile(fileInputObj) {
+    console.log(fileInputObj);
+}
 function uploadFiles() {
     var files = getFileObjs();
     if (files.length == 0) {
@@ -300,29 +304,31 @@ function uploadFiles() {
             url: "comm/uploadFiles",
             dataType: "json",
             type: "POST",
+            data: {
+                reqData: {
+                    test: 'test',
+                    name: 'tanbo'
+                }
+            },
             timeout: SYS_TIMEOUT,
             resetForm: false,//上传后重置表单
             beforeSubmit: function () {
-                $(".progress-bar").addClass('bg-info').removeClass('bg-danger');
-                $(".progress-bar").text('0%');
-                $(".progress-bar").css('width', '0');
+                bootstraProgress.init("comm_fileuploadDialog_content");
             },
             uploadProgress: function (event, position, total, percentComplete) {
-                // console.log("event", event);
-                // console.log("position", position);
-                // console.log("total", total);
-                // console.log("percentComplete", percentComplete);
-
-                $(".progress-bar").animate({width: percentComplete + '%'});
-                $(".progress-bar").text(percentComplete + '%');
+                bootstraProgress.processing("comm_fileuploadDialog_content", percentComplete);
             },
             success: function (data) {
-                console.log("data", data);
+                if (checkResponseText(data)) {
+                    console.log("data", data);
+                } else {
+                    bootstraProgress.error("comm_fileuploadDialog_content");
+                    easyMsg.alert(data.msg);
+                }
             },
             error: function (error) {
-                $(".progress-bar").addClass('bg-danger').removeClass('bg-info');
-                $(".progress-bar").text('上传失败');
-                console.log("error", error);
+                bootstraProgress.error("comm_fileuploadDialog_content");
+                easyMsg.alert(error.statusText + ":上传出错");
             }
         });
     }

@@ -12,6 +12,8 @@ import com.tb.commpt.service.IAuthService;
 import com.tb.commpt.service.IDmService;
 import com.tb.commpt.service.IUserService;
 import com.tb.commpt.utils.CommonUtil;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -277,16 +280,28 @@ public class CommController {
     @ResponseBody
     @RequestMapping(value = "/uploadFiles", method = {RequestMethod.POST})
     public JsonResponse uploadFiles(@RequestParam(value = "uploadFile", required = false) MultipartFile[] files,
+                                    @ModelAttribute JsonRequest jsonRequest,
                                     HttpServletRequest httpServletRequest,
-                                    HttpServletResponse httpServletResponse) {
+                                    HttpServletResponse httpServletResponse) throws IOException {
+
         JsonResponse jsonResponse = new JsonResponse();
         int fileMaxlength = config.FILE_MAXLENGTH;
         System.out.print(files);
-        System.out.print(files.length);
+        System.out.print("文件数：【" + files.length + "】");
 
+        FTPClient ftp = new FTPClient();
+        ftp.connect("localhost");
+        ftp.login("tanbo", "bthaha");
+        logger.info("=============开始登录FTP");
+        int reply = ftp.getReplyCode();
+        if (FTPReply.isPositiveCompletion(reply)) {
+            logger.info("=============连接ftp服务器成功===============");
+            ftp.setFileType(2);
+            ftp.storeFile(files[0].getName(), files[0].getInputStream());
+            ftp.logout();
+        }
         return jsonResponse;
     }
-
 
 
 }

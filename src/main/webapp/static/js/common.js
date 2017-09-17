@@ -397,6 +397,26 @@ function commonAjax(requestUrl, serviceName, methodName, dataObj, methodParamsAr
     return deferred;
 }
 
+//bootstrap progress
+var bootstraProgress = {
+    init: function (progressId) {
+        $("#" + progressId).find(".progress-bar").addClass('bg-info').removeClass('bg-danger');
+        $("#" + progressId).find(".progress-bar").text('0%');
+        $("#" + progressId).find(".progress-bar").css('width', '0');
+    },
+    processing: function (progressId, percentComplete) {
+        $("#" + progressId).find(".progress-bar").animate({width: percentComplete + '%'});
+        $("#" + progressId).find(".progress-bar").text(percentComplete + '%');
+    },
+    error: function (progressId) {
+        $("#" + progressId).find(".progress-bar").addClass('bg-danger').removeClass('bg-info');
+        $("#" + progressId).find(".progress-bar").text('上传失败');
+    },
+    success: function (progressId, percentComplete) {
+        $("#" + progressId).find(".progress-bar").text('上传成功');
+    }
+}
+
 
 //js时间格式化
 Date.prototype.format = function (format) {

@@ -31,9 +31,10 @@
 				buttons: '#comm_fileuploadDialog_buttons'
 			">
         <div id="comm_fileuploadDialog_content">
-            <div>上传进度：
+            <div>
                 <div class="progress">
-                    <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0"
+                    <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" role="progressbar"
+                         aria-valuenow="0"
                          aria-valuemin="0" aria-valuemax="100" style="width: 0;">0%
                     </div>
                 </div>
@@ -98,7 +99,7 @@
         })
 
         $('input[name="uploadFile"]').on('change', function () {
-            // console.log(this.files[0]);
+            checkFile(this);
         })
 
         function addFile() {

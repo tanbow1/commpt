@@ -7,6 +7,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.IOException;
+
 /**
  * Created by Tanbo on 2017/8/22.
  */
@@ -26,7 +28,7 @@ public class BaseJunit4Test {
     }
 
     @Test
-    public void test() {
+    public void test() throws IOException {
 
     }
 
