@@ -2,6 +2,7 @@ package com.tb.commpt.utils;
 
 import com.tb.commpt.constant.ConsCommon;
 import com.tb.commpt.exception.SystemLevelException;
+import com.tb.commpt.global.SystemContext;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
@@ -25,27 +26,32 @@ public class FTPUtil {
     }
 
 
-    public static FTPClient getFtpClient(String url, String username, String password, String encoding, String systemKey, String languageCode) throws IOException, SystemLevelException {
+    public static FTPClient getFtpClient(String host, String username, String password, String encoding, String systemKey, String languageCode) throws SystemLevelException {
         FTPClient ftpClient = new FTPClient();
-        logger.info("1）创建FTP客户端成功，开始连接FTP：[" + url + "]");
-        ftpClient.connect(url);
-        logger.info("2）FTP已连接");
-        ftpClient.setControlEncoding(null == encoding ? ConsCommon.UTF8 : encoding);
-        FTPClientConfig ftpClientConfig = new FTPClientConfig(null == systemKey ? FTPClientConfig.SYST_UNIX : systemKey);
-        ftpClientConfig.setServerLanguageCode(null == languageCode ? ConsCommon.LANGUAGE_ZH : languageCode);
-        logger.info("3）FTP相关配置成功");
-        ftpClient.login(username, password);
-        ftpClient.enterLocalActiveMode();//主动模式
-        logger.info("4）开始登录FTP");
-        int reply = ftpClient.getReplyCode();
-        if (!FTPReply.isPositiveCompletion(reply)) {
-            ftpClient.disconnect();
-            logger.info("5）连接ftp服务器失败");
+        logger.info("1）创建FTP客户端成功，开始连接FTP[" + host + "]");
+        try {
+            ftpClient.connect(host);
+            logger.info("2）FTP已连接");
+            ftpClient.setControlEncoding(null == encoding ? ConsCommon.UTF8 : encoding);
+            FTPClientConfig ftpClientConfig = new FTPClientConfig(null == systemKey ? FTPClientConfig.SYST_UNIX : systemKey);
+            ftpClientConfig.setServerLanguageCode(null == languageCode ? ConsCommon.LANGUAGE_ZH : languageCode);
+            logger.info("3）FTP相关配置成功");
+            ftpClient.login(username, password);
+            ftpClient.enterLocalActiveMode();//主动模式
+            logger.info("4）开始登录FTP");
+            int reply = ftpClient.getReplyCode();
+            if (!FTPReply.isPositiveCompletion(reply)) {
+                ftpClient.disconnect();
+                throw new SystemLevelException("连接ftp服务器失败");
+            }
+            logger.info("5）已登录FTP");
+        } catch (IOException ex) {
+            ftpClient = null;
             throw new SystemLevelException("连接ftp服务器失败");
         }
+
         return ftpClient;
     }
-
 
 
     public static void closeFtpClient(FTPClient ftpClient) throws SystemLevelException {
@@ -58,71 +64,60 @@ public class FTPUtil {
         }
     }
 
-    public static boolean uploadFile(String url, String username, String password,String path, String filename, InputStream input) {
-        //FTPClient ftp = getFtpClient()
 
-        return false;
+    /**
+     * 文件上传 默认读取配置文件
+     *
+     * @param filename
+     * @param input
+     * @return
+     */
+    public static boolean uploadFile(String filename, InputStream input) throws IOException, SystemLevelException {
+        FTPClient ftpClient = getFtpClient(SystemContext.singleton().getValueAsString("ftp.host"),
+                SystemContext.singleton().getValueAsString("ftp.username"),
+                SystemContext.singleton().getValueAsString("ftp.password"),
+                null, null, null);
+        String basePath = SystemContext.singleton().getValueAsString("ftp.uploadBasepath");
+
+        if (!ftpClient.changeWorkingDirectory(basePath) && !creatDir(ftpClient, basePath)) {
+            throw new SystemLevelException("上传目录[" + basePath + "]创建失败!");
+        }
+        logger.info("1）开始上传文件");
+        ftpClient.setFileType(2);
+        ftpClient.storeFile(filename, input);
+        input.close();
+        logger.info("2）FTP文件上传成功");
+        ftpClient.logout();
+        closeFtpClient(ftpClient);
+        logger.info("3）FTP资源回收");
+        return true;
     }
 
 
-    public static boolean uploadFile(String url, String username, String password, String path, String filename, InputStream input, String encoding) throws Exception {
-        boolean success = false;
-        boolean wjj_flag = false;
-        FTPClient ftp = new FTPClient();
-
-        try {
-            logger.info("=============1）创建FTP客户端成功，开始连接FTP：[" + url + "]");
-            ftp.connect(url);
-            logger.info("=============2）FTP已连接");
-            ftp.setControlEncoding(encoding == null ? "utf-8" : encoding);
-            FTPClientConfig conf = new FTPClientConfig("WINDOWS");
-            conf.setServerLanguageCode("zh");
-            ftp.login(username, password);
-            ftp.enterLocalPassiveMode();
-            logger.info("=============3）开始登录FTP");
-            int reply = ftp.getReplyCode();
-            if (!FTPReply.isPositiveCompletion(reply)) {
-                ftp.disconnect();
-                logger.info("=============4）连接ftp服务器失败===============");
-                throw new Exception("连接ftp服务器失败!");
-            }
-
-            logger.info("=============4）登陆ftp服务器成功===============");
-            wjj_flag = ftp.changeWorkingDirectory(path);
-            if (!wjj_flag && !creatDir(ftp, path)) {
-                throw new Exception("目录" + path + "创建失败!");
-            }
-
-            logger.info("=============5）开始上传文件");
-            ftp.setFileType(2);
-            ftp.storeFile(filename, input);
-            input.close();
-            ftp.logout();
-            success = true;
-            logger.info("=============6）ftp文件上传成功===============");
-        } catch (IOException var19) {
-            throw new Exception(var19.getMessage());
-        } finally {
-            if (ftp.isConnected()) {
-                try {
-                    ftp.disconnect();
-                } catch (IOException var18) {
-                    throw new Exception(var18.getMessage());
-                }
-            }
-
+    public static boolean uploadFile(String host, String username, String password, String path, String filename, InputStream input, String encoding) throws SystemLevelException, IOException {
+        FTPClient ftp = getFtpClient(host, username, password, encoding, null, null);
+        if (!ftp.changeWorkingDirectory(path) && !creatDir(ftp, path)) {
+            throw new SystemLevelException("上传目录[" + path + "]创建失败!");
         }
 
-        return success;
+        logger.info("1）开始上传文件");
+        ftp.setFileType(2);
+        ftp.storeFile(filename, input);
+        input.close();
+        logger.info("2）FTP文件上传成功");
+        ftp.logout();
+        closeFtpClient(ftp);
+        logger.info("3）FTP资源回收");
+        return true;
     }
 
-    public static boolean deleteFile(String url, String username, String password, String path, String filename) throws Exception {
+    public static boolean deleteFile(String host, String username, String password, String path, String filename) throws Exception {
         boolean success = false;
         boolean wjj_flag = false;
         FTPClient ftp = new FTPClient();
 
         try {
-            ftp.connect(url);
+            ftp.connect(host);
             ftp.setControlEncoding("GBK");
             FTPClientConfig conf = new FTPClientConfig("WINDOWS");
             conf.setServerLanguageCode("zh");
@@ -131,11 +126,11 @@ public class FTPUtil {
             int reply = ftp.getReplyCode();
             if (!FTPReply.isPositiveCompletion(reply)) {
                 ftp.disconnect();
-                logger.info("===============连接ftp服务器失败===============");
+                logger.info("连接ftp服务器失败");
                 throw new Exception("连接ftp服务器失败!");
             }
 
-            logger.info("===============登陆ftp服务器成功===============");
+            logger.info("登陆ftp服务器成功");
             String filename2 = new String(filename.getBytes("GBK"), "ISO-8859-1");
             wjj_flag = ftp.changeWorkingDirectory(path);
             if (!wjj_flag && !creatDir(ftp, path)) {
@@ -145,20 +140,12 @@ public class FTPUtil {
             ftp.deleteFile(filename2);
             ftp.logout();
             success = true;
-            logger.info("===============ftp服务器删除文件成功===============");
+            logger.info("ftp服务器删除文件成功");
         } catch (IOException var18) {
             logger.info(var18.getMessage());
             throw new Exception(var18.getMessage());
         } finally {
-            if (ftp.isConnected()) {
-                try {
-                    ftp.disconnect();
-                } catch (IOException var17) {
-                    logger.info(var17.getMessage());
-                    throw new Exception(var17.getMessage());
-                }
-            }
-
+            closeFtpClient(ftp);
         }
 
         return success;
@@ -198,7 +185,7 @@ public class FTPUtil {
         return filename1.toString();
     }
 
-    public static boolean creatDir(FTPClient ftp, String path) throws Exception {
+    public static boolean creatDir(FTPClient ftp, String path) throws IOException {
         boolean flag = false;
         String[] ml = path.split("/");
 

@@ -10,6 +10,9 @@
 
     <mvc:annotation-driven/>
 
+    <context:property-placeholder location="classpath:config/config.properties"
+                                  ignore-unresolvable="true"/>
+
     <!-- 自动扫描 @Controller标注的类控制器类,忽略service，否则事物无效 -->
     <context:component-scan base-package="com.tb.commpt,com.tb.test">
         <context:include-filter type="annotation"
@@ -115,7 +118,7 @@
     <!--</bean>-->
 
 
-    <!--redis-->
+    <!--redis import-->
     <import resource="classpath:spring-redis/spring-redis.xml"/>
 
 </beans>

@@ -320,7 +320,12 @@ function uploadFiles() {
             },
             success: function (data) {
                 if (checkResponseText(data)) {
-                    console.log("data", data);
+                    easyMsg.confirm(data.msg + ' 继续上传？', function () {
+                        reset();
+                    }, function () {
+                        $("#comm_fileuploadDialog").dialog('close');
+                    })
+
                 } else {
                     bootstraProgress.error("comm_fileuploadDialog_content");
                     easyMsg.alert(data.msg);

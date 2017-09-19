@@ -68,6 +68,8 @@
                        data-options="iconCls:'icon-add2',plain:true" onclick="javascript:addFile()">添加</a>
                     <a href="javascript:void(0)" class="easyui-linkbutton"
                        data-options="iconCls:'icon-remove2',plain:true" onclick="javascript:removeFiles()">删除</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton"
+                       data-options="iconCls:'icon-reset',plain:true" onclick="javascript:reset()">重置</a>
                 </td>
             </tr>
         </table>
@@ -143,6 +145,12 @@
                 }
             }
             return files;
+        }
+
+        function reset() {
+            $("#comm_fileuploadDialog_content tbody").find('input[name="uploadFile"]:first')[0].value = '';
+            $("#comm_fileuploadDialog_content tbody").find('tr:not(":first")').remove();
+            bootstraProgress.init("comm_fileuploadDialog_content");
         }
 
     </script>

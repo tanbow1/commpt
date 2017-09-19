@@ -21,7 +21,7 @@ public class SystemContext {
 
     private static SystemContext systemContext = null;
 
-    private static final String BOOTSTRAP = "config/config.properties";
+    private static final String BOOTSTRAP = "config/config.properties,config/datasource.properties";
 
 
     private SystemContext() {

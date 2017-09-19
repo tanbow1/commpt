@@ -12,8 +12,7 @@ import com.tb.commpt.service.IAuthService;
 import com.tb.commpt.service.IDmService;
 import com.tb.commpt.service.IUserService;
 import com.tb.commpt.utils.CommonUtil;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
+import com.tb.commpt.utils.FTPUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -282,24 +281,13 @@ public class CommController {
     public JsonResponse uploadFiles(@RequestParam(value = "uploadFile", required = false) MultipartFile[] files,
                                     @ModelAttribute JsonRequest jsonRequest,
                                     HttpServletRequest httpServletRequest,
-                                    HttpServletResponse httpServletResponse) throws IOException {
+                                    HttpServletResponse httpServletResponse) throws IOException, SystemLevelException {
 
         JsonResponse jsonResponse = new JsonResponse();
-        int fileMaxlength = config.FILE_MAXLENGTH;
+        int fileMaxlength = Integer.parseInt(config.FILE_MAXLENGTH);
         System.out.print(files);
         System.out.print("文件数：【" + files.length + "】");
 
-        FTPClient ftp = new FTPClient();
-        ftp.connect("localhost");
-        ftp.login("tanbo", "bthaha");
-        logger.info("=============开始登录FTP");
-        int reply = ftp.getReplyCode();
-        if (FTPReply.isPositiveCompletion(reply)) {
-            logger.info("=============连接ftp服务器成功===============");
-            ftp.setFileType(2);
-            ftp.storeFile(files[0].getName(), files[0].getInputStream());
-            ftp.logout();
-        }
         return jsonResponse;
     }
 

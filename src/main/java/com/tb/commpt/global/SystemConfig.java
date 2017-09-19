@@ -19,10 +19,10 @@ public class SystemConfig {
     public String JWT_SECRET;
 
     @Value("${file.default.maxFileLength}")
-    public Integer FILE_MAXLENGTH;
+    public String FILE_MAXLENGTH;
 
     @Value("${file.default.maxUploadSize}")
-    public Integer FILE_MAXUPLOADSIZE;
+    public String FILE_MAXUPLOADSIZE;
 
     @Value("${ftp.host}")
     public String FTP_HOST;
@@ -35,4 +35,7 @@ public class SystemConfig {
 
     @Value("${ftp.password}")
     public String FTP_PASSWORD;
+
+    @Value("${ftp.uploadBasepath}")
+    public String FTP_BASEPATH;
 }

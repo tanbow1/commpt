@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
         modelAndView = new ModelAndView();
         jsonResponse = new JsonResponse();
         jsonResponse.setCode(ConsCommon.MAXUPLOADSIZE_EXCEPTION_CODE);
-        jsonResponse.setMsg(ConsCommon.MAXUPLOADSIZE_EXCEPTION_MSG + "(文件累计最大支持" + config.FILE_MAXUPLOADSIZE / (1024 * 1024) + "M)");
+        jsonResponse.setMsg(ConsCommon.MAXUPLOADSIZE_EXCEPTION_MSG + "(文件累计最大支持" + Integer.parseInt(config.FILE_MAXUPLOADSIZE) / (1024 * 1024) + "M)");
         jsonResponse.setDetailMsg(ex.getMessage());
         if (ajaxReturn(request, response)) return null;
         modelAndView.addObject("jsonResponse", jsonResponse);

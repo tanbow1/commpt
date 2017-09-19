@@ -154,3 +154,7 @@
 .icon-remove2 {
     background: url('icons/remove_2.png') no-repeat center center;
 }
+
+.icon-reset {
+    background: url('icons/reset.png') no-repeat center center;
+}
