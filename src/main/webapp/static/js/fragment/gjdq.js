@@ -308,7 +308,9 @@ function uploadFiles() {
                 reqData: {
                     test: 'test',
                     name: 'tanbo'
-                }
+                },
+                serviceName: "dmService",
+                methodName: "importGjdqFromExcel"
             },
             timeout: SYS_TIMEOUT,
             resetForm: false,//上传后重置表单
@@ -319,6 +321,7 @@ function uploadFiles() {
                 bootstraProgress.processing("comm_fileuploadDialog_content", percentComplete);
             },
             success: function (data) {
+                console.log(data);
                 if (checkResponseText(data)) {
                     easyMsg.confirm(data.msg + ' 继续上传？', function () {
                         reset();

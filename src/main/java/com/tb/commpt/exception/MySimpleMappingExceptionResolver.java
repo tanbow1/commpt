@@ -65,10 +65,8 @@ public class MySimpleMappingExceptionResolver implements
         jsonResponse.setCode(ConsCommon.ERROR_CODE);
         if (ex instanceof BizLevelException) {
             jsonResponse.setMsg("出现错误: " + ex.getMessage());
-            jsonResponse.setDetailMsg(ex.getCause().toString());
         } else if (ex instanceof SystemLevelException) {
             jsonResponse.setMsg("系统出错: " + ex.getMessage() + ",请联系系统管理员!");
-            jsonResponse.setDetailMsg(ex.getCause().toString());
         } else if (ex instanceof InvocationTargetException) {
             Throwable throwable = ((InvocationTargetException) ex).getTargetException();
             jsonResponse.setMsg("出现错误: " + throwable.getMessage());
@@ -76,7 +74,6 @@ public class MySimpleMappingExceptionResolver implements
             //方法调用出错范围太大 ，需获取该异常内部TargetException才能明确哪个异常
         } else if (ex instanceof MaxUploadSizeExceededException) {
             jsonResponse.setMsg("出现错误,文件过大(最大支持" + Integer.parseInt(config.FILE_MAXUPLOADSIZE) / (1024 * 1024) + "M): " + ex.getMessage());
-            jsonResponse.setDetailMsg(ex.getCause().toString());
             // 该异常 由于在Controller之前触发，转至GlobalExceptionHandler.maxUploadSizeExceededExceptionHandler处理
         } else {
             jsonResponse.setCode(ConsCommon.ERROR_CODE_UNKNOW);

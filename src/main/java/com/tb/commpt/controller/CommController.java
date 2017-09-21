@@ -61,19 +61,14 @@ public class CommController {
         return new ModelAndView(page);
     }
 
+    //error page
     @RequestMapping("/error")
     public ModelAndView error() throws BizLevelException {
         return new ModelAndView("common/error");
     }
 
 
-    /**
-     * 登录
-     *
-     * @param jsonRequest
-     * @return
-     * @throws Exception
-     */
+    //登录
     @ResponseBody
     @RequestMapping("/login")
     public JsonResponse login(@ModelAttribute JsonRequest jsonRequest) throws Exception {
@@ -100,13 +95,7 @@ public class CommController {
         return jsonResponse;
     }
 
-    /**
-     * 刷新token
-     *
-     * @param jsonRequest
-     * @return
-     * @throws Exception
-     */
+    //刷新token
     @ResponseBody
     @RequestMapping("/refreshToken")
     public JsonResponse refreshToken(@ModelAttribute JsonRequest jsonRequest) throws Exception {
@@ -121,13 +110,7 @@ public class CommController {
         return jsonResponse;
     }
 
-    /**
-     * 校验token
-     *
-     * @param jsonRequest
-     * @return
-     * @throws Exception
-     */
+    //校验token
     @ResponseBody
     @RequestMapping("/checkToken")
     public JsonResponse checkToken(@ModelAttribute JsonRequest jsonRequest) throws Exception {
@@ -142,11 +125,7 @@ public class CommController {
         return jsonResponse;
     }
 
-    /**
-     * 根据父节点获取主菜单
-     *
-     * @return
-     */
+    //根据父节点获取主菜单
     @ResponseBody
     @RequestMapping("/getMaintree")
     public List getMaintree() {
@@ -154,9 +133,9 @@ public class CommController {
     }
 
     /**
-     * 统一ajax调用
+     * 统一ajax调用，ajax传入参数需写全
      * <p>
-     * 目前支持的method参数类型：int boolean string
+     * 支持的method参数类型：int boolean string ，可以补充
      *
      * @param jsonRequest
      * @param httpServletRequest
@@ -234,7 +213,7 @@ public class CommController {
     /**
      * 统一ajax调用
      * <p>
-     * 默认service入参：JsonRequest，出参：JsonResponse
+     * 默认入参：JsonRequest，出参：JsonResponse
      *
      * @param jsonRequest
      * @param httpServletRequest
@@ -276,17 +255,53 @@ public class CommController {
     }
 
 
+    /**
+     * 统一文件上传
+     *
+     * @param files
+     * @param jsonRequest
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @return
+     * @throws IOException
+     * @throws SystemLevelException
+     * @throws BizLevelException
+     */
     @ResponseBody
     @RequestMapping(value = "/uploadFiles", method = {RequestMethod.POST})
     public JsonResponse uploadFiles(@RequestParam(value = "uploadFile", required = false) MultipartFile[] files,
                                     @ModelAttribute JsonRequest jsonRequest,
                                     HttpServletRequest httpServletRequest,
-                                    HttpServletResponse httpServletResponse) throws IOException, SystemLevelException {
-
+                                    HttpServletResponse httpServletResponse) throws IOException, SystemLevelException, BizLevelException, InvocationTargetException {
         JsonResponse jsonResponse = new JsonResponse();
         int fileMaxlength = Integer.parseInt(config.FILE_MAXLENGTH);
-        System.out.print(files);
-        System.out.print("文件数：【" + files.length + "】");
+        if (files.length > fileMaxlength) {
+            throw new BizLevelException("文件数过多，最多不能超过" + fileMaxlength + "个，当前文件数：" + files.length);
+        }
+
+        String serviceName = jsonRequest.getServiceName();
+        String methodName = jsonRequest.getMethodName();
+        Object serviceBean = SpringContext.getBean(serviceName);
+        try {
+            Method method = serviceBean.getClass().getMethod(methodName, JsonRequest.class, MultipartFile[].class);
+            jsonResponse = (JsonResponse) method.invoke(serviceBean, jsonRequest, files);
+        } catch (NoSuchMethodException e) {
+            logger.error(e.getMessage());
+            jsonResponse.setCode(ConsCommon.WARN_CODE_008);
+            jsonResponse.setMsg(ConsCommon.WARN_MSG_008);
+        } catch (IllegalAccessException e) {
+            logger.error(e.getMessage());
+            jsonResponse.setCode(ConsCommon.WARN_CODE_009);
+            jsonResponse.setMsg(ConsCommon.WARN_MSG_009);
+        } catch (ClassCastException e) {
+            logger.error(e.getMessage());
+            jsonResponse.setCode(ConsCommon.WARN_CODE_012);
+            jsonResponse.setMsg(ConsCommon.WARN_MSG_012);
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
+            jsonResponse.setCode(ConsCommon.WARN_CODE_014);
+            jsonResponse.setMsg(ConsCommon.WARN_MSG_014);
+        }
 
         return jsonResponse;
     }

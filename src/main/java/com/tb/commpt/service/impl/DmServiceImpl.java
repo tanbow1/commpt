@@ -3,21 +3,25 @@ package com.tb.commpt.service.impl;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tb.commpt.constant.ConsCommon;
+import com.tb.commpt.constant.ContentType;
 import com.tb.commpt.exception.BizLevelException;
 import com.tb.commpt.mapper.DmAccountMapper;
 import com.tb.commpt.mapper.DmGjdqMapper;
 import com.tb.commpt.mapper.DmMenuMapper;
-import com.tb.commpt.model.*;
+import com.tb.commpt.model.DmAccount;
+import com.tb.commpt.model.DmGjdq;
+import com.tb.commpt.model.DmMenu;
 import com.tb.commpt.model.comm.JsonRequest;
 import com.tb.commpt.model.comm.JsonResponse;
 import com.tb.commpt.service.IDmService;
 import com.tb.commpt.utils.CommonUtil;
+import com.tb.commpt.utils.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
-import javax.jws.WebService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,7 +35,6 @@ import java.util.concurrent.ConcurrentHashMap;
 /***
  *
  */
-@WebService
 @Service("dmService")
 public class DmServiceImpl implements IDmService {
 
@@ -224,13 +227,23 @@ public class DmServiceImpl implements IDmService {
     }
 
     /**
-     * 导入导出国籍地区
+     * 导入国籍地区
      *
      * @param jsonRequest
      * @return
      */
     @Override
-    public JsonResponse importGjdqFromExcel(JsonRequest jsonRequest) {
+    public JsonResponse importGjdqFromExcel(JsonRequest jsonRequest, MultipartFile[] files) {
+        if (null != files && files.length > 0) {
+            for (int i = 0, len = files.length; i < len; i++) {
+                String s = files[i].getContentType();
+                if (ContentType.getContentType("xlsx").equals(s)) {
+                    List<ArrayList<String>> list = ExcelUtil.readXlsx(files[i]);
+                } else if (ContentType.getContentType("xls").equals(s)) {
+                    List<ArrayList<String>> list = ExcelUtil.readXls(files[i]);
+                }
+            }
+        }
         return null;
     }
 

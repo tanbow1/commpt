@@ -5,6 +5,7 @@ import com.tb.commpt.model.DmAccount;
 import com.tb.commpt.model.DmMenu;
 import com.tb.commpt.model.comm.JsonRequest;
 import com.tb.commpt.model.comm.JsonResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,7 +35,7 @@ public interface IDmService {
 
     JsonResponse addGjdqBatch(JsonRequest jsonRequest) throws IOException, BizLevelException;
 
-    JsonResponse importGjdqFromExcel(JsonRequest jsonRequest);
+    JsonResponse importGjdqFromExcel(JsonRequest jsonRequest, MultipartFile[] files);
 
     JsonResponse exportGjdqToExcel(JsonRequest jsonRequest);
 

@@ -42,12 +42,11 @@ public class FTPUtil {
             int reply = ftpClient.getReplyCode();
             if (!FTPReply.isPositiveCompletion(reply)) {
                 ftpClient.disconnect();
-                throw new SystemLevelException("连接ftp服务器失败");
+                throw new SystemLevelException("连接FTP服务器失败");
             }
             logger.info("5）已登录FTP");
         } catch (IOException ex) {
-            ftpClient = null;
-            throw new SystemLevelException("连接ftp服务器失败");
+            throw new SystemLevelException("连接FTP服务器失败");
         }
 
         return ftpClient;
@@ -93,9 +92,22 @@ public class FTPUtil {
         return true;
     }
 
-
-    public static boolean uploadFile(String host, String username, String password, String path, String filename, InputStream input, String encoding) throws SystemLevelException, IOException {
-        FTPClient ftp = getFtpClient(host, username, password, encoding, null, null);
+    /**
+     * 文件上传 参数自行传入
+     *
+     * @param host
+     * @param username
+     * @param password
+     * @param path
+     * @param filename
+     * @param input
+     * @param encoding
+     * @return
+     * @throws SystemLevelException
+     * @throws IOException
+     */
+    public static boolean uploadFile(String host, String username, String password, String path, String filename, InputStream input, String encoding, String systemKey, String languageCode) throws SystemLevelException, IOException {
+        FTPClient ftp = getFtpClient(host, username, password, encoding, systemKey, languageCode);
         if (!ftp.changeWorkingDirectory(path) && !creatDir(ftp, path)) {
             throw new SystemLevelException("上传目录[" + path + "]创建失败!");
         }
@@ -111,44 +123,20 @@ public class FTPUtil {
         return true;
     }
 
-    public static boolean deleteFile(String host, String username, String password, String path, String filename) throws Exception {
-        boolean success = false;
-        boolean wjj_flag = false;
-        FTPClient ftp = new FTPClient();
+    public static boolean deleteFile(String host, String username, String password, String path, String filename, String encoding) throws Exception {
+        FTPClient ftp = getFtpClient(host, username, password, encoding, null, null);
 
-        try {
-            ftp.connect(host);
-            ftp.setControlEncoding("GBK");
-            FTPClientConfig conf = new FTPClientConfig("WINDOWS");
-            conf.setServerLanguageCode("zh");
-            ftp.login(username, password);
-            ftp.enterLocalPassiveMode();
-            int reply = ftp.getReplyCode();
-            if (!FTPReply.isPositiveCompletion(reply)) {
-                ftp.disconnect();
-                logger.info("连接ftp服务器失败");
-                throw new Exception("连接ftp服务器失败!");
-            }
-
-            logger.info("登陆ftp服务器成功");
-            String filename2 = new String(filename.getBytes("GBK"), "ISO-8859-1");
-            wjj_flag = ftp.changeWorkingDirectory(path);
-            if (!wjj_flag && !creatDir(ftp, path)) {
-                throw new Exception("目录" + path + "创建失败!");
-            }
-
-            ftp.deleteFile(filename2);
-            ftp.logout();
-            success = true;
-            logger.info("ftp服务器删除文件成功");
-        } catch (IOException var18) {
-            logger.info(var18.getMessage());
-            throw new Exception(var18.getMessage());
-        } finally {
-            closeFtpClient(ftp);
+        String _filename = new String(filename.getBytes("GBK"), "ISO-8859-1");
+        if (!ftp.changeWorkingDirectory(path)) {
+            throw new SystemLevelException("目录[" + path + "]切换失败!");
         }
 
-        return success;
+        ftp.deleteFile(_filename);
+        logger.info("1）FTP服务器删除文件成功");
+        ftp.logout();
+        closeFtpClient(ftp);
+        logger.info("2）FTP资源回收");
+        return true;
     }
 
     public static boolean isDirExist(String fileName, FTPFile[] fs) {
@@ -200,7 +188,19 @@ public class FTPUtil {
         return flag;
     }
 
-    public static boolean uploadBase64File(String url, String username, String password, String path, String filename, String base64str) throws Exception {
+    /**
+     * 页面 base64字符串传入
+     *
+     * @param host
+     * @param username
+     * @param password
+     * @param path
+     * @param filename
+     * @param base64str
+     * @return
+     * @throws Exception
+     */
+    public static boolean uploadBase64File(String host, String username, String password, String path, String filename, String base64str) throws Exception {
         if (base64str != null) {
             base64str = base64str.replace("data:image/jpeg;base64,", "");
             base64str = base64str.replace("data:image/png;base64,", "");
@@ -216,7 +216,8 @@ public class FTPUtil {
             }
 
             InputStream inputStream = new ByteArrayInputStream(b);
-            return uploadFile(url, username, password, path, filename, inputStream, "utf-8");
+
+            return uploadFile(host, username, password, path, filename, inputStream, "utf-8", null, null);
         } else {
             return false;
         }
