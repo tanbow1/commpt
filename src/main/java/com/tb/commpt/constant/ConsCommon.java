@@ -108,10 +108,10 @@ public class ConsCommon {
     public static final String WARN_MSG_018 = "存在重复数据";
 
     public static final String WARN_CODE_019 = "W0019";
-    public static final String WARN_MSG_019 = "";
+    public static final String WARN_MSG_019 = "未获取文件";
 
     public static final String WARN_CODE_020 = "W0020";
-    public static final String WARN_MSG_020 = "";
+    public static final String WARN_MSG_020 = "未获取文件内容，请检查内容合法性";
 
     // //////////////////////////////////////////////////////////
 

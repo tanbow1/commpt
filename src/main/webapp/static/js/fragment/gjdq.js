@@ -288,7 +288,7 @@ function importRecord() {
 
 }
 function exportRecord() {
-//到处数据到本地excel
+//导出数据到本地excel
 
 }
 // 校验当前file
@@ -321,7 +321,6 @@ function uploadFiles() {
                 bootstraProgress.processing("comm_fileuploadDialog_content", percentComplete);
             },
             success: function (data) {
-                console.log(data);
                 if (checkResponseText(data)) {
                     easyMsg.confirm(data.msg + ' 继续上传？', function () {
                         reset();

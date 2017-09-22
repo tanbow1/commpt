@@ -38,4 +38,6 @@ public interface DmGjdqMapper {
 
     @Select({"select count(GJDQ_ID) from T_DM_GJDQ where GJDQ_ID = #{gjdqId,jdbcType=VARCHAR} "})
     int selectCountByGjdqId(String gjdqId);
+
+    int insertByBatch(List<DmGjdq> gjdqList);
 }

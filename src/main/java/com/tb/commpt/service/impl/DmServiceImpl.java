@@ -232,19 +232,50 @@ public class DmServiceImpl implements IDmService {
      * @param jsonRequest
      * @return
      */
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public JsonResponse importGjdqFromExcel(JsonRequest jsonRequest, MultipartFile[] files) {
+        JsonResponse jsonResponse = new JsonResponse();
+        List<ArrayList<String>> list = new ArrayList<>();
         if (null != files && files.length > 0) {
             for (int i = 0, len = files.length; i < len; i++) {
                 String s = files[i].getContentType();
                 if (ContentType.getContentType("xlsx").equals(s)) {
-                    List<ArrayList<String>> list = ExcelUtil.readXlsx(files[i]);
+                    list = ExcelUtil.readXlsx(files[i], 0, 0);
                 } else if (ContentType.getContentType("xls").equals(s)) {
-                    List<ArrayList<String>> list = ExcelUtil.readXls(files[i]);
+                    list = ExcelUtil.readXls(files[i], 0, 0);
                 }
             }
+
+            if (list.size() <= 0) {
+                jsonResponse.setCode(ConsCommon.WARN_CODE_020);
+                jsonResponse.setMsg(ConsCommon.WARN_MSG_020);
+            } else {
+                List<DmGjdq> gjdqList = new ArrayList<DmGjdq>();
+                DmGjdq gjdq = null;
+                ArrayList<String> listItem = null;
+                for (int i = 0, len = list.size(); i < len; i++) {
+                    gjdq = new DmGjdq();
+                    listItem = list.get(i);
+                    gjdq.setGjdqMcE(listItem.get(0));
+                    gjdq.setGjdqMcZ(listItem.get(1));
+                    gjdq.setGjdqMcdm(listItem.get(2));
+                    gjdq.setGjdqDhdm(listItem.get(3));
+                    gjdq.setSc(listItem.get(4));
+                    gjdq.setGjdqId(listItem.get(5));
+                    if ("0".equals(listItem.get(6)) || "1".equals(listItem.get(6))) {
+                        gjdq.setYxbj(listItem.get(6));
+                    }
+                    gjdqList.add(gjdq);
+                }
+                int insertBatchCount = dmGjdqMapper.insertByBatch(gjdqList);
+            }
+        } else {
+            jsonResponse.setCode(ConsCommon.WARN_CODE_019);
+            jsonResponse.setMsg(ConsCommon.WARN_MSG_019);
         }
-        return null;
+
+        return jsonResponse;
     }
 
     @Override

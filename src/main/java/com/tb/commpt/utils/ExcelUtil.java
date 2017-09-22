@@ -1,6 +1,7 @@
 package com.tb.commpt.utils;
 
 import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -109,20 +110,22 @@ public class ExcelUtil {
     /**
      * read the Excel .xlsx,.xls
      *
-     * @param file 页面上传的文件
+     * @param file          页面上传的文件
+     * @param startRowIndex 从第几行开始读取
+     * @param startColIndex 从第几列开始读取
      * @return
      * @throws IOException
      */
-    public static List<ArrayList<String>> readExcel(MultipartFile file) {
+    public static List<ArrayList<String>> readExcel(MultipartFile file, int startRowIndex, int startColIndex) {
         if (file == null || ExcelUtil.EMPTY.equals(file.getOriginalFilename().trim())) {
             return null;
         } else {
             String postfix = ExcelUtil.getPostfix(file.getOriginalFilename());
             if (!ExcelUtil.EMPTY.equals(postfix)) {
                 if (ExcelUtil.OFFICE_EXCEL_2003_POSTFIX.equals(postfix)) {
-                    return readXls(file);
+                    return readXls(file, startRowIndex, startColIndex);
                 } else if (ExcelUtil.OFFICE_EXCEL_2010_POSTFIX.equals(postfix)) {
-                    return readXlsx(file);
+                    return readXlsx(file, startRowIndex, startColIndex);
                 } else {
                     return null;
                 }
@@ -133,11 +136,18 @@ public class ExcelUtil {
 
     /**
      * read the Excel 2010 .xlsx
+     * <p>
+     * 2007 MAX列是16384；行是1048576
      *
      * @param file
      * @return
      */
-    public static List<ArrayList<String>> readXlsx(MultipartFile file) {
+    public static List<ArrayList<String>> readXlsx(MultipartFile file, int startRowIndex, int startColIndex) {
+        if (startRowIndex <= 0 || startRowIndex >= 1048575)
+            startRowIndex = 0;
+        if (startColIndex <= 0 || startColIndex >= 16383)
+            startColIndex = 0;
+
         List<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
         // IO流读取文件
         InputStream input = null;
@@ -155,13 +165,13 @@ public class ExcelUtil {
                 }
                 totalRows = xssfSheet.getLastRowNum();
                 //读取Row,从第二行开始
-                for (int rowNum = 1; rowNum <= totalRows; rowNum++) {
+                for (int rowNum = startRowIndex; rowNum <= totalRows && rowNum <= 1048575; rowNum++) {
                     XSSFRow xssfRow = xssfSheet.getRow(rowNum);
                     if (xssfRow != null) {
                         rowList = new ArrayList<String>();
                         totalCells = xssfRow.getLastCellNum();
                         //读取列，从第一列开始
-                        for (int c = 0; c <= totalCells + 1; c++) {
+                        for (int c = startColIndex; c <= totalCells && c <= 16383; c++) {
                             XSSFCell cell = xssfRow.getCell(c);
                             if (cell == null) {
                                 rowList.add(ExcelUtil.EMPTY);
@@ -189,11 +199,20 @@ public class ExcelUtil {
 
     /**
      * read the Excel 2003-2007 .xls
+     * <p>
+     * 2003 MAX列是256；行是65536
      *
      * @param file
+     * @param startRowIndex
+     * @param startColIndex
      * @return
      */
-    public static List<ArrayList<String>> readXls(MultipartFile file) {
+    public static List<ArrayList<String>> readXls(MultipartFile file, int startRowIndex, int startColIndex) {
+        if (startRowIndex <= 0 || startRowIndex >= 65535)
+            startRowIndex = 0;
+        if (startColIndex <= 0 || startColIndex >= 255)
+            startColIndex = 0;
+
         List<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
         // IO流读取文件
         InputStream input = null;
@@ -210,14 +229,14 @@ public class ExcelUtil {
                     continue;
                 }
                 totalRows = hssfSheet.getLastRowNum();
-                //读取Row,从第二行开始
-                for (int rowNum = 1; rowNum <= totalRows; rowNum++) {
+                //读取Row,从第x行开始
+                for (int rowNum = startRowIndex; rowNum <= totalRows && rowNum <= 65535; rowNum++) {
                     HSSFRow hssfRow = hssfSheet.getRow(rowNum);
                     if (hssfRow != null) {
                         rowList = new ArrayList<String>();
                         totalCells = hssfRow.getLastCellNum();
-                        //读取列，从第一列开始
-                        for (short c = 0; c <= totalCells + 1; c++) {
+                        //读取列，从第x列开始
+                        for (int c = startColIndex; c <= totalCells + 1 && c <= 255; c++) {
                             HSSFCell cell = hssfRow.getCell(c);
                             if (cell == null) {
                                 rowList.add(ExcelUtil.EMPTY);
