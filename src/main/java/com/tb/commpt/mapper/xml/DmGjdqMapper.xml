@@ -113,25 +113,17 @@
     </update>
     <insert id="insertByBatch" parameterType="java.util.List">
         INSERT into T_DM_GJDQ (
-        UUID,GJDQ_MC_Z,GJDQ_MC_E,GJDQ_MCDM,GJDQ_DHDM,GJDQ_ID,
-        <if test="item.yxbj != null">
-            YXBJ,
-        </if>
-        SC)
-        <foreach collection="list" item="item" index="index" separator=",">
-            VALUES
-            (
+        UUID,GJDQ_MC_Z,GJDQ_MC_E,GJDQ_MCDM,GJDQ_DHDM,GJDQ_ID, SC)
+        <foreach collection="list" item="item" index="index" separator="union all">
+            SELECT
             SYS_GUID(),
             #{item.gjdqMcZ,jdbcType=VARCHAR},
             #{item.gjdqMcE,jdbcType=VARCHAR},
             #{item.gjdqMcdm,jdbcType=VARCHAR},
             #{item.gjdqDhdm,jdbcType=VARCHAR},
             #{item.gjdqId,jdbcType=VARCHAR},
-            <if test="item.yxbj != null">
-                #{item.yxbj,jdbcType=VARCHAR},
-            </if>
             #{item.sc,jdbcType=VARCHAR}
-            )
+            FROM dual
         </foreach>
     </insert>
 </mapper>

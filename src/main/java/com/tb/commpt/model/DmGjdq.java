@@ -24,6 +24,9 @@ public class DmGjdq extends BaseModel {
     }
 
     public void setSc(String sc) {
+        if (null == sc) {
+            sc = "";
+        }
         this.sc = sc;
     }
 

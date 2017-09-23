@@ -263,9 +263,6 @@ public class DmServiceImpl implements IDmService {
                     gjdq.setGjdqDhdm(listItem.get(3));
                     gjdq.setSc(listItem.get(4));
                     gjdq.setGjdqId(listItem.get(5));
-                    if ("0".equals(listItem.get(6)) || "1".equals(listItem.get(6))) {
-                        gjdq.setYxbj(listItem.get(6));
-                    }
                     gjdqList.add(gjdq);
                 }
                 int insertBatchCount = dmGjdqMapper.insertByBatch(gjdqList);
