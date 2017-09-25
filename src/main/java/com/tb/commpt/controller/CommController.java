@@ -15,6 +15,7 @@ import com.tb.commpt.utils.CommonUtil;
 import com.tb.commpt.utils.FTPUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -149,12 +150,15 @@ public class CommController {
                                     HttpServletRequest httpServletRequest,
                                     HttpServletResponse httpServletResponse) throws BizLevelException, InvocationTargetException {
         JsonResponse jsonResponse = new JsonResponse();
+        jsonRequest.getReqData().put("request", httpServletRequest);
+        jsonRequest.getReqData().put("response", httpServletResponse);
+
         String serviceName = jsonRequest.getServiceName();
         String methodName = jsonRequest.getMethodName();
         List<ConcurrentHashMap<String, Object>> methodParams = jsonRequest.getMethodParams();
 
-        Object serviceBean = SpringContext.getBean(serviceName);
         try {
+            Object serviceBean = SpringContext.getBean(serviceName);
             Class[] paramClasses = new Class[]{};
             Object[] paramValues = new Object[]{};
             if (null != methodParams && methodParams.size() > 0) {
@@ -204,6 +208,10 @@ public class CommController {
             logger.error(e.getMessage());
             jsonResponse.setCode(ConsCommon.WARN_CODE_014);
             jsonResponse.setMsg(ConsCommon.WARN_MSG_014);
+        } catch (NoSuchBeanDefinitionException e) {
+            logger.error(e.getMessage());
+            jsonResponse.setCode(ConsCommon.WARN_CODE_010);
+            jsonResponse.setMsg(ConsCommon.WARN_MSG_010);
         }
 
         return jsonResponse;
@@ -211,9 +219,9 @@ public class CommController {
 
 
     /**
-     * 统一ajax调用
+     * 统一调用 ajax／url get方式
      * <p>
-     * 默认入参：JsonRequest，出参：JsonResponse
+     * 默认入参：JsonRequest 如果是url必须带参数，出参：JsonResponse
      *
      * @param jsonRequest
      * @param httpServletRequest
@@ -225,12 +233,25 @@ public class CommController {
     @RequestMapping("/getJsonData2")
     public JsonResponse getJsonData2(@ModelAttribute JsonRequest jsonRequest,
                                      HttpServletRequest httpServletRequest,
-                                     HttpServletResponse httpServletResponse) throws InvocationTargetException {
+                                     HttpServletResponse httpServletResponse) throws InvocationTargetException, BizLevelException {
         JsonResponse jsonResponse = new JsonResponse();
+        jsonRequest.getReqData().put("request", httpServletRequest);
+        jsonRequest.getReqData().put("response", httpServletResponse);
+
         String serviceName = jsonRequest.getServiceName();
         String methodName = jsonRequest.getMethodName();
-        Object serviceBean = SpringContext.getBean(serviceName);
+
+        //主要参数没取到默认从url上取
+        if (null == serviceName)
+            serviceName = httpServletRequest.getParameter("serviceName");
+        if (null == methodName)
+            methodName = httpServletRequest.getParameter("methodName");
+
+        if (null == serviceName || null == methodName)
+            throw new BizLevelException(ConsCommon.WARN_MSG_014);
+
         try {
+            Object serviceBean = SpringContext.getBean(serviceName);
             Method method = serviceBean.getClass().getMethod(methodName, JsonRequest.class);
             jsonResponse = (JsonResponse) method.invoke(serviceBean, jsonRequest);
         } catch (NoSuchMethodException e) {
@@ -249,6 +270,10 @@ public class CommController {
             logger.error(e.getMessage());
             jsonResponse.setCode(ConsCommon.WARN_CODE_014);
             jsonResponse.setMsg(ConsCommon.WARN_MSG_014);
+        } catch (NoSuchBeanDefinitionException e) {
+            logger.error(e.getMessage());
+            jsonResponse.setCode(ConsCommon.WARN_CODE_010);
+            jsonResponse.setMsg(ConsCommon.WARN_MSG_010);
         }
 
         return jsonResponse;

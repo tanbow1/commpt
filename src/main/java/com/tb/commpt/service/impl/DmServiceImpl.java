@@ -22,10 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -278,6 +277,16 @@ public class DmServiceImpl implements IDmService {
 
     @Override
     public JsonResponse exportGjdqToExcel(JsonRequest jsonRequest) {
+        List<Map<String, Object>> dmGjdqList = dmGjdqMapper.selectAllGjdqList();
+        Map<String, String> headMap = new ConcurrentHashMap<String, String>();
+        headMap.put("GJDQ_MC_Z", "中文名称");
+        headMap.put("GJDQ_MC_E", "英文名称");
+        headMap.put("GJDQ_MCDM", "国家地区代码");
+        headMap.put("GJDQ_DHDM", "电话代码");
+        headMap.put("GJDQ_ID", "自定义编码");
+        headMap.put("SC", "与中国时差");
+        headMap.put("YXBJ", "有效标记");
+        ExcelUtil.downloadExcelFile("国家地区代码", headMap, dmGjdqList, (HttpServletResponse) jsonRequest.getReqData().get("response"), null);
         return null;
     }
 }

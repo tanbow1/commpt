@@ -1,5 +1,6 @@
 package com.tb.commpt.constant;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -7,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ContentType {
 
-    private static ConcurrentHashMap<String, String> contentTypeMap = new ConcurrentHashMap<String, String>();
+    private static Map<String, String> contentTypeMap = new ConcurrentHashMap<String, String>();
 
     static {
         contentTypeMap.put("xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

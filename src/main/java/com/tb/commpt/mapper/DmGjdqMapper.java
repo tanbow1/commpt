@@ -8,16 +8,17 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 @MyBatisRepository
 public interface DmGjdqMapper {
     @Insert({
             "insert into T_DM_GJDQ (GJDQ_MC_Z, GJDQ_MC_E, ",
             "GJDQ_MCDM, GJDQ_DHDM, ",
-            "YXBJ, GJDQ_ID)",
+            "YXBJ, GJDQ_ID,SC)",
             "values (#{gjdqMcZ,jdbcType=VARCHAR}, #{gjdqMcE,jdbcType=VARCHAR}, ",
             "#{gjdqMcdm,jdbcType=VARCHAR}, #{gjdqDhdm,jdbcType=VARCHAR}, ",
-            "#{yxbj,jdbcType=CHAR}, #{gjdqId,jdbcType=VARCHAR})"
+            "#{yxbj,jdbcType=CHAR}, #{gjdqId,jdbcType=VARCHAR},#{sc,jdbcType=VARCHAR})"
     })
     int insert(DmGjdq record);
 
@@ -40,4 +41,7 @@ public interface DmGjdqMapper {
     int selectCountByGjdqId(String gjdqId);
 
     int insertByBatch(List<DmGjdq> gjdqList);
+
+    @Select("SELECT GJDQ_MC_Z, GJDQ_MC_E,GJDQ_MCDM, GJDQ_DHDM,decode(YXBJ,'1','有效','0','无效','--' ) YXBJ, GJDQ_ID,SC FROM T_DM_GJDQ")
+    List<Map<String, Object>> selectAllGjdqList();
 }

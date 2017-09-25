@@ -34,13 +34,15 @@ public class ExcelUtil {
     public static final String EMPTY = "";
     public static final String POINT = ".";
     public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-    //读取
+    //读
     public static int totalRows; //sheet中总行数
     public static int totalCells; //每一行总单元格数
     //写
     public static String NO_DEFINE = "no_define";//未定义的字段
     public static String DEFAULT_DATE_PATTERN = "yyyy/MM/dd";//默认日期格式
 
+
+    /////////////////////////////////////////导入Excel//////////////////////////////////////////////
 
     /**
      * 获得path的后缀名
@@ -270,6 +272,8 @@ public class ExcelUtil {
         return null;
     }
 
+    /////////////////////////////////////////导出Excel//////////////////////////////////////////////
+
     /**
      * 导出Excel 97(.xls)格式 ，少量数据
      *
@@ -283,14 +287,14 @@ public class ExcelUtil {
         // 声明一个工作薄
         HSSFWorkbook workbook = new HSSFWorkbook();
         workbook.createInformationProperties();
-        workbook.getDocumentSummaryInformation().setCompany("*****公司");
+//        workbook.getDocumentSummaryInformation().setCompany("tanbo_company");
         SummaryInformation si = workbook.getSummaryInformation();
-        si.setAuthor("JACK");  //填加xls文件作者信息
-        si.setApplicationName("导出程序"); //填加xls文件创建程序信息
-        si.setLastAuthor("最后保存者信息"); //填加xls文件最后保存者信息
-        si.setComments("JACK is a programmer!"); //填加xls文件作者信息
-        si.setTitle("POI导出Excel"); //填加xls文件标题信息
-        si.setSubject("POI导出Excel");//填加文件主题信息
+//        si.setAuthor("admin");  //填加xls文件作者信息
+//        si.setApplicationName("导出程序"); //填加xls文件创建程序信息
+//        si.setLastAuthor("最后保存者信息"); //填加xls文件最后保存者信息
+//        si.setComments("JACK is a programmer!"); //填加xls文件作者信息
+//        si.setTitle("POI导出Excel"); //填加xls文件标题信息
+//        si.setSubject("POI导出Excel");//填加文件主题信息
         si.setCreateDateTime(new Date());
         //表头样式
         HSSFCellStyle titleStyle = workbook.createCellStyle();
@@ -328,12 +332,12 @@ public class ExcelUtil {
         // 声明一个画图的顶级管理器
         HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
         // 定义注释的大小和位置,详见文档
-        HSSFComment comment = patriarch.createComment(new HSSFClientAnchor(0,
-                0, 0, 0, (short) 4, 2, (short) 6, 5));
+//        HSSFComment comment = patriarch.createComment(new HSSFClientAnchor(0,
+//                0, 0, 0, (short) 4, 2, (short) 6, 5));
         // 设置注释内容
-        comment.setString(new HSSFRichTextString("可以在POI中添加注释！"));
+        //comment.setString(new HSSFRichTextString("注释！"));
         // 设置注释作者，当鼠标移动到单元格上是可以在状态栏中看到该内容.
-        comment.setAuthor("JACK");
+        //comment.setAuthor("admin");
         //设置列宽
         int minBytes = colWidth;//至少字节数
         int[] arrColWidth = new int[headMap.size()];
@@ -422,27 +426,27 @@ public class ExcelUtil {
         titleStyle.setFont(titleFont);
         // 列头样式
         CellStyle headerStyle = workbook.createCellStyle();
-        headerStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        headerStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        headerStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        headerStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        headerStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        headerStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//        headerStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+//        headerStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+//        headerStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+//        headerStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+//        headerStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+//        headerStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
         Font headerFont = workbook.createFont();
         headerFont.setFontHeightInPoints((short) 12);
-        headerFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+//        headerFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
         headerStyle.setFont(headerFont);
         // 单元格样式
         CellStyle cellStyle = workbook.createCellStyle();
-        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-        cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+//        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+//        cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+//        cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+//        cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+//        cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+//        cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//        cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
         Font cellFont = workbook.createFont();
-        cellFont.setBoldweight(HSSFFont.BOLDWEIGHT_NORMAL);
+//        cellFont.setBoldweight(HSSFFont.BOLDWEIGHT_NORMAL);
         cellStyle.setFont(cellFont);
         // 生成一个(带标题)表格
         SXSSFSheet sheet = workbook.createSheet();
@@ -516,10 +520,13 @@ public class ExcelUtil {
     }
 
     //Web 导出excel
-    public static void downloadExcelFile(String title, Map<String, String> headMap, List ja, HttpServletResponse response) {
+    public static void downloadExcelFile(String title, Map<String, String> headMap, List<Map<String, Object>> list, HttpServletResponse response, String exType) {
+        if (null == exType || (!"xls".equals(exType) && !"xlsx".equals(exType)))
+            exType = "xlsx";
+
         try {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
-            ExcelUtil.exportExcelX(title, headMap, ja, 0, os);
+            ExcelUtil.exportExcelX(title, headMap, list, 17, os);
             byte[] content = os.toByteArray();
             InputStream is = new ByteArrayInputStream(content);
             // 设置response参数，可以打开下载页面

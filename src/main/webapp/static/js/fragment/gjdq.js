@@ -12,6 +12,7 @@ $(function () {
 function gjdqDatagridOpts() {
     $("#tb_gjdq").datagrid({
         loadMsg: loadMsg,
+        title:'国家地区',
         fit: true,
         fitColumns: true,
         rownumbers: true,
@@ -38,7 +39,7 @@ function gjdqDatagridOpts() {
                 }
             },
             {
-                field: 'gjdqMcdm', title: '国籍地区代码', width: 100,
+                field: 'gjdqMcdm', title: '国家地区代码', width: 100,
                 editor: {
                     type: 'text'
                 }
@@ -289,11 +290,11 @@ function importRecord() {
 }
 function exportRecord() {
 //导出数据到本地excel
-
+    window.open('/comm/getJsonData2?serviceName=dmService&methodName=exportGjdqToExcel', 'exportFile');
 }
 // 校验当前file
 function checkFile(fileInputObj) {
-    console.log(fileInputObj);
+
 }
 function uploadFiles() {
     var files = getFileObjs();

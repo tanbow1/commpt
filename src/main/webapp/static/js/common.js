@@ -292,7 +292,7 @@ var easyDialog = {
             }]
         });
         if (isEmpty(msg)) {
-            msg = '-';
+            msg = '--';
         }
 
         $('#' + dialogId + '_content').html(msg);
