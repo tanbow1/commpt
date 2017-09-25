@@ -266,6 +266,7 @@ public class DmServiceImpl implements IDmService {
                     gjdqList.add(gjdq);
                 }
                 int insertBatchCount = dmGjdqMapper.insertByBatch(gjdqList);
+                jsonResponse.setMsg(jsonResponse.getMsg() + ",本次上传记录：" + insertBatchCount + "条。");
             }
         } else {
             jsonResponse.setCode(ConsCommon.WARN_CODE_019);
