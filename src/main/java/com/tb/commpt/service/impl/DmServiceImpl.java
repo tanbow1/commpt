@@ -8,9 +8,11 @@ import com.tb.commpt.exception.BizLevelException;
 import com.tb.commpt.mapper.DmAccountMapper;
 import com.tb.commpt.mapper.DmGjdqMapper;
 import com.tb.commpt.mapper.DmMenuMapper;
+import com.tb.commpt.mapper.DmProductTypeMapper;
 import com.tb.commpt.model.DmAccount;
 import com.tb.commpt.model.DmGjdq;
 import com.tb.commpt.model.DmMenu;
+import com.tb.commpt.model.DmProductType;
 import com.tb.commpt.model.comm.JsonRequest;
 import com.tb.commpt.model.comm.JsonResponse;
 import com.tb.commpt.service.IDmService;
@@ -45,6 +47,9 @@ public class DmServiceImpl implements IDmService {
 
     @Autowired
     private DmGjdqMapper dmGjdqMapper;
+
+    @Autowired
+    private DmProductTypeMapper dmProductTypeMapper;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -181,7 +186,7 @@ public class DmServiceImpl implements IDmService {
     }
 
     /**
-     * 批量新增/更新 国籍地区
+     * 批量新增/更新 国家地区
      *
      * @param jsonRequest
      * @return
@@ -226,7 +231,7 @@ public class DmServiceImpl implements IDmService {
     }
 
     /**
-     * 导入国籍地区
+     * 导入国家地区excel
      *
      * @param jsonRequest
      * @return
@@ -275,6 +280,12 @@ public class DmServiceImpl implements IDmService {
         return jsonResponse;
     }
 
+    /**
+     * 导出国家地区excel
+     *
+     * @param jsonRequest
+     * @return
+     */
     @Override
     public JsonResponse exportGjdqToExcel(JsonRequest jsonRequest) {
         List<Map<String, Object>> dmGjdqList = dmGjdqMapper.selectAllGjdqList();
@@ -288,5 +299,21 @@ public class DmServiceImpl implements IDmService {
         headMap.put("YXBJ", "有效标记");
         ExcelUtil.downloadExcelFile("国家地区代码", headMap, dmGjdqList, (HttpServletResponse) jsonRequest.getReqData().get("response"), null);
         return null;
+    }
+
+    @Override
+    public JsonResponse selectProductTypeTreeByParentId(JsonRequest jsonRequest) {
+        JsonResponse jsonResponse = new JsonResponse();
+        List<DmProductType> dmProductTypeList =
+                dmProductTypeMapper.selectDmProductTypesByParentId(String.valueOf(jsonRequest.getReqData().get("parentId")));
+        return jsonResponse;
+    }
+
+    @Override
+    public JsonResponse getProductTypeTree(JsonRequest jsonRequest) {
+        JsonResponse jsonResponse = new JsonResponse();
+        List<DmProductType> dmProductTypeList = dmProductTypeMapper.selectAllDmProductTypes();
+
+        return jsonResponse;
     }
 }

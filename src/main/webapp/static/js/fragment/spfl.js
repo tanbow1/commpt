@@ -10,14 +10,23 @@ $(function () {
 
 function spflTreegridOpts() {
     $('#tb_spfl').treegrid({
-        url: '',
+        rownumbers: true,
+        animate: true,
+        collapsible: true,
+        fitColumns: true,
+        showFooter: true,
+        url: 'comm/getJsonData2?serviceName=dmService&methodName=getProductTypeTree',
         title: '商品分类',
         idField: 'typeId',
-        treeField: 'name',
+        treeField: 'typeName',
         columns: [[
             {title: '名称', field: 'typeName', width: 100},
             {title: '描述', field: 'typeDesc', width: 100},
-            {title: '有效标记', field: 'yxbj', width: 100}
+            {
+                title: '有效标记', field: 'yxbj', width: 100, align: 'center', formatter: function () {
+                return "";
+            }
+            }
         ]]
     });
 }

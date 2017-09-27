@@ -39,4 +39,9 @@ public interface IDmService {
 
     JsonResponse exportGjdqToExcel(JsonRequest jsonRequest);
 
+    //dmProductType
+    JsonResponse selectProductTypeTreeByParentId(JsonRequest jsonRequest);
+
+    JsonResponse getProductTypeTree(JsonRequest jsonRequest);
+
 }
