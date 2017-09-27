@@ -128,6 +128,8 @@ function gjdqDatagridOpts() {
 }
 
 function initGjdqTable(pageNumber, pageSize) {
+    easyMsg.progresson();
+
     $.ajax({
         url: "/comm/getJsonData",
         data: {
@@ -149,9 +151,11 @@ function initGjdqTable(pageNumber, pageSize) {
         timeout: SYS_TIMEOUT,
         dataType: 'json',
         error: function (XMLHttpRequest, textStatus, errorThrown) {
+            easyMsg.progressoff();
             alert(textStatus);
         },
         success: function (responseText, textStatus, XMLHttpRequest) {
+            easyMsg.progressoff();
             if (checkResponseText(responseText)) {
                 var gjdqCount = responseText.repData.gjdqCount;
                 if (gjdqCount > 0) {

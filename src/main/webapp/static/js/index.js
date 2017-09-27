@@ -2,8 +2,9 @@ $(function () {
 
     easyuiTabOption.addPanel('mainpage', {
         text: "首页",
+        closable: false,
         openType: "1",
-        url: "/templates/html/fragment/gjdq.html"
+        url: "/templates/html/fragment/spfl.html"
     });
 
     $("#mainmenutree").tree({

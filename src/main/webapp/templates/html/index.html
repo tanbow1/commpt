@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>首页(INDEX)</title>
+    <title>首页</title>
     <!--定义th:fragment时使用::，  html页面的相对路径，不需要写后缀(.html)::fragment定义的名字
         replace:替换；insert:内部插入;include同insert，不建议使用
         ex:<head th:replace="common/fragment_head::head"/>
@@ -23,8 +23,8 @@
 
 
         <a href="#" class="easyui-linkbutton" data-options="plain:true">个人主页</a>
-        <a href="#" class="easyui-menubutton" data-options="menu:'#mm1',iconCls:'icon-edit'">设 置</a>
-        <a href="#" class="easyui-menubutton" data-options="menu:'#mm2',iconCls:'icon-help'">帮 助</a>
+        <a href="#" class="easyui-splitbutton" data-options="menu:'#mm1',iconCls:'icon-edit'">设 置</a>
+        <a href="#" class="easyui-splitbutton" data-options="menu:'#mm2',iconCls:'icon-help'">帮 助</a>
         <a href="#" class="easyui-linkbutton" data-options="plain:true" onclick="logout()">退 出</a>
         <!--button link-->
         <div id="mm1" style="width:150px;">
