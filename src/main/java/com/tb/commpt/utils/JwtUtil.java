@@ -65,7 +65,7 @@ public class JwtUtil {
      * @return
      * @throws Exception
      */
-    public String createJWT(String id, String subject, long ttlMillis) throws Exception {
+    public String createJWT(String id, String subject, long ttlMillis) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
@@ -90,7 +90,7 @@ public class JwtUtil {
      * @return
      * @throws Exception
      */
-    public Claims parseJWT(String jwt) throws Exception {
+    public Claims parseJWT(String jwt) {
         SecretKey key = generalKey();
         Claims claims = Jwts.parser()
                 .setSigningKey(key)

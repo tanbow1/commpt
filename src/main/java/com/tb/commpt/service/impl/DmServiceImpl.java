@@ -26,6 +26,7 @@ import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -309,11 +310,26 @@ public class DmServiceImpl implements IDmService {
         return jsonResponse;
     }
 
+    /**
+     * 获取产品类型
+     *
+     * @param jsonRequest
+     * @return
+     * @throws IOException
+     */
     @Override
-    public JsonResponse getProductTypeTree(JsonRequest jsonRequest) {
-        JsonResponse jsonResponse = new JsonResponse();
+    public JsonResponse getProductTypeTree(JsonRequest jsonRequest) throws IOException {
         List<DmProductType> dmProductTypeList = dmProductTypeMapper.selectAllDmProductTypes();
-
-        return jsonResponse;
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> dataMap = new ConcurrentHashMap<String, Object>();
+        dataMap.put("rows", dmProductTypeList);
+        dataMap.put("total", dmProductTypeList.size());
+        HttpServletResponse httpServletResponse = (HttpServletResponse) jsonRequest.getReqData().get("response");
+        httpServletResponse.setContentType(ContentType.getContentType("json"));
+        httpServletResponse.setCharacterEncoding("utf-8");
+        PrintWriter out = httpServletResponse.getWriter();
+        out.print(objectMapper.writeValueAsString(dataMap));
+        out.flush();
+        return null;
     }
 }

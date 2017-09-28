@@ -130,5 +130,4 @@ public class ConsCommon {
 
     public static final String REFRESH_TOKEN = SYS_PREFIX + "REFRESH_TOKEN";
 
-
 }

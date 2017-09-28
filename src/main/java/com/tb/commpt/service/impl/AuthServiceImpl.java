@@ -1,5 +1,6 @@
 package com.tb.commpt.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tb.commpt.constant.ConsCommon;
 import com.tb.commpt.exception.BizLevelException;
 import com.tb.commpt.exception.SystemLevelException;
@@ -35,12 +36,14 @@ public class AuthServiceImpl implements IAuthService {
      * 新增用户token
      *
      * @param userId
-     * @return
+     * @return 返回用户id
+     * jwt创建的accessToken，refreshToken
+     * jwt新增记录数，成功插入则1
      * @throws Exception
      */
     @Override
     @Transactional(rollbackFor = {BizLevelException.class, SystemLevelException.class})
-    public ConcurrentHashMap<String, String> saveJwt(String userId) throws Exception {
+    public ConcurrentHashMap<String, String> saveJwt(String userId) throws JsonProcessingException {
         xtJwtMapper.deleteByUserId(userId);
         String subject = JwtUtil.generalSubject(userId);
         String accessToken = jwt.createJWT(ConsCommon.JWT_ID, subject, ConsCommon.JWT_TTL);
@@ -68,7 +71,7 @@ public class AuthServiceImpl implements IAuthService {
      */
     @Override
     @Transactional(rollbackFor = {BizLevelException.class, SystemLevelException.class})
-    public ConcurrentHashMap<String, String> refreshToken(String accessToken, String refreshToken) throws Exception {
+    public ConcurrentHashMap<String, String> refreshToken(String accessToken, String refreshToken) throws BizLevelException, JsonProcessingException {
         if (StringUtils.isEmptyOrWhitespace(accessToken)) {
             throw new BizLevelException(ConsCommon.WARN_MSG_004);
         }
@@ -97,7 +100,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     /**
-     * 调用业务时token校验
+     * 调用关键业务时token校验
      *
      * @param accessToken
      * @param refreshToken
@@ -106,7 +109,7 @@ public class AuthServiceImpl implements IAuthService {
      */
     @Transactional(rollbackFor = {Exception.class})
     @Override
-    public ConcurrentHashMap<String, String> checkToken(String accessToken, String refreshToken) throws Exception {
+    public ConcurrentHashMap<String, String> checkToken(String accessToken, String refreshToken) throws JsonProcessingException, BizLevelException {
         Map<String, String> tokenMap = selectByAccessToken(accessToken);
         if (null != tokenMap) {
             ConcurrentHashMap<String, String> resultMap = new ConcurrentHashMap<String, String>();

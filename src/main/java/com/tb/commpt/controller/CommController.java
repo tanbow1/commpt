@@ -1,5 +1,6 @@
 package com.tb.commpt.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tb.commpt.constant.ConsCommon;
 import com.tb.commpt.exception.BizLevelException;
 import com.tb.commpt.exception.SystemLevelException;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -99,10 +101,16 @@ public class CommController {
     //刷新token
     @ResponseBody
     @RequestMapping("/refreshToken")
-    public JsonResponse refreshToken(@ModelAttribute JsonRequest jsonRequest) throws Exception {
+    public JsonResponse refreshToken(@ModelAttribute JsonRequest jsonRequest, HttpServletRequest httpServletRequest) throws JsonProcessingException, BizLevelException, SystemLevelException {
         JsonResponse jsonResponse = new JsonResponse();
         String accessToken = jsonRequest.getAccessToken();
+        if (StringUtils.isEmptyOrWhitespace(accessToken)) {
+            accessToken = httpServletRequest.getParameter("accessToken");
+        }
         String refreshToken = jsonRequest.getRefreshToken();
+        if (StringUtils.isEmptyOrWhitespace(refreshToken)) {
+            refreshToken = httpServletRequest.getParameter("refreshToken");
+        }
         Map<String, String> resultMap = authService.refreshToken(accessToken, refreshToken);
         if ("0".equals(resultMap.get("insertCount"))) {
             throw new SystemLevelException(ConsCommon.ERROR_MSG_UNKNOW + ":刷新token失败");
@@ -114,7 +122,7 @@ public class CommController {
     //校验token
     @ResponseBody
     @RequestMapping("/checkToken")
-    public JsonResponse checkToken(@ModelAttribute JsonRequest jsonRequest) throws Exception {
+    public JsonResponse checkToken(@ModelAttribute JsonRequest jsonRequest) throws JsonProcessingException, BizLevelException {
         JsonResponse jsonResponse = new JsonResponse();
         String accessToken = jsonRequest.getAccessToken();
         String refreshToken = jsonRequest.getRefreshToken();
@@ -219,9 +227,9 @@ public class CommController {
 
 
     /**
-     * 统一调用 ajax／url get方式
+     * 统一调用 ajax／url get方式，如果是url必须带参数
      * <p>
-     * 默认入参：JsonRequest 如果是url必须带参数，出参：JsonResponse
+     * 请求的service默认入参：JsonRequest，出参：JsonResponse
      *
      * @param jsonRequest
      * @param httpServletRequest
@@ -282,6 +290,8 @@ public class CommController {
 
     /**
      * 统一文件上传
+     * <p>
+     * 请求的service默认入参：（JsonRequest，MultipartFile[]）出参：JsonResponse
      *
      * @param files
      * @param jsonRequest
@@ -299,6 +309,9 @@ public class CommController {
                                     HttpServletRequest httpServletRequest,
                                     HttpServletResponse httpServletResponse) throws IOException, SystemLevelException, BizLevelException, InvocationTargetException {
         JsonResponse jsonResponse = new JsonResponse();
+        jsonRequest.getReqData().put("request", httpServletRequest);
+        jsonRequest.getReqData().put("response", httpServletResponse);
+
         int fileMaxlength = Integer.parseInt(config.FILE_MAXLENGTH);
         if (files.length > fileMaxlength) {
             throw new BizLevelException("文件数过多，最多不能超过" + fileMaxlength + "个，当前文件数：" + files.length);

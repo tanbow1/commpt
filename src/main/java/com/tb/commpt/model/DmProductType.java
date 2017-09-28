@@ -15,6 +15,20 @@ public class DmProductType extends BaseModel {
 
     private Short px;
 
+    private String _parentId;
+
+    public String get_parentId() {
+        return _parentId;
+    }
+
+    public void set_parentId(String _parentId) {
+        if (null == _parentId) {
+            this._parentId = pId;
+        } else {
+            this._parentId = _parentId;
+        }
+    }
+
     public String getTypeId() {
         return typeId;
     }

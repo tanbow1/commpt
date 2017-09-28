@@ -42,6 +42,6 @@ public interface IDmService {
     //dmProductType
     JsonResponse selectProductTypeTreeByParentId(JsonRequest jsonRequest);
 
-    JsonResponse getProductTypeTree(JsonRequest jsonRequest);
+    JsonResponse getProductTypeTree(JsonRequest jsonRequest) throws IOException;
 
 }

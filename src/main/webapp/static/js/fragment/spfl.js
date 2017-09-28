@@ -14,7 +14,7 @@ function spflTreegridOpts() {
         animate: true,
         collapsible: true,
         fitColumns: true,
-        showFooter: true,
+        showFooter: false,
         url: 'comm/getJsonData2?serviceName=dmService&methodName=getProductTypeTree',
         title: '商品分类',
         idField: 'typeId',

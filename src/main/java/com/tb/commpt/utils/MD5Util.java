@@ -45,8 +45,8 @@ public class MD5Util {
     /**
      * 验证口令是否合法
      *
-     * @param str
-     * @param hexStr
+     * @param str    原始密码
+     * @param hexStr 数据库中加密后的密码
      * @return
      * @throws NoSuchAlgorithmException
      * @throws UnsupportedEncodingException
@@ -86,6 +86,8 @@ public class MD5Util {
     }
 
     /**
+     * md5加密+salt
+     * <p>
      * 获得加密后的16进制形式口令
      *
      * @param str

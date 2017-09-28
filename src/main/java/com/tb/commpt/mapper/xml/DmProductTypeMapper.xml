@@ -1,79 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tb.commpt.mapper.DmProductTypeMapper">
-  <resultMap id="BaseResultMap" type="com.tb.commpt.model.DmProductType">
-    <id column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
-    <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName" />
-    <result column="YXBJ" jdbcType="CHAR" property="yxbj" />
-    <result column="P_ID" jdbcType="VARCHAR" property="pId" />
-    <result column="TYPE_DESC" jdbcType="VARCHAR" property="typeDesc" />
-    <result column="PX" jdbcType="DECIMAL" property="px" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.tb.commpt.model.DmProductType">
+        <id column="TYPE_ID" jdbcType="VARCHAR" property="typeId"/>
+        <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName"/>
+        <result column="YXBJ" jdbcType="CHAR" property="yxbj"/>
+        <result column="P_ID" jdbcType="VARCHAR" property="pId"/>
+        <!--<result column="P_ID" jdbcType="VARCHAR" property="_parentId"/>-->
+        <result column="TYPE_DESC" jdbcType="VARCHAR" property="typeDesc"/>
+        <result column="PX" jdbcType="DECIMAL" property="px"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     TYPE_ID, TYPE_NAME, YXBJ, P_ID, TYPE_DESC, PX
   </sql>
-  <insert id="insertSelective" parameterType="com.tb.commpt.model.DmProductType">
-    insert into T_DM_PRODUCTTYPE
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="typeId != null">
-        TYPE_ID,
-      </if>
-      <if test="typeName != null">
-        TYPE_NAME,
-      </if>
-      <if test="yxbj != null">
-        YXBJ,
-      </if>
-      <if test="pId != null">
-        P_ID,
-      </if>
-      <if test="typeDesc != null">
-        TYPE_DESC,
-      </if>
-      <if test="px != null">
-        PX,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="typeId != null">
-        #{typeId,jdbcType=VARCHAR},
-      </if>
-      <if test="typeName != null">
-        #{typeName,jdbcType=VARCHAR},
-      </if>
-      <if test="yxbj != null">
-        #{yxbj,jdbcType=CHAR},
-      </if>
-      <if test="pId != null">
-        #{pId,jdbcType=VARCHAR},
-      </if>
-      <if test="typeDesc != null">
-        #{typeDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="px != null">
-        #{px,jdbcType=DECIMAL},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tb.commpt.model.DmProductType">
-    update T_DM_PRODUCTTYPE
-    <set>
-      <if test="typeName != null">
-        TYPE_NAME = #{typeName,jdbcType=VARCHAR},
-      </if>
-      <if test="yxbj != null">
-        YXBJ = #{yxbj,jdbcType=CHAR},
-      </if>
-      <if test="pId != null">
-        P_ID = #{pId,jdbcType=VARCHAR},
-      </if>
-      <if test="typeDesc != null">
-        TYPE_DESC = #{typeDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="px != null">
-        PX = #{px,jdbcType=DECIMAL},
-      </if>
-    </set>
-    where TYPE_ID = #{typeId,jdbcType=VARCHAR}
-  </update>
+    <insert id="insertSelective" parameterType="com.tb.commpt.model.DmProductType">
+        insert into T_DM_PRODUCTTYPE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typeId != null">
+                TYPE_ID,
+            </if>
+            <if test="typeName != null">
+                TYPE_NAME,
+            </if>
+            <if test="yxbj != null">
+                YXBJ,
+            </if>
+            <if test="pId != null">
+                P_ID,
+            </if>
+            <if test="typeDesc != null">
+                TYPE_DESC,
+            </if>
+            <if test="px != null">
+                PX,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="typeId != null">
+                #{typeId,jdbcType=VARCHAR},
+            </if>
+            <if test="typeName != null">
+                #{typeName,jdbcType=VARCHAR},
+            </if>
+            <if test="yxbj != null">
+                #{yxbj,jdbcType=CHAR},
+            </if>
+            <if test="pId != null">
+                #{pId,jdbcType=VARCHAR},
+            </if>
+            <if test="typeDesc != null">
+                #{typeDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="px != null">
+                #{px,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tb.commpt.model.DmProductType">
+        update T_DM_PRODUCTTYPE
+        <set>
+            <if test="typeName != null">
+                TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+            </if>
+            <if test="yxbj != null">
+                YXBJ = #{yxbj,jdbcType=CHAR},
+            </if>
+            <if test="pId != null">
+                P_ID = #{pId,jdbcType=VARCHAR},
+            </if>
+            <if test="typeDesc != null">
+                TYPE_DESC = #{typeDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="px != null">
+                PX = #{px,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where TYPE_ID = #{typeId,jdbcType=VARCHAR}
+    </update>
 </mapper>
