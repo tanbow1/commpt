@@ -44,4 +44,6 @@ public interface IDmService {
 
     JsonResponse getProductTypeTree(JsonRequest jsonRequest) throws IOException;
 
+    JsonResponse updateSpflBatch(JsonRequest jsonRequest) throws IOException, BizLevelException;
+
 }

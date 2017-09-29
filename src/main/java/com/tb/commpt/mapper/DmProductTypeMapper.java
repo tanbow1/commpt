@@ -21,10 +21,10 @@ public interface DmProductTypeMapper {
     @Insert({
             "insert into T_DM_PRODUCTTYPE (TYPE_ID, TYPE_NAME, ",
             "YXBJ, P_ID, TYPE_DESC, ",
-            "PX)",
+            "PX,HASCHILDREN,STATE)",
             "values (#{typeId,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, ",
             "#{yxbj,jdbcType=CHAR}, #{pId,jdbcType=VARCHAR}, #{typeDesc,jdbcType=VARCHAR}, ",
-            "#{px,jdbcType=DECIMAL})"
+            "#{px,jdbcType=DECIMAL},#{haschildren,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR})"
     })
     int insert(DmProductType record);
 
@@ -32,7 +32,7 @@ public interface DmProductTypeMapper {
 
     @Select({
             "select",
-            "TYPE_ID, TYPE_NAME, YXBJ, P_ID, TYPE_DESC, PX",
+            "TYPE_ID, TYPE_NAME, YXBJ, P_ID, TYPE_DESC, PX,HASCHILDREN,STATE",
             "from T_DM_PRODUCTTYPE",
             "where TYPE_ID = #{typeId,jdbcType=VARCHAR}"
     })
@@ -47,16 +47,16 @@ public interface DmProductTypeMapper {
             "YXBJ = #{yxbj,jdbcType=CHAR},",
             "P_ID = #{pId,jdbcType=VARCHAR},",
             "TYPE_DESC = #{typeDesc,jdbcType=VARCHAR},",
-            "PX = #{px,jdbcType=DECIMAL}",
+            "PX = #{px,jdbcType=DECIMAL},HASCHILDREN = #{haschildren,jdbcType=VARCHAR},STATE = #{state,jdbcType=VARCHAR}",
             "where TYPE_ID = #{typeId,jdbcType=VARCHAR}"
     })
     int updateByPrimaryKey(DmProductType record);
 
-    @Select("select TYPE_ID, TYPE_NAME, YXBJ, P_ID, TYPE_DESC from T_DM_PRODUCTTYPE")
+    @Select("select TYPE_ID, TYPE_NAME, YXBJ, P_ID, TYPE_DESC ,HASCHILDREN,decode(STATE,'0','closed')  state from T_DM_PRODUCTTYPE order by PX")
     @ResultMap("com.tb.commpt.mapper.DmProductTypeMapper.BaseResultMap")
     List<DmProductType> selectAllDmProductTypes();
 
-    @Select("select TYPE_ID, TYPE_NAME, YXBJ, P_ID, TYPE_DESC from T_DM_PRODUCTTYPE where P_ID = #{parentId,jdbcType=VARCHAR}")
+    @Select("select TYPE_ID, TYPE_NAME, YXBJ, P_ID, TYPE_DESC,HASCHILDREN,decode(STATE,'0','closed')  state from T_DM_PRODUCTTYPE where P_ID = #{parentId,jdbcType=VARCHAR} order by PX")
     @ResultMap("com.tb.commpt.mapper.DmProductTypeMapper.BaseResultMap")
     List<DmProductType> selectDmProductTypesByParentId(String parentId);
 }

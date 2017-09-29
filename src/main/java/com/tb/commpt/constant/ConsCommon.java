@@ -113,6 +113,9 @@ public class ConsCommon {
     public static final String WARN_CODE_020 = "W0020";
     public static final String WARN_MSG_020 = "未获取文件内容，请检查内容合法性";
 
+    public static final String WARN_CODE_021 = "W0021";
+    public static final String WARN_MSG_021 = "主键不存在，无法获取记录";
+
     // //////////////////////////////////////////////////////////
 
     public static final String JWT_ID = "jwt";

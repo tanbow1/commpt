@@ -15,18 +15,24 @@ public class DmProductType extends BaseModel {
 
     private Short px;
 
-    private String _parentId;
+    private String haschildren;
 
-    public String get_parentId() {
-        return _parentId;
+    private String state;
+
+    public String getHaschildren() {
+        return haschildren;
     }
 
-    public void set_parentId(String _parentId) {
-        if (null == _parentId) {
-            this._parentId = pId;
-        } else {
-            this._parentId = _parentId;
-        }
+    public void setHaschildren(String haschildren) {
+        this.haschildren = haschildren;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getTypeId() {

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tb.commpt.constant.ConsCommon;
 import com.tb.commpt.constant.ContentType;
 import com.tb.commpt.exception.BizLevelException;
+import com.tb.commpt.exception.SystemLevelException;
 import com.tb.commpt.mapper.DmAccountMapper;
 import com.tb.commpt.mapper.DmGjdqMapper;
 import com.tb.commpt.mapper.DmMenuMapper;
@@ -165,15 +166,12 @@ public class DmServiceImpl implements IDmService {
         Iterator it = list.iterator();
         DmGjdq dmGjdq;
         int deleteCount;
-        List<DmGjdq> successList = new ArrayList<DmGjdq>();
         List<DmGjdq> errorList = new ArrayList<DmGjdq>();
         while (it.hasNext()) {
             dmGjdq = (DmGjdq) it.next();
             if (null != dmGjdq.getUuid()) {
                 deleteCount = dmGjdqMapper.deleteByPrimaryKey(dmGjdq.getUuid());
-                if (deleteCount > 0) {
-                    successList.add(dmGjdq);
-                } else {
+                if (deleteCount <= 0) {
                     errorList.add(dmGjdq);
                 }
             }
@@ -202,7 +200,6 @@ public class DmServiceImpl implements IDmService {
         Iterator it = list.iterator();
         DmGjdq dmGjdq;
         int changeCount;
-        List<DmGjdq> successList = new ArrayList<DmGjdq>();
         List<DmGjdq> errorList = new ArrayList<DmGjdq>();
         while (it.hasNext()) {
             dmGjdq = (DmGjdq) it.next();
@@ -218,7 +215,6 @@ public class DmServiceImpl implements IDmService {
                 if (recordCount > 1) {
                     throw new BizLevelException(ConsCommon.WARN_MSG_018);
                 }
-                successList.add(dmGjdq);
             } else {
                 errorList.add(dmGjdq);
                 jsonResponse.setCode(ConsCommon.WARN_CODE_016);
@@ -311,7 +307,7 @@ public class DmServiceImpl implements IDmService {
     }
 
     /**
-     * 获取产品类型
+     * 获取产品类型结构树
      *
      * @param jsonRequest
      * @return
@@ -319,11 +315,13 @@ public class DmServiceImpl implements IDmService {
      */
     @Override
     public JsonResponse getProductTypeTree(JsonRequest jsonRequest) throws IOException {
-        List<DmProductType> dmProductTypeList = dmProductTypeMapper.selectAllDmProductTypes();
         ObjectMapper objectMapper = new ObjectMapper();
+        List<ConcurrentHashMap<String, Object>> dmProductTypeList = new ArrayList<>();
+        getProductTypeTreegrid(dmProductTypeList, "1");
         Map<String, Object> dataMap = new ConcurrentHashMap<String, Object>();
         dataMap.put("rows", dmProductTypeList);
         dataMap.put("total", dmProductTypeList.size());
+        dataMap.put("footer", new ArrayList<>());
         HttpServletResponse httpServletResponse = (HttpServletResponse) jsonRequest.getReqData().get("response");
         httpServletResponse.setContentType(ContentType.getContentType("json"));
         httpServletResponse.setCharacterEncoding("utf-8");
@@ -331,5 +329,70 @@ public class DmServiceImpl implements IDmService {
         out.print(objectMapper.writeValueAsString(dataMap));
         out.flush();
         return null;
+    }
+
+    private void getProductTypeTreegrid(List<ConcurrentHashMap<String, Object>> dataList,
+                                        String parentId) {
+        List<DmProductType> dmProductTypeList = dmProductTypeMapper.selectDmProductTypesByParentId(parentId);
+        DmProductType dmProductType = null;
+        ConcurrentHashMap<String, Object> map = null;
+
+        Iterator dmProductTypeIterator = dmProductTypeList.iterator();
+        while (dmProductTypeIterator.hasNext()) {
+            map = new ConcurrentHashMap<String, Object>();
+            dmProductType = (DmProductType) dmProductTypeIterator.next();
+            dataList.add(map);
+            map.put("typeId", dmProductType.getTypeId());
+            map.put("typeName", dmProductType.getTypeName());
+            map.put("typeDesc", null == dmProductType.getTypeDesc() ? "--" : dmProductType.getTypeDesc());
+            map.put("yxbj", dmProductType.getYxbj());
+            //   map.put("state", null == dmProductType.getState() ? "" : dmProductType.getState());
+            map.put("pId", dmProductType.getpId());
+            map.put("haschildren", dmProductType.getHaschildren());
+            if ("1".equals(dmProductType.getHaschildren())) {
+                map.put("state", "closed");
+                //此处state与数据库字段无关，与是否含子节点保持一致
+                List<ConcurrentHashMap<String, Object>> childrenList = new ArrayList<ConcurrentHashMap<String, Object>>();
+                map.put("children", childrenList);
+                getProductTypeTreegrid(childrenList, dmProductType.getTypeId());
+            }
+        }
+    }
+
+    /**
+     * 批量更新商品分类
+     *
+     * @param jsonRequest
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = {Exception.class})
+    public JsonResponse updateSpflBatch(JsonRequest jsonRequest) throws IOException, BizLevelException {
+        JsonResponse jsonResponse = new JsonResponse();
+        JavaType javaType = CommonUtil.getCollectionType(ArrayList.class, DmProductType.class);
+        List list = objectMapper.readValue(String.valueOf(jsonRequest.getReqData().get("records")), javaType);
+        Iterator it = list.iterator();
+        DmProductType dmProductType;
+        int changeCount;
+        List<DmProductType> errorList = new ArrayList<DmProductType>();
+
+        while (it.hasNext()) {
+            dmProductType = (DmProductType) it.next();
+            if (null == dmProductType.getTypeId()) {
+                throw new BizLevelException(ConsCommon.WARN_MSG_021);
+            } else {
+                //update
+                changeCount = dmProductTypeMapper.updateByPrimaryKeySelective(dmProductType);
+            }
+            if (changeCount <= 0) {
+                errorList.add(dmProductType);
+                jsonResponse.setCode(ConsCommon.WARN_CODE_016);
+                jsonResponse.setMsg(ConsCommon.WARN_MSG_016);
+            }
+        }
+        if (errorList.size() > 0) {
+            jsonResponse.getRepData().put("errorList", errorList);
+        }
+        return jsonResponse;
     }
 }

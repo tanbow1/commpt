@@ -13,6 +13,7 @@ function gjdqDatagridOpts() {
     $("#tb_gjdq").datagrid({
         loadMsg: loadMsg,
         title:'国家地区',
+        collapsible: true,
         fit: true,
         fitColumns: true,
         rownumbers: true,
@@ -20,10 +21,10 @@ function gjdqDatagridOpts() {
         multiSort: true,
         striped: true,
         singleSelect: true,
-        onClickCell: onClickCell,
-        onClickRow: onClickRow,
-        onAfterEdit: onAfterEdit,
-        onCheck: onCheck,
+        onClickCell: onClickCellGjdq,
+        onClickRow: onClickRowGjdq,
+        onAfterEdit: onAfterEditGjdq,
+        onCheck: onCheckGjdq,
         columns: [[
             {field: 'ck', checkbox: true},
             {
@@ -80,32 +81,32 @@ function gjdqDatagridOpts() {
         toolbar: [{
             iconCls: 'icon-reload',
             handler: function () {
-                reloadRecord();
+                reloadGjdqRecord();
             }
         }, '-', {
             iconCls: 'icon-save',
             handler: function () {
-                saveEdit();
+                saveEditGjdqRecord();
             }
         }, '-', {
             iconCls: 'icon-add',
             handler: function () {
-                addRecord();
+                addGjdqRecord();
             }
         }, '-', {
             iconCls: 'icon-remove',
             handler: function () {
-                removeRecord();
+                removeGjdqRecord();
             }
         }, '-', {
             iconCls: 'icon-import',
             handler: function () {
-                importRecord();
+                importGjdqRecord();
             }
         }, '-', {
             iconCls: 'icon-export',
             handler: function () {
-                exportRecord();
+                exportGjdqRecord();
             }
         }]
     });
@@ -175,61 +176,61 @@ function initGjdqTable(pageNumber, pageSize) {
     });
 }
 
-var editIndex = undefined,
-    checkIndex = undefined;
-function endEditing() {
-    if (editIndex == undefined) {
+var editGjdqGridIndex = undefined,
+    checkedGjdqGridIndex = undefined;
+function endGjdqRecordEditing() {
+    if (editGjdqGridIndex == undefined) {
         return true
     }
-    if ($('#tb_gjdq').datagrid('validateRow', editIndex)) {
-        $('#tb_gjdq').datagrid('endEdit', editIndex);
-        editIndex = undefined;
+    if ($('#tb_gjdq').datagrid('validateRow', editGjdqGridIndex)) {
+        $('#tb_gjdq').datagrid('endEdit', editGjdqGridIndex);
+        editGjdqGridIndex = undefined;
         return true;
     } else {
         return false;
     }
 }
 //row edit
-function onClickRow(index) {
-    if (editIndex != index) {
-        if (endEditing()) {
+function onClickRowGjdq(index) {
+    if (editGjdqGridIndex != index) {
+        if (endGjdqRecordEditing()) {
             $('#tb_gjdq').datagrid('selectRow', index)
                 .datagrid('beginEdit', index);
-            editIndex = index;
+            editGjdqGridIndex = index;
         } else {
-            $('#tb_gjdq').datagrid('selectRow', editIndex);
+            $('#tb_gjdq').datagrid('selectRow', editGjdqGridIndex);
         }
     }
 }
 //cell edit
-function onClickCell(index, field) {
-    if (editIndex != index) {
-        if (endEditing()) {
+function onClickCellGjdq(index, field) {
+    if (editGjdqGridIndex != index) {
+        if (endGjdqRecordEditing()) {
             $('#tb_gjdq').datagrid('selectRow', index)
                 .datagrid('beginEdit', index);
             var ed = $('#tb_gjdq').datagrid('getEditor', {index: index, field: field});
             if (ed) {
                 ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
             }
-            editIndex = index;
+            editGjdqGridIndex = index;
         } else {
             setTimeout(function () {
-                $('#tb_gjdq').datagrid('selectRow', editIndex);
+                $('#tb_gjdq').datagrid('selectRow', editGjdqGridIndex);
             }, 0);
         }
     }
 }
-function onAfterEdit(index, row, changes) {
+function onAfterEditGjdq(index, row, changes) {
     if (!isEmptyObject(changes)) {
 
     }
 }
-function onCheck(index, row) {
-    checkIndex = index;
+function onCheckGjdq(index, row) {
+    checkedGjdqGridIndex = index;
 }
-function saveEdit() {
+function saveEditGjdqRecord() {
     var rows = $('#tb_gjdq').datagrid('getChanges');
-    if (endEditing()) {
+    if (endGjdqRecordEditing()) {
         $('#tb_gjdq').datagrid('acceptChanges');
     }
     var removeRecords = $('#tb_gjdq').datagrid('getSelections');
@@ -247,22 +248,22 @@ function saveEdit() {
         });
     }
 }
-function addRecord() {
-    if (endEditing()) {
+function addGjdqRecord() {
+    if (endGjdqRecordEditing()) {
         $('#tb_gjdq').datagrid('appendRow', {'yxbj': '1'});
-        editIndex = $('#tb_gjdq').datagrid('getRows').length - 1;
-        $('#tb_gjdq').datagrid('selectRow', editIndex)
-            .datagrid('beginEdit', editIndex);
+        editGjdqGridIndex = $('#tb_gjdq').datagrid('getRows').length - 1;
+        $('#tb_gjdq').datagrid('selectRow', editGjdqGridIndex)
+            .datagrid('beginEdit', editGjdqGridIndex);
     }
 }
-function removeRecord() {
+function removeGjdqRecord() {
     var removeRecords = $('#tb_gjdq').datagrid('getSelections');
     if (removeRecords.length > 0) {
 
         easyMsg.confirm('删除记录？', function () {
             commonAjax('/comm/getJsonData2', 'dmService', 'deleteGjdqBatch', {records: JSON.stringify(removeRecords)}).then(function (resultData) {
                 if (checkResponseText(resultData)) {
-                    $('#tb_gjdq').datagrid('deleteRow', checkIndex);
+                    $('#tb_gjdq').datagrid('deleteRow', checkedGjdqGridIndex);
                     easyMsg.toast(resultData.msg + ":已删除");
                 } else {
                     easyDialog.alert(resultData.msg, function () {
@@ -277,14 +278,14 @@ function removeRecord() {
     }
 }
 //重置该datagrid整个数据
-function reloadRecord() {
+function reloadGjdqRecord() {
     gjdqDatagridOpts();
 
     initGjdqTable(DEFAULT_PAGESTART, DEFAULT_PAGESIZE);
 }
 
 //导入导出
-function importRecord() {
+function importGjdqRecord() {
 //导入本地excel到数据库
     $("#comm_fileuploadDialog_content tbody").find('input[name="uploadFile"]:first')[0].value = '';
     $("#comm_fileuploadDialog_content tbody").find('tr:not(":first")').remove();
@@ -292,7 +293,7 @@ function importRecord() {
     bootstraProgress.init("comm_fileuploadDialog_content");
 
 }
-function exportRecord() {
+function exportGjdqRecord() {
 //导出数据到本地excel
     window.open('/comm/getJsonData2?serviceName=dmService&methodName=exportGjdqToExcel', 'exportFile');
 }

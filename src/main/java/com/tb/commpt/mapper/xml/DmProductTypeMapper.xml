@@ -6,12 +6,13 @@
         <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName"/>
         <result column="YXBJ" jdbcType="CHAR" property="yxbj"/>
         <result column="P_ID" jdbcType="VARCHAR" property="pId"/>
-        <!--<result column="P_ID" jdbcType="VARCHAR" property="_parentId"/>-->
         <result column="TYPE_DESC" jdbcType="VARCHAR" property="typeDesc"/>
         <result column="PX" jdbcType="DECIMAL" property="px"/>
+        <result column="HASCHILDREN" jdbcType="VARCHAR" property="haschildren"/>
+        <result column="STATE" jdbcType="VARCHAR" property="state"/>
     </resultMap>
     <sql id="Base_Column_List">
-    TYPE_ID, TYPE_NAME, YXBJ, P_ID, TYPE_DESC, PX
+    TYPE_ID, TYPE_NAME, YXBJ, P_ID, TYPE_DESC, PX,HASCHILDREN,STATE
   </sql>
     <insert id="insertSelective" parameterType="com.tb.commpt.model.DmProductType">
         insert into T_DM_PRODUCTTYPE
@@ -34,6 +35,13 @@
             <if test="px != null">
                 PX,
             </if>
+            <if test="haschildren != null">
+                HASCHILDREN,
+            </if>
+            <if test="state != null">
+                STATE,
+            </if>
+
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="typeId != null">
@@ -54,6 +62,12 @@
             <if test="px != null">
                 #{px,jdbcType=DECIMAL},
             </if>
+            <if test="haschildren != null">
+                #{haschildren,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=VARCHAR},
+            </if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.tb.commpt.model.DmProductType">
@@ -73,6 +87,12 @@
             </if>
             <if test="px != null">
                 PX = #{px,jdbcType=DECIMAL},
+            </if>
+            <if test="haschildren != null">
+                HASCHILDREN = #{haschildren,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                STATE = #{state,jdbcType=VARCHAR},
             </if>
         </set>
         where TYPE_ID = #{typeId,jdbcType=VARCHAR}

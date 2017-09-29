@@ -132,3 +132,40 @@ a {
 /*fa-refresh fa-spin*/
 /*fa-cog fa-spin*/
 /*fa-spinner fa-pulse*/
+
+/*自定义*/
+.icon-download {
+    background: url('../image/icons/download.png') no-repeat center center;
+}
+
+.icon-import {
+    background: url('../image/icons/import.png') no-repeat center center;
+}
+
+.icon-export {
+    background: url('../image/icons/export.png') no-repeat center center;
+}
+
+.icon-upload {
+    background: url('../image/icons/upload.png') no-repeat center center;
+}
+
+.icon-upload2 {
+    background: url('../image/icons/upload_2.png') no-repeat center center;
+}
+
+.icon-cancel2 {
+    background: url('../image/icons/cancel_2.png') no-repeat center center;
+}
+
+.icon-add2 {
+    background: url('../image/icons/add_2.png') no-repeat center center;
+}
+
+.icon-remove2 {
+    background: url('../image/icons/remove_2.png') no-repeat center center;
+}
+
+.icon-reset {
+    background: url('../image/icons/reset.png') no-repeat center center;
+}
