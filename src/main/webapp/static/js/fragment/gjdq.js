@@ -12,7 +12,7 @@ $(function () {
 function gjdqDatagridOpts() {
     $("#tb_gjdq").datagrid({
         loadMsg: loadMsg,
-        title:'国家地区',
+        title: '国家地区',
         collapsible: true,
         fit: true,
         fitColumns: true,
@@ -124,7 +124,20 @@ function gjdqDatagridOpts() {
         },
         onSelectPage: function (pageNumber, pageSize) {
             initGjdqTable(pageNumber, pageSize);
-        }
+        },
+        buttons: [{
+            iconCls: 'icon-export',
+            text: '导出Excel',
+            handler: function () {
+                exportGjdqRecord();
+            }
+        }, '-', {
+            iconCls: 'icon-import',
+            text: '从Excel导入',
+            handler: function () {
+                importGjdqRecord();
+            }
+        }]
     });
 }
 
