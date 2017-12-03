@@ -7,7 +7,7 @@
     <description>配置文件导入</description>
     <import resource="classpath:spring-config/springApplicationContext.xml" />
     <import resource="classpath:mybatis-config/mybatisApplicationContext.xml" />
-    <import resource="classpath:ws-config/cxf-servlet.xml"/>
+    <!--<import resource="classpath:ws-config/cxf-servlet.xml"/>-->
     <import resource="classpath:spring-mq/activemq.xml"/>
 
     <!--spring 定时任务 -->

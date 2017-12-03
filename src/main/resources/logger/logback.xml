@@ -51,9 +51,9 @@
             <dataSource class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource">
                 <sqlDialect>ch.qos.logback.core.db.dialect.OracleDialect</sqlDialect>
                 <driverClass>oracle.jdbc.driver.OracleDriver</driverClass>
-                <url>jdbc:oracle:thin:@localhost:49161:ORCL</url>
-                <user>C##DB_XT</user>
-                <password>DB_XT</password>
+                <url>jdbc:oracle:thin:@localhost:49161:ORCLCDB</url>
+                <user>C##DB_APP</user>
+                <password>DB_APP</password>
             </dataSource>
         </connectionSource>
         <nameResolver class="com.tb.commpt.logback.DefaultTableAndColumnNameResolver">

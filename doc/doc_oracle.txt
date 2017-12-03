@@ -16,24 +16,24 @@ CREATE OR REPLACE EDITIONABLE SYNONYM "C##DB_XT"."T_STORE_APPENDIX" FOR "C##DB_C
 
 
 sequences:
-db_xt.SQ_LOGBACK_SEQUENCE
-db_xt.SQ_XT_SEQUENCE
+DB_XT.SQ_LOGBACK_SEQUENCE
+DB_XT.SQ_XT_SEQUENCE
 
 functions:
-db_xt.F_XT_GET_GUID
-db_xt.F_Get_StrArrayStrOfIndex
+DB_XT.F_XT_GET_GUID
+DB_XT.F_Get_StrArrayStrOfIndex
 
 procedures:
-db_xt.P_DROPTBIFEXISTS
+DB_XT.P_DROPTBIFEXISTS
 
 trigger:
-db_xt.TRIGGER_LOGBACK --插入logback_event 的event_id前触发，获取序列插入
+DB_XT.TRIGGER_LOGBACK --插入logback_event 的event_id前触发，获取序列插入
 
 tables:
-db_xt.LOGBACK_EVENT --logback日志记录表
-db_xt.LOGBACK_EVENT_EXCEPTION --logback日志记录表
-db_xt.LOGBACK_EVENT_PROPERTY --logback日志记录表
-db_xt.T_XT_*
+DB_XT.LOGBACK_EVENT --logback日志记录表
+DB_XT.LOGBACK_EVENT_EXCEPTION --logback日志记录表
+DB_XT.LOGBACK_EVENT_PROPERTY --logback日志记录表
+DB_XT.T_XT_*
 db_dm.T_DM_*
 db_comm.T_PROCUCT_*
 db_comm.T_STORE_*
@@ -41,5 +41,5 @@ db_comm.T_STORE_*
 users:
 C##DB_XT
 C##DB_DM
-C##DB_COMM
+C##DB_APP
 
